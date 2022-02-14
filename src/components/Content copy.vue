@@ -11,10 +11,10 @@
               <el-icon><icon-menu /></el-icon>
               <span>文件管理</span>
             </template>
-            <el-menu-item index="1-1" @click="Show('noticeList')">
+            <el-menu-item index="1-1" @click="isShow('noticeList')">
               查看文件
             </el-menu-item>
-            <el-menu-item index="1-2" @click="Show('neo4j')">
+            <el-menu-item index="1-2" @click="isShow('neo4j')">
               文件查询
             </el-menu-item>
             <el-menu-item index="1-3">TODO1</el-menu-item>
@@ -26,8 +26,12 @@
               <el-icon><location /></el-icon>
               <span>XX管理</span>
             </template>
-            <el-menu-item index="2-1"> TODO1 </el-menu-item>
-            <el-menu-item index="2-2"> TODO2 </el-menu-item>
+            <el-menu-item index="2-1" @click="isShow('student')">
+              TODO1
+            </el-menu-item>
+            <el-menu-item index="2-2" @click="isShow('score')">
+              TODO2
+            </el-menu-item>
             <el-menu-item index="2-3"> TODO3</el-menu-item>
             <el-menu-item index="2-4"> TODO4</el-menu-item>
           </el-sub-menu>
@@ -49,7 +53,10 @@
 
       <el-container>
         <el-main>
-          <component :is="showComponent"></component>
+          <notice-list v-if="isShowNoticeList.show" />
+          <neo4j v-if="isShowNeo4j.show"></neo4j>
+
+          <el-empty v-if="isShowEmpty.show" description="好像什么也没有诶" />
           <router-view></router-view>
         </el-main>
         <!-- <el-footer>Footer</el-footer> -->
@@ -62,7 +69,6 @@
 <script lang="ts">
 import { defineComponent, ref, reactive } from "vue";
 import { Location, Message, Menu, Setting } from "@element-plus/icons";
-import { ElEmpty } from "element-plus";
 import NoticeList from "./NoticeList.vue";
 import Neo4j from "./Neo4j.vue";
 export default defineComponent({
@@ -74,15 +80,30 @@ export default defineComponent({
     "icon-menu": Menu,
     noticeList: NoticeList,
     neo4j: Neo4j,
-    empty: ElEmpty,
   },
   setup() {
-    let showComponent = ref("empty");
+    let isShowEmpty = reactive({ name: "empty", show: true });
+    let isShowNoticeList = reactive({ name: "noticeList", show: false });
+    let isShowNeo4j = reactive({ name: "neo4j", show: false });
 
-    const Show = (name: string) => {
-      showComponent.value = name;
+    const isShow = (name: String) => {
+      let showState = [isShowEmpty, isShowNoticeList, isShowNeo4j];
+
+      for (let i = 0; i < showState.length; i++) {
+        if (showState[i].name == name) {
+          showState[i].show = true;
+        } else {
+          showState[i].show = false;
+        }
+      }
     };
-    return { showComponent, Show };
+
+    return {
+      isShow,
+      isShowEmpty,
+      isShowNoticeList,
+      isShowNeo4j,
+    };
   },
 });
 </script>
@@ -90,11 +111,11 @@ export default defineComponent({
 <style scoped>
 .el-header,
 .el-footer {
-  background-color: #409eff;
+  background-color: #409EFF;
   color: var(--el-text-color-primary);
   /* line-height: 60px; */
 }
-h3 {
+h3{
   color: white;
 }
 .el-aside {

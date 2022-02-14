@@ -1,24 +1,28 @@
 <template>
   <h1>这是测试页面</h1>
-  <div>
-    <el-icon>
-      <edit></edit>
-    </el-icon>
-    <!-- Or use it independently without derive attributes from parent -->
-    <edit></edit>
 
-    <el-icon><download /></el-icon>
-  </div>
+  <el-button @click="changeComponent">点击动态更改组件</el-button>
+
+  <component :is="name"></component>
 </template>
 
 
-<script>
-import { Edit,Download } from "@element-plus/icons-vue";
-
-export default {
+<script lang="ts">
+import { defineComponent, ref } from "vue";
+import myComponent1 from "./myComponent1.vue";
+import myComponent2 from "./myComponent2.vue";
+export default defineComponent({
   components: {
-    Edit,Download
+    com1: myComponent1,
+    com2: myComponent2,
   },
-  setup() {},
-};
+  setup() {
+    let name = ref("com1");
+    const changeComponent = () => {
+      name.value === "com1" ? (name.value = "com2") : (name.value = "com1");
+    };
+
+    return { name, changeComponent };
+  },
+});
 </script>
