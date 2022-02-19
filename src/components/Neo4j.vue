@@ -1,16 +1,15 @@
 <template>
   <el-row>
     <el-col>
-      请输入要查询的信息
       <el-input
         v-model="question"
         type="text"
         placeholder="请输入要查询的信息"
         style="width: 30%"
         :suffix-icon="Search"
+        @change="search"
+        v-loading.fullscreen.lock="loading"
       />
-
-      <el-button @click="search" type="primary" round>搜索</el-button>
     </el-col>
   </el-row>
 
@@ -25,8 +24,8 @@
     v-loading="loading"
   >
     <el-table-column prop="mysql_id" label="ID" width="85" />
-    <el-table-column prop="date" label="Upload Time" width="250" sortable />
-    <el-table-column prop="name" label="Name" width="650" />
+    <el-table-column prop="date" label="Upload Time" width="180" sortable />
+    <el-table-column prop="name" label="Name" />
 
     <el-table-column label="Operations" prop="url" width="150">
       <template #default="scope">
@@ -62,12 +61,15 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted } from "vue";
 import Axios from "axios";
-import { Search } from "@element-plus/icons-vue";
+import { View, Download, Search } from "@element-plus/icons-vue";
+import { ElMessage } from "element-plus";
+
 export default defineComponent({
   name: "neo4j",
+  components: { IconView: View, Download },
   setup() {
-    const question = ref(" ");
-    const loading = ref(true);
+    const question = ref("");
+    const loading = ref(false);
     const results = ref([]);
     const pagination = reactive({
       count: 0,
@@ -76,50 +78,53 @@ export default defineComponent({
       currentPage: 1,
     });
 
-    const search = () => {
+    const search = async () => {
+      loading.value = true;
       const data = {
         question: question.value,
       };
       const api = "http://127.0.0.1:8000/api/neo4j/";
-      Axios.post(api, data)
-        .then((response) => {
-          console.log(response);
-          loading.value = false;
-          results.value = response.data["results"];
+      try {
+        const response = await Axios.post(api, data);
+        console.log(response);
+        results.value = response.data["results"];
 
-          pagination.count = response.data["count"];
-          // console.log(pagination.count);
-          pagination.perPageCount = results.value.length;
-          // console.log(pagination.perPageCount);
-          pagination.pageNum = Math.ceil(
-            pagination.count / pagination.perPageCount
-          );
-          // console.log(pagination.pageNum);
+        pagination.count = response.data["count"];
+        pagination.perPageCount = results.value.length;
+        pagination.pageNum = Math.ceil(
+          pagination.count / pagination.perPageCount
+        );
+        loading.value = false;
 
-          if (pagination.count === 0) {
-            alert("什么也没有找到");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        if (pagination.count === 0) {
+          pagination.pageNum = 0;
+
+          ElMessage({
+            showClose: true,
+            message: "什么也没有找到",
+            type: "warning",
+            center: true,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+        loading.value = false;
+      }
     };
-    const handleCurrentChange = (currentPage: number) => {
+    const handleCurrentChange = async (currentPage: number) => {
       const data = {
         question: question.value,
       };
       pagination.currentPage = currentPage;
-      const api = "http://127.0.0.1:8000/api/neo4j/";
-      const api1 = api + "?page=" + pagination.currentPage;
-
-      Axios.post(api1, data)
-        .then((response) => {
-          loading.value = false;
-          results.value = response.data["results"];
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      const api =
+        "http://127.0.0.1:8000/api/neo4j/?page=" + pagination.currentPage;
+      try {
+        const response = await Axios.post(api, data);
+        loading.value = false;
+        results.value = response.data["results"];
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     onMounted(() => {
@@ -128,7 +133,6 @@ export default defineComponent({
 
     return {
       question,
-      // answer,
       results,
       search,
       Search,
@@ -159,5 +163,11 @@ export default defineComponent({
 a {
   text-decoration: none;
   color: #000000;
+}
+.el-row {
+  margin-bottom: 15px;
+}
+.el-col {
+  border-radius: 4px;
 }
 </style>

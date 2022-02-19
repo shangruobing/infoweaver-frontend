@@ -12,7 +12,7 @@
         format="YYYY/MM/DD"
         value-format="YYYY-MM-DD"
         @change="search"
-        editable="false"
+        :editable="false"
       />
     </el-col>
     <el-col :span="12">

@@ -2,8 +2,12 @@
   <h1>这是测试页面</h1>
 
   <el-button @click="changeComponent">点击动态更改组件</el-button>
-
-  <component :is="name"></component>
+  <el-input
+        type="text"
+        placeholder="请输入要查询的信息"
+        style="width: 30%"
+      />
+  <component :is="name" content=""></component>
 </template>
 
 
