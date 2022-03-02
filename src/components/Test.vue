@@ -1,32 +1,75 @@
 <template>
-  <h1>这是测试页面</h1>
-
-  <el-button @click="changeComponent">点击动态更改组件</el-button>
-  <el-input
-        type="text"
-        placeholder="请输入要查询的信息"
-        style="width: 30%"
-      />
-  <component :is="name" content=""></component>
+  <el-table :data="tableData" style="width: 100%">
+    <el-table-column type="expand">
+      <template #default="props">
+        <p>State: {{ props.row.state }}</p>
+        <p>City: {{ props.row.city }}</p>
+        <p>Address: {{ props.row.address }}</p>
+        <p>Zip: {{ props.row.zip }}</p>
+      </template>
+    </el-table-column>
+    <el-table-column label="Date" prop="date" />
+    <el-table-column label="Name" prop="name" />
+  </el-table>
 </template>
 
-
-<script lang="ts">
-import { defineComponent, ref } from "vue";
-import myComponent1 from "./myComponent1.vue";
-import myComponent2 from "./myComponent2.vue";
-export default defineComponent({
-  components: {
-    com1: myComponent1,
-    com2: myComponent2,
+<script lang="ts" setup>
+const tableData = [
+  {
+    date: "2016-05-03",
+    name: "Tom",
+    state: "California",
+    city: "Los Angeles",
+    address: "No. 189, Grove St, Los Angeles",
+    zip: "CA 90036",
   },
-  setup() {
-    let name = ref("com1");
-    const changeComponent = () => {
-      name.value === "com1" ? (name.value = "com2") : (name.value = "com1");
-    };
-
-    return { name, changeComponent };
+  {
+    date: "2016-05-02",
+    name: "Tom",
+    state: "California",
+    city: "Los Angeles",
+    address: "No. 189, Grove St, Los Angeles",
+    zip: "CA 90036",
   },
-});
+  {
+    date: "2016-05-04",
+    name: "Tom",
+    state: "California",
+    city: "Los Angeles",
+    address: "No. 189, Grove St, Los Angeles",
+    zip: "CA 90036",
+  },
+  {
+    date: "2016-05-01",
+    name: "Tom",
+    state: "California",
+    city: "Los Angeles",
+    address: "No. 189, Grove St, Los Angeles",
+    zip: "CA 90036",
+  },
+  {
+    date: "2016-05-08",
+    name: "Tom",
+    state: "California",
+    city: "Los Angeles",
+    address: "No. 189, Grove St, Los Angeles",
+    zip: "CA 90036",
+  },
+  {
+    date: "2016-05-06",
+    name: "Tom",
+    state: "California",
+    city: "Los Angeles",
+    address: "No. 189, Grove St, Los Angeles",
+    zip: "CA 90036",
+  },
+  {
+    date: "2016-05-07",
+    name: "Tom",
+    state: "California",
+    city: "Los Angeles",
+    address: "No. 189, Grove St, Los Angeles",
+    zip: "CA 90036",
+  },
+];
 </script>

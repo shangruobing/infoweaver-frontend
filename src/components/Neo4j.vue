@@ -31,12 +31,12 @@
       <template #default="scope">
         <el-link>
           <router-link target="_blank" :to="'/word/' + scope.row.mysql_id">
-            预览
+            <span>预览</span>
           </router-link>
           <el-icon class="el-icon--right"><icon-view /></el-icon>
         </el-link>
         <el-link :href="scope.row.url">
-          下载
+          <span>下载</span>
           <el-icon class="el-icon--right"><download /></el-icon>
         </el-link>
       </template>
@@ -128,7 +128,7 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      console.log("这是查询页面");
+      console.log("欢迎来到Neo4j查询页面");
     });
 
     return {

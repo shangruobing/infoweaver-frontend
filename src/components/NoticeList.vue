@@ -35,7 +35,20 @@
     v-if="pagination.count > 0"
     v-loading="loading"
   >
-    <el-table-column prop="mysql_id" label="ID" width="85" />
+    <!-- <el-table-column prop="mysql_id" label="ID" width="85" /> -->
+
+    <el-table-column type="expand">
+
+      <template #default="props">
+        <!-- <ul>
+          <li v-for="i in props.row.content"> {{i}}</li>
+        </ul> -->
+        {{props.row.content}}
+        <!-- {{typeof props.row.content}} -->
+      </template>
+
+    </el-table-column>
+
     <el-table-column prop="name" label="Name" />
     <el-table-column prop="date" label="Date" width="180" sortable />
 
@@ -43,12 +56,12 @@
       <template #default="scope">
         <el-link>
           <router-link target="_blank" :to="'/word/' + scope.row.mysql_id">
-            预览
+            <span>预览</span>
           </router-link>
           <el-icon class="el-icon--right"><icon-view /></el-icon>
         </el-link>
         <el-link :href="scope.row.url">
-          下载
+          <span>下载</span>
           <el-icon class="el-icon--right"><download /></el-icon>
         </el-link>
       </template>
@@ -80,7 +93,8 @@ export default defineComponent({
   name: "NoticeList",
   components: { IconView: View, Download },
   setup() {
-    const loading = ref(true);
+    const loading = ref(false);
+    const filename = ref("");
     const results = ref([]);
     const pagination = reactive({
       count: 0,
@@ -88,14 +102,12 @@ export default defineComponent({
       pageNum: 0,
       currentPage: 1,
     });
-    const filename = ref("");
 
     const search = async () => {
       try {
         let start_date = "";
         let end_date = "";
         let name = "";
-        console.log(typeof date.value[0]);
         if (date.value[0] !== undefined) {
           start_date = date.value[0].replace(/-/g, "");
         }
@@ -154,6 +166,7 @@ export default defineComponent({
       try {
         loading.value = false;
         results.value = response.data["results"];
+        console.log(results.value)
         pagination.count = response.data["count"];
         pagination.perPageCount = results.value.length;
         pagination.pageNum = Math.ceil(
