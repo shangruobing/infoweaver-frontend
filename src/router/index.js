@@ -31,6 +31,11 @@ const routes = [
         name: "test",
         component: () => import("../components/Test.vue")
     },
+    {
+        path: "/mychat",
+        name: "mychat",
+        component: () => import("../components/myChat.vue")
+    },
 
 ]
 const index = createRouter({

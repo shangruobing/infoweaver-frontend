@@ -51,6 +51,7 @@
         <el-main>
           <component :is="showComponent"></component>
           <router-view></router-view>
+          <my-robt></my-robt>
         </el-main>
         <!-- <el-footer>Footer</el-footer> -->
       </el-container>
@@ -65,6 +66,8 @@ import { Location, Message, Menu, Setting } from "@element-plus/icons";
 import { ElEmpty } from "element-plus";
 import NoticeList from "./NoticeList.vue";
 import Neo4j from "./Neo4j.vue";
+import MyRobt from "./myChat.vue";
+
 export default defineComponent({
   name: "Content",
   components: {
@@ -75,6 +78,7 @@ export default defineComponent({
     noticeList: NoticeList,
     neo4j: Neo4j,
     empty: ElEmpty,
+    MyRobt
   },
   setup() {
     let showComponent = ref("empty");

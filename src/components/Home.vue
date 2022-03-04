@@ -5,4 +5,14 @@
     <h3>Power By Ruobing Shang and Liang Li</h3>
   </center>
   <router-link :to="'/content/'">点击进入</router-link>
+  <my-robt></my-robt>
 </template>
+
+<script lang="ts">
+import MyRobt from "./myChat.vue";
+export default {
+  components: {
+    MyRobt,
+  },
+};
+</script>

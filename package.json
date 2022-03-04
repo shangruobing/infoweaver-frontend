@@ -13,9 +13,11 @@
     "element-plus": "^2.0.1",
     "jszip": "^3.7.1",
     "vue": "^3.2.25",
-    "vue-router": "^4.0.12"
+    "vue-router": "^4.0.12",
+    "vue3-beautiful-chat": "^3.2.0"
   },
   "devDependencies": {
+    "@types/node": "^17.0.21",
     "@vitejs/plugin-vue": "^2.0.0",
     "docx-preview": "^0.1.8",
     "vite": "^2.7.2"

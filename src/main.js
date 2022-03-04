@@ -6,13 +6,12 @@ import Axios from "axios"
 import Router from './router/index.js'
 // import store from './store/index.js'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
-
+import Chat from 'vue3-beautiful-chat'
 const app = createApp(App)
 
 app.use(ElementPlus, { locale: zhCn })
 app.use(Router)
-// app.use(store)
-
+app.use(Chat)
 app.mount('#app')
 app.config.globalProperties.$axios = Axios
 // app.config.globalProperties.$echarts = echarts
@@ -33,4 +32,3 @@ app.config.globalProperties.$axios = Axios
 //     }
 //     return config
 // })
-
