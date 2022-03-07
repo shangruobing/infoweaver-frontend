@@ -32,9 +32,9 @@ const routes = [
         component: () => import("../components/Test.vue")
     },
     {
-        path: "/mychat",
-        name: "mychat",
-        component: () => import("../components/myChat.vue")
+        path: "/chatRobot",
+        name: "chatRobot",
+        component: () => import("../components/ChatRobot.vue")
     },
 
 ]

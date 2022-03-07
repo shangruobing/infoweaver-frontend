@@ -23,7 +23,21 @@
       :messageStyling="messageStyling"
       @onType="handleOnType"
       @edit="editMessage"
-    />
+    >
+      <template v-slot:text-message-body="{ message }">
+        <div align="left" v-if="message.data.meta">
+          <el-link>
+            <router-link target="_blank" :to="message.data.meta">
+              {{ message.data.text }}
+            </router-link>
+          </el-link>
+        </div>
+
+        <div align="left" v-else>
+          {{ message.data.text }}
+        </div>
+      </template>
+    </beautiful-chat>
   </div>
 </template>
 
@@ -34,7 +48,6 @@ import Axios from "axios";
 export default defineComponent({
   name: "myChat",
   setup() {
-    //通讯录
     let participants = reactive([
       {
         id: "user1",
@@ -42,20 +55,26 @@ export default defineComponent({
         imageUrl:
           "https://portrait.gitee.com/uploads/avatars/user/3474/10422230_shangruobing_1644648546.png!avatar60",
       },
-      // {
-      //   id: "user2",
-      //   name: "Support",
-      //   imageUrl: "https://avatars3.githubusercontent.com/u/37018832?s=200&v=4",
-      // },
     ]);
 
     const titleImageUrl = ref(
-     "https://portrait.gitee.com/uploads/avatars/user/3474/10422230_shangruobing_1644648546.png!avatar60"
+      "https://portrait.gitee.com/uploads/avatars/user/3474/10422230_shangruobing_1644648546.png!avatar60"
     );
 
     let messageList = reactive([
-      { type: "text", author: `me`, data: { text: `Say yes!` } },
-      { type: "text", author: `user1`, data: { text: `No.` } },
+      {
+        type: "text",
+        author: `me`,
+        data: { text: `Say yes!` },
+      },
+      {
+        type: "text",
+        author: `user1`,
+        data: {
+          text: "No.",
+          meta: "",
+        },
+      },
     ]);
 
     let newMessagesCount = ref(0);
@@ -78,7 +97,7 @@ export default defineComponent({
       },
       receivedMessage: {
         bg: "#eaeaea",
-        text: "#222222",
+        text: "#000000",
       },
       userInput: {
         bg: "#f4f7f9",
@@ -91,7 +110,6 @@ export default defineComponent({
     const sendMessage = (text: any) => {
       console.log("text", text);
       if (text.length > 0) {
-        console.log("进入了if");
         newMessagesCount.value = isChatOpen.value
           ? newMessagesCount.value
           : newMessagesCount.value + 1;
@@ -102,7 +120,7 @@ export default defineComponent({
         });
       }
     };
-
+    let message = reactive({ text: "Welcome" });
     const search = async (question: string) => {
       const data = {
         question: question,
@@ -110,13 +128,16 @@ export default defineComponent({
       const api = "http://127.0.0.1:8000/api/neo4j/";
       try {
         const response = await Axios.post(api, data);
-        const result = response.data.results[0].name;
-        console.log("response", result);
-
+        const result: Array<string> = [
+          response.data.results[0].name,
+          response.data.results[0].mysql_id,
+        ];
+        console.log("response", response);
+        console.log("result", result);
         return result;
       } catch (error) {
         console.log(error);
-        return "我不知道呀";
+        throw new Error("error");
       }
     };
     const onMessageWasSent = async (message: any) => {
@@ -125,11 +146,20 @@ export default defineComponent({
       messageList.push(message);
       try {
         const result = await search(message.data.text);
+
         messageList.push({
           type: "text",
           author: `user1`,
           data: {
-            text: result,
+            text: "已经为您找到如下文件,点击文件名即可预览",
+          },
+        });
+        messageList.push({
+          type: "text",
+          author: `user1`,
+          data: {
+            text: result[0],
+            meta: "/word/" + result[1],
           },
         });
       } catch (error) {
@@ -138,7 +168,7 @@ export default defineComponent({
           type: "text",
           author: `user1`,
           data: {
-            text: "我不知道呀",
+            text: "对不起，这个问题我不知道",
           },
         });
       }
@@ -187,7 +217,28 @@ export default defineComponent({
       messageStyling,
       handleOnType,
       editMessage,
+      message,
     };
   },
 });
 </script>
+
+
+<style scoped>
+.el-link {
+  margin-right: 8px;
+}
+
+.router-link-active {
+  text-decoration: none;
+}
+
+a {
+  text-decoration: none;
+  color: #222222;
+}
+
+.router-link-active {
+  text-decoration: none;
+}
+</style>

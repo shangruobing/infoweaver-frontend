@@ -1,15 +1,13 @@
 <template>
-  <center>
-    <h1>欢迎来到通知文件问答系统 NFQA</h1>
-    <h2>Notice File Question & Answer</h2>
-    <h3>Power By Ruobing Shang and Liang Li</h3>
-  </center>
+  <h1>欢迎来到通知文件问答系统 NFQA</h1>
+  <h2>Notice File Question & Answer</h2>
+  <h3>Power By Ruobing Shang and Liang Li</h3>
   <router-link :to="'/content/'">点击进入</router-link>
   <my-robt></my-robt>
 </template>
 
 <script lang="ts">
-import MyRobt from "./myChat.vue";
+import MyRobt from "./ChatRobot.vue";
 export default {
   components: {
     MyRobt,

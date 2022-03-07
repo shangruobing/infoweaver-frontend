@@ -7,6 +7,8 @@ import Router from './router/index.js'
 // import store from './store/index.js'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import Chat from 'vue3-beautiful-chat'
+import 'default-passive-events'
+
 const app = createApp(App)
 
 app.use(ElementPlus, { locale: zhCn })

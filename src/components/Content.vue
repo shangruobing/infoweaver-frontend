@@ -66,7 +66,7 @@ import { Location, Message, Menu, Setting } from "@element-plus/icons";
 import { ElEmpty } from "element-plus";
 import NoticeList from "./NoticeList.vue";
 import Neo4j from "./Neo4j.vue";
-import MyRobt from "./myChat.vue";
+import MyRobt from "./ChatRobot.vue";
 
 export default defineComponent({
   name: "Content",
