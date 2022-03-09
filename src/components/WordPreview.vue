@@ -2,7 +2,7 @@
   <div ref="file"></div>
 </template>
 
-<script >
+<script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
 import axios from "axios";
 import { renderAsync } from "docx-preview";
@@ -11,7 +11,7 @@ export default defineComponent({
   name: "WordPreview",
   setup() {
     const route = useRoute();
-    let file = ref(null);
+    let file = ref();
 
     onMounted(async () => {
       const id = route.params.id;
