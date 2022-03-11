@@ -33,11 +33,15 @@
           <router-link target="_blank" :to="'/word/' + scope.row.mysql_id">
             <span>预览</span>
           </router-link>
-          <el-icon class="el-icon--right"><icon-view /></el-icon>
+          <el-icon class="el-icon--right">
+            <icon-view />
+          </el-icon>
         </el-link>
         <el-link :href="scope.row.url">
           <span>下载</span>
-          <el-icon class="el-icon--right"><download /></el-icon>
+          <el-icon class="el-icon--right">
+            <download />
+          </el-icon>
         </el-link>
       </template>
     </el-table-column>
@@ -53,95 +57,79 @@
       :current-page="pagination.currentPage"
       :hide-on-single-page="true"
       @current-change="handleCurrentChange"
-    >
-    </el-pagination
-  ></el-row>
+    ></el-pagination>
+  </el-row>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, reactive, onMounted } from "vue";
+<script lang="ts" setup>
+import { ref, reactive, onMounted } from "vue";
 import Axios from "axios";
-import { View, Download, Search } from "@element-plus/icons-vue";
+import { Download, Search } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
 
-export default defineComponent({
-  name: "neo4j",
-  components: { IconView: View, Download },
-  setup() {
-    const question = ref("");
-    const loading = ref(false);
-    const results = ref([]);
-    const pagination = reactive({
-      count: 0,
-      perPageCount: 0,
-      pageNum: 0,
-      currentPage: 1,
-    });
-
-    const search = async () => {
-      loading.value = true;
-      const data = {
-        question: question.value,
-      };
-      const api = "http://127.0.0.1:8000/api/neo4j/";
-      try {
-        const response = await Axios.post(api, data);
-        console.log(response);
-        results.value = response.data["results"];
-
-        pagination.count = response.data["count"];
-        pagination.perPageCount = results.value.length;
-        pagination.pageNum = Math.ceil(
-          pagination.count / pagination.perPageCount
-        );
-        loading.value = false;
-
-        if (pagination.count === 0) {
-          pagination.pageNum = 0;
-
-          ElMessage({
-            showClose: true,
-            message: "什么也没有找到",
-            type: "warning",
-            center: true,
-          });
-        }
-      } catch (error) {
-        console.log(error);
-        loading.value = false;
-      }
-    };
-    const handleCurrentChange = async (currentPage: number) => {
-      const data = {
-        question: question.value,
-      };
-      pagination.currentPage = currentPage;
-      const api =
-        "http://127.0.0.1:8000/api/neo4j/?page=" + pagination.currentPage;
-      try {
-        const response = await Axios.post(api, data);
-        loading.value = false;
-        results.value = response.data["results"];
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    onMounted(() => {
-      console.log("欢迎来到Neo4j查询页面");
-    });
-
-    return {
-      question,
-      results,
-      search,
-      Search,
-      loading,
-      pagination,
-      handleCurrentChange,
-    };
-  },
+const question = ref("");
+const loading = ref(false);
+const results = ref([]);
+const pagination = reactive({
+  count: 0,
+  perPageCount: 0,
+  pageNum: 0,
+  currentPage: 1,
 });
+
+const search = async () => {
+  loading.value = true;
+  const data = {
+    question: question.value,
+  };
+  const api = "http://127.0.0.1:8000/api/neo4j/";
+  try {
+    const response = await Axios.post(api, data);
+    console.log(response);
+    results.value = response.data["results"];
+
+    pagination.count = response.data["count"];
+    pagination.perPageCount = results.value.length;
+    pagination.pageNum = Math.ceil(
+      pagination.count / pagination.perPageCount
+    );
+    loading.value = false;
+
+    if (pagination.count === 0) {
+      pagination.pageNum = 0;
+
+      ElMessage({
+        showClose: true,
+        message: "什么也没有找到",
+        type: "warning",
+        center: true,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    loading.value = false;
+  }
+};
+const handleCurrentChange = async (currentPage: number) => {
+  const data = {
+    question: question.value,
+  };
+  pagination.currentPage = currentPage;
+  const api =
+    "http://127.0.0.1:8000/api/neo4j/?page=" + pagination.currentPage;
+  try {
+    const response = await Axios.post(api, data);
+    loading.value = false;
+    results.value = response.data["results"];
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+onMounted(() => {
+  console.log("欢迎来到Neo4j查询页面");
+});
+
 </script>
 
 <style scoped>

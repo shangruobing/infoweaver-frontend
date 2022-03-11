@@ -6,11 +6,6 @@
   <my-robt></my-robt>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import MyRobt from "./ChatRobot.vue";
-export default {
-  components: {
-    MyRobt,
-  },
-};
 </script>

@@ -8,7 +8,6 @@
       :newMessagesCount="newMessagesCount"
       :isOpen="isChatOpen"
       :close="closeChat"
-      :icons="icons"
       :open="openChat"
       :showEmoji="true"
       :showFile="true"
@@ -24,7 +23,11 @@
       :messageStyling="messageStyling"
       @onType="handleOnType"
       @edit="editMessage"
-    />
+      ><template v-slot:header>
+        🤔 Good chat between {{ participants.map((m) => m.name).join(" & ") }}
+        <p>我的页头</p>
+      </template>
+    </beautiful-chat>
   </div>
 </template>
 
@@ -100,9 +103,9 @@ export default {
     },
     onMessageWasSent(message) {
       // called when the user sends a message
-      console.log(message)
+      console.log(message);
       this.messageList = [...this.messageList, message];
-      console.log("list",this.messageList)
+      console.log("list", this.messageList);
     },
     openChat() {
       // called when the user clicks on the fab button to open the chat

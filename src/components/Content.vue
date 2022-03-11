@@ -8,28 +8,28 @@
         <el-menu default-active="2" :unique-opened="true">
           <el-sub-menu index="1">
             <template #title>
-              <el-icon><icon-menu /></el-icon>
+              <el-icon>
+                <icon-menu />
+              </el-icon>
               <span>文件管理</span>
             </template>
-            <el-menu-item index="1-1" @click="Show('noticeList')">
-              查看文件
-            </el-menu-item>
-            <el-menu-item index="1-2" @click="Show('neo4j')">
-              文件查询
-            </el-menu-item>
+            <el-menu-item index="1-1" @click="Show('noticeList')">查看文件</el-menu-item>
+            <el-menu-item index="1-2" @click="Show('neo4j')">文件查询</el-menu-item>
             <el-menu-item index="1-3">TODO1</el-menu-item>
             <el-menu-item index="1-4">TODO2</el-menu-item>
           </el-sub-menu>
 
           <el-sub-menu index="2">
             <template #title>
-              <el-icon><location /></el-icon>
+              <el-icon>
+                <location />
+              </el-icon>
               <span>XX管理</span>
             </template>
-            <el-menu-item index="2-1"> TODO1 </el-menu-item>
-            <el-menu-item index="2-2"> TODO2 </el-menu-item>
-            <el-menu-item index="2-3"> TODO3</el-menu-item>
-            <el-menu-item index="2-4"> TODO4</el-menu-item>
+            <el-menu-item index="2-1">TODO1</el-menu-item>
+            <el-menu-item index="2-2">TODO2</el-menu-item>
+            <el-menu-item index="2-3">TODO3</el-menu-item>
+            <el-menu-item index="2-4">TODO4</el-menu-item>
           </el-sub-menu>
 
           <el-sub-menu index="3">
@@ -61,7 +61,7 @@
 
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from "vue";
+import { defineComponent, ref } from "vue";
 import { Location, Message, Menu, Setting } from "@element-plus/icons";
 import { ElEmpty } from "element-plus";
 import NoticeList from "./NoticeList.vue";
