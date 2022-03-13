@@ -41,7 +41,7 @@ import Axios from "axios";
 
 let participants = reactive([
   {
-    id: "user1",
+    id: "robot",
     name: "Robot",
     imageUrl:
       "https://portrait.gitee.com/uploads/avatars/user/3474/10422230_shangruobing_1644648546.png!avatar60",
@@ -62,50 +62,25 @@ interface message {
 let messageList: Array<message> = reactive([
   {
     type: "text",
-    author: `user1`,
+    author: `robot`,
     data: { text: `欢迎来到NFQA!` },
   },
   {
     type: "text",
-    author: `user1`,
+    author: `robot`,
     data: { text: "你可以向我一些问题。" },
   },
 ]);
 let newMessagesCount = ref(0);
 let isChatOpen = ref(false);
 let showTypingIndicator = ref("");
-const colors = reactive({
-  header: {
-    bg: "#4e8cff",
-    text: "#ffffff",
-  },
-  launcher: {
-    bg: "#4e8cff",
-  },
-  messageList: {
-    bg: "#ffffff",
-  },
-  sentMessage: {
-    bg: "#4e8cff",
-    text: "#ffffff",
-  },
-  receivedMessage: {
-    bg: "#eaeaea",
-    text: "#000000",
-  },
-  userInput: {
-    bg: "#f4f7f9",
-    text: "#565867",
-  },
-});
+
 let alwaysScrollToBottom = ref(false);
 let messageStyling = ref(true);
 const sendMessage = (text: any) => {
   console.log("text", text);
   if (text.length > 0) {
-    newMessagesCount.value = isChatOpen.value
-      ? newMessagesCount.value
-      : newMessagesCount.value + 1;
+    newMessagesCount.value = isChatOpen.value ? newMessagesCount.value : newMessagesCount.value + 1;
     onMessageWasSent({
       author: "support",
       type: "text",
@@ -117,77 +92,90 @@ interface notice {
   name?: string;
   id?: number;
 }
+
 const search = async (question: string) => {
   const data = { question: question };
   const api = "http://127.0.0.1:8000/api/neo4j/";
   try {
     const response = await Axios.post(api, data);
-    const result: Array<notice> = [];
-    if (response.data.results.length > 0) {
-      for (let i = 0; i < response.data.results.length; i++) {
-        result.push({
-          id: response.data.results[i].mysql_id,
-          name: response.data.results[i].name,
-        });
-      }
-      console.log("response", response);
-      console.log("result", result);
-      return result;
-    } else {
+    if (response.data.results instanceof Array && response.data.results.length <= 0) {
       throw new Error("没有查找到匹配文章");
     }
+    const result: Array<notice> = [];
+    response.data.results.forEach((item: { mysql_id: number; name: string }) => {
+      result.push({
+        id: item.mysql_id,
+        name: item.name,
+      });
+    });
+
+    console.log("response", response);
+    console.log("result", result);
+    return result;
   } catch (error) {
     console.log(error);
     throw new Error("没有查找到匹配文章");
   }
 };
+
 const onMessageWasSent = async (message: any) => {
   // called when the user sends a message
   messageList.push(message);
   if (message.type === "text") {
-    try {
-      const result = await search(message.data.text);
-      messageList.push({
-        type: "text",
-        author: `user1`,
-        data: {
-          text: "已经为您找到如下文件,点击文件名即可预览",
-        },
-      });
-      for (let i = 0; i < result.length; i++) {
-        messageList.push({
-          type: "text",
-          author: `user1`,
-          data: {
-            text: result[i].name,
-            meta: "/word/" + result[i].id,
-          },
-        });
-      }
-    } catch (error) {
-      console.log(error);
-      messageList.push({
-        type: "text",
-        author: `user1`,
-        data: { text: "对不起，这个问题我不知道" },
-      });
-    }
+    receivedText(message);
   }
   if (message.type === "emoji") {
-    messageList.push({
-      type: "emoji",
-      author: `user1`,
-      data: { emoji: message.data.emoji },
-    });
+    receivedEmoji(message);
   }
   if (message.type === "file") {
+    receivedFile(message);
+  }
+};
+
+const receivedText = async (message: any) => {
+  try {
+    const result = await search(message.data.text);
     messageList.push({
       type: "text",
-      author: `user1`,
-      data: { text: "暂不支持上传文件功能哦" },
+      author: `robot`,
+      data: { text: "已经为您找到如下文件,点击文件名即可预览" },
+    });
+    for (let i = 0; i < result.length; i++) {
+      messageList.push({
+        type: "text",
+        author: `robot`,
+        data: {
+          text: result[i].name,
+          meta: "/word/" + result[i].id,
+        },
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    messageList.push({
+      type: "text",
+      author: `robot`,
+      data: { text: "对不起，这个问题我不知道" },
     });
   }
 };
+
+const receivedEmoji = (message: any) => {
+  messageList.push({
+    type: "emoji",
+    author: `robot`,
+    data: { emoji: message.data.emoji },
+  });
+};
+
+const receivedFile = (message: any) => {
+  messageList.push({
+    type: "text",
+    author: `robot`,
+    data: { text: "暂不支持上传文件功能哦" },
+  });
+};
+
 const openChat = () => {
   // called when the user clicks on the fab button to open the chat
   isChatOpen.value = true;
@@ -210,9 +198,31 @@ const editMessage = (message: any) => {
   //   m.data.text = message.data.text;
   console.log("editMessage", message);
 };
-
+const colors = {
+  header: {
+    bg: "#4e8cff",
+    text: "#ffffff",
+  },
+  launcher: {
+    bg: "#4e8cff",
+  },
+  messageList: {
+    bg: "#ffffff",
+  },
+  sentMessage: {
+    bg: "#4e8cff",
+    text: "#ffffff",
+  },
+  receivedMessage: {
+    bg: "#eaeaea",
+    text: "#000000",
+  },
+  userInput: {
+    bg: "#f4f7f9",
+    text: "#565867",
+  },
+};
 </script>
-
 
 <style scoped>
 .el-link {
