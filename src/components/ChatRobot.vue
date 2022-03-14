@@ -25,9 +25,18 @@
   >
     <template v-slot:text-message-body="{ message }">
       <div align="left" v-if="message.data.meta">
+        <div>{{ message.data.text }}</div>
         <el-link>
-          <router-link target="_blank" :to="message.data.meta">{{ message.data.text }}</router-link>
+          <router-link target="_blank" :to="message.data.meta">
+            <span>预览</span>
+          </router-link>
+          <el-icon class="el-icon--right"><iconview /></el-icon>
         </el-link>
+
+        <el-link :href="message.data.url">
+          <span>下载</span>
+          <el-icon class="el-icon--right"><download /> </el-icon
+        ></el-link>
       </div>
 
       <div align="left" v-else>{{ message.data.text }}</div>
@@ -38,7 +47,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
 import Axios from "axios";
-
+import { Download, View as iconview } from "@element-plus/icons-vue";
 let participants = reactive([
   {
     id: "robot",
@@ -57,6 +66,7 @@ interface message {
     text?: string;
     meta?: string;
     emoji?: string;
+    url?: string;
   };
 }
 let messageList: Array<message> = reactive([
@@ -91,6 +101,7 @@ const sendMessage = (text: any) => {
 interface notice {
   name?: string;
   id?: number;
+  url?: string;
 }
 
 const search = async (question: string) => {
@@ -102,10 +113,11 @@ const search = async (question: string) => {
       throw new Error("没有查找到匹配文章");
     }
     const result: Array<notice> = [];
-    response.data.results.forEach((item: { mysql_id: number; name: string }) => {
+    response.data.results.forEach((item: { mysql_id: number; name: string; url: string }) => {
       result.push({
         id: item.mysql_id,
         name: item.name,
+        url: item.url,
       });
     });
 
@@ -147,6 +159,7 @@ const receivedText = async (message: any) => {
         data: {
           text: result[i].name,
           meta: "/word/" + result[i].id,
+          url: result[i].url,
         },
       });
     }
@@ -226,7 +239,8 @@ const colors = {
 
 <style scoped>
 .el-link {
-  margin-right: 8px;
+  margin-right: 45px;
+  font-size: 80%;
 }
 
 .router-link-active {
@@ -240,5 +254,8 @@ a {
 
 .router-link-active {
   text-decoration: none;
+}
+.el-link .el-icon--right.el-icon {
+  vertical-align: text-bottom;
 }
 </style>

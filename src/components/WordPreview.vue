@@ -24,9 +24,6 @@ onMounted(async () => {
     console.log(error);
   }
 });
-
 </script>
 
-
-<style>
-</style>
+<style></style>

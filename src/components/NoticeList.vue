@@ -57,7 +57,7 @@
             <span>预览</span>
           </router-link>
           <el-icon class="el-icon--right">
-            <icon-view />
+            <iconview />
           </el-icon>
         </el-link>
         <el-link :href="scope.row.url">
@@ -86,11 +86,10 @@
 
 <script lang="ts" setup>
 import { ref, reactive, onMounted } from "vue";
-import { Download } from "@element-plus/icons-vue";
 import { Search } from "@element-plus/icons-vue";
+import { Download, View as iconview } from "@element-plus/icons-vue";
 
 import Axios from "axios";
-
 
 const loading = ref(false);
 const filename = ref("");
@@ -132,9 +131,7 @@ const search = async () => {
     if (results.value.length !== 0) {
       pagination.count = response.data["count"];
       pagination.perPageCount = results.value.length;
-      pagination.pageNum = Math.ceil(
-        pagination.count / pagination.perPageCount
-      );
+      pagination.pageNum = Math.ceil(pagination.count / pagination.perPageCount);
     } else {
       pagination.count = 0;
       pagination.perPageCount = 0;
@@ -147,8 +144,7 @@ const search = async () => {
 
 const handleCurrentChange = async (currentPage: number) => {
   pagination.currentPage = currentPage;
-  const api =
-    "http://127.0.0.1:8000/api/word/?page=" + pagination.currentPage;
+  const api = "http://127.0.0.1:8000/api/word/?page=" + pagination.currentPage;
 
   const response = await Axios.get(api);
   try {
@@ -165,12 +161,10 @@ onMounted(async () => {
   try {
     loading.value = false;
     results.value = response.data["results"];
-    console.log(results.value)
+    console.log(results.value);
     pagination.count = response.data["count"];
     pagination.perPageCount = results.value.length;
-    pagination.pageNum = Math.ceil(
-      pagination.count / pagination.perPageCount
-    );
+    pagination.pageNum = Math.ceil(pagination.count / pagination.perPageCount);
   } catch (error) {
     console.log(error);
   }
@@ -206,8 +200,6 @@ const shortcuts = [
     },
   },
 ];
-
-
 </script>
 
 <style scoped>
