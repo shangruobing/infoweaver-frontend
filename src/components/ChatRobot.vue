@@ -150,7 +150,7 @@ const receivedText = async (message: any) => {
     messageList.push({
       type: "text",
       author: `robot`,
-      data: { text: "已经为您找到如下文件,点击文件名即可预览" },
+      data: { text: "已经为您找到如下文件" },
     });
     for (let i = 0; i < result.length; i++) {
       messageList.push({
@@ -238,6 +238,10 @@ const colors = {
 </script>
 
 <style scoped>
+div{
+   /* font-family: Microsoft YaHei, Helvetica, Arial, sans-serif; */
+   font-family: STHeiti Light, Helvetica, Arial, sans-serif;
+}
 .el-link {
   margin-right: 45px;
   font-size: 80%;
