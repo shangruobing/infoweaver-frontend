@@ -7,7 +7,7 @@ import { onMounted, ref, getCurrentInstance } from "vue";
 import axios from "axios";
 import { renderAsync } from "docx-preview";
 import { useRoute } from "vue-router";
-import getHttp from "../utils/getHttp";
+import getHttp from "../utils/DjangoHttp";
 
 const route = useRoute();
 let file = ref();

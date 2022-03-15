@@ -88,7 +88,7 @@
 import { ref, reactive, onMounted, getCurrentInstance } from "vue";
 import { Search } from "@element-plus/icons-vue";
 import { Download, View as iconview } from "@element-plus/icons-vue";
-import getHttp from "../utils/getHttp";
+import getHttp from "../utils/DjangoHttp";
 import Axios from "axios";
 
 const loading = ref(false);

@@ -48,8 +48,8 @@
 import { getCurrentInstance, reactive, ref } from "vue";
 import Axios from "axios";
 import { Download, View as iconview } from "@element-plus/icons-vue";
-import getHttp from "../utils/getHttp";
-
+import getHttp from "../utils/DjangoHttp";
+import getRobotColors from "../utils/RobotColors";
 let participants = reactive([
   {
     id: "robot",
@@ -89,6 +89,7 @@ let showTypingIndicator = ref("");
 
 let alwaysScrollToBottom = ref(false);
 let messageStyling = ref(true);
+
 const sendMessage = (text: any) => {
   console.log("text", text);
   if (text.length > 0) {
@@ -217,30 +218,7 @@ const editMessage = (message: any) => {
   //   m.data.text = message.data.text;
   console.log("editMessage", message);
 };
-const colors = {
-  header: {
-    bg: "#4e8cff",
-    text: "#ffffff",
-  },
-  launcher: {
-    bg: "#4e8cff",
-  },
-  messageList: {
-    bg: "#ffffff",
-  },
-  sentMessage: {
-    bg: "#4e8cff",
-    text: "#ffffff",
-  },
-  receivedMessage: {
-    bg: "#eaeaea",
-    text: "#000000",
-  },
-  userInput: {
-    bg: "#f4f7f9",
-    text: "#565867",
-  },
-};
+const colors = getRobotColors();
 </script>
 
 <style scoped>
