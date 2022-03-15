@@ -45,9 +45,11 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from "vue";
+import { getCurrentInstance, reactive, ref } from "vue";
 import Axios from "axios";
 import { Download, View as iconview } from "@element-plus/icons-vue";
+import getHttp from "../utils/getHttp";
+
 let participants = reactive([
   {
     id: "robot",
@@ -106,7 +108,11 @@ interface notice {
 
 const search = async (question: string) => {
   const data = { question: question };
-  const api = "http://127.0.0.1:8000/api/neo4j/";
+
+  const instance = getCurrentInstance();
+  const http = getHttp(instance);
+
+  const api = http + "neo4j/";
   try {
     const response = await Axios.post(api, data);
     if (response.data.results instanceof Array && response.data.results.length <= 0) {
@@ -238,9 +244,9 @@ const colors = {
 </script>
 
 <style scoped>
-div{
-   /* font-family: Microsoft YaHei, Helvetica, Arial, sans-serif; */
-   font-family: STHeiti Light, Helvetica, Arial, sans-serif;
+div {
+  /* font-family: Microsoft YaHei, Helvetica, Arial, sans-serif; */
+  font-family: STHeiti Light, Helvetica, Arial, sans-serif;
 }
 .el-link {
   margin-right: 45px;

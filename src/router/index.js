@@ -39,8 +39,8 @@ const routes = [
 
 ]
 const index = createRouter({
-    // history: createWebHistory(),
-    history: createWebHashHistory(),
+    history: createWebHistory(),
+    // history: createWebHashHistory(),
     routes
 });
 export default index;

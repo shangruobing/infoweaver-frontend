@@ -59,7 +59,6 @@
   </el-container>
 </template>
 
-
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { Location, Message, Menu, Setting } from "@element-plus/icons";
@@ -78,7 +77,7 @@ export default defineComponent({
     noticeList: NoticeList,
     neo4j: Neo4j,
     empty: ElEmpty,
-    MyRobt
+    MyRobt,
   },
   setup() {
     let showComponent = ref("empty");

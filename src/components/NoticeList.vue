@@ -85,10 +85,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, onMounted, getCurrentInstance } from "vue";
 import { Search } from "@element-plus/icons-vue";
 import { Download, View as iconview } from "@element-plus/icons-vue";
-
+import getHttp from "../utils/getHttp";
 import Axios from "axios";
 
 const loading = ref(false);
@@ -100,7 +100,8 @@ const pagination = reactive({
   pageNum: 0,
   currentPage: 1,
 });
-
+const instance = getCurrentInstance();
+const http = getHttp(instance);
 const search = async () => {
   try {
     let start_date = "";
@@ -118,13 +119,7 @@ const search = async () => {
       name = filename.value;
     }
     const api =
-      "http://127.0.0.1:8000/api/word/" +
-      "?name=" +
-      name +
-      "&start_date=" +
-      start_date +
-      "&end_date=" +
-      end_date;
+      http + "word/" + "?name=" + name + "&start_date=" + start_date + "&end_date=" + end_date;
     const response = await Axios.get(api);
     loading.value = false;
     results.value = response.data["results"];
@@ -144,7 +139,7 @@ const search = async () => {
 
 const handleCurrentChange = async (currentPage: number) => {
   pagination.currentPage = currentPage;
-  const api = "http://127.0.0.1:8000/api/word/?page=" + pagination.currentPage;
+  const api = http + "word/?page=" + pagination.currentPage;
 
   const response = await Axios.get(api);
   try {
@@ -156,7 +151,7 @@ const handleCurrentChange = async (currentPage: number) => {
 };
 
 onMounted(async () => {
-  const api = "http://127.0.0.1:8000/api/word/";
+  const api = http + "word/";
   const response = await Axios.get(api);
   try {
     loading.value = false;

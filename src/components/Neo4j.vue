@@ -62,11 +62,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, onMounted, getCurrentInstance } from "vue";
 import Axios from "axios";
 import { Download, Search } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
-
+import getHttp from "../utils/getHttp";
 const question = ref("");
 const loading = ref(false);
 const results = ref([]);
@@ -76,13 +76,15 @@ const pagination = reactive({
   pageNum: 0,
   currentPage: 1,
 });
-
+const instance = getCurrentInstance();
+const http = getHttp(instance);
 const search = async () => {
   loading.value = true;
   const data = {
     question: question.value,
   };
-  const api = "http://127.0.0.1:8000/api/neo4j/";
+
+  const api = http + "neo4j/";
   try {
     const response = await Axios.post(api, data);
     console.log(response);
@@ -90,9 +92,7 @@ const search = async () => {
 
     pagination.count = response.data["count"];
     pagination.perPageCount = results.value.length;
-    pagination.pageNum = Math.ceil(
-      pagination.count / pagination.perPageCount
-    );
+    pagination.pageNum = Math.ceil(pagination.count / pagination.perPageCount);
     loading.value = false;
 
     if (pagination.count === 0) {
@@ -115,8 +115,7 @@ const handleCurrentChange = async (currentPage: number) => {
     question: question.value,
   };
   pagination.currentPage = currentPage;
-  const api =
-    "http://127.0.0.1:8000/api/neo4j/?page=" + pagination.currentPage;
+  const api = http + "neo4j/?page=" + pagination.currentPage;
   try {
     const response = await Axios.post(api, data);
     loading.value = false;
@@ -129,7 +128,6 @@ const handleCurrentChange = async (currentPage: number) => {
 onMounted(() => {
   console.log("欢迎来到Neo4j查询页面");
 });
-
 </script>
 
 <style scoped>
