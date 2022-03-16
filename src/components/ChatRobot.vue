@@ -116,6 +116,12 @@ const search = async (question: string) => {
   const api = http + "neo4j/";
   try {
     const response = await Axios.post(api, data);
+    console.log("test baidu", response);
+    if (typeof response.data == "string" && response.data.constructor == String) {
+      if (response.data.length > 0) {
+        return response.data;
+      } else throw new Error("没有查找到匹配的百度百科");
+    }
     if (response.data.results instanceof Array && response.data.results.length <= 0) {
       throw new Error("没有查找到匹配文章");
     }
@@ -153,22 +159,39 @@ const onMessageWasSent = async (message: any) => {
 
 const receivedText = async (message: any) => {
   try {
-    const result = await search(message.data.text);
-    messageList.push({
-      type: "text",
-      author: `robot`,
-      data: { text: "已经为您找到如下文件" },
-    });
-    for (let i = 0; i < result.length; i++) {
+    const result: notice[] | string = await search(message.data.text);
+    if (typeof result == "string" && result.constructor == String) {
+      console.log("str是字符串类型");
+      console.log("是百度");
       messageList.push({
         type: "text",
         author: `robot`,
-        data: {
-          text: result[i].name,
-          meta: "/word/" + result[i].id,
-          url: result[i].url,
-        },
+        data: { text: "这个问题我不知道诶，但我去查了百度，结果如下" },
       });
+      messageList.push({
+        type: "text",
+        author: `robot`,
+        data: { text: result },
+      });
+      return;
+    }
+    if (typeof result == "object") {
+      messageList.push({
+        type: "text",
+        author: `robot`,
+        data: { text: "已经为您找到如下文件" },
+      });
+      for (let i = 0; i < result.length; i++) {
+        messageList.push({
+          type: "text",
+          author: `robot`,
+          data: {
+            text: result[i].name,
+            meta: "/word/" + result[i].id,
+            url: result[i].url,
+          },
+        });
+      }
     }
   } catch (error) {
     console.log(error);
