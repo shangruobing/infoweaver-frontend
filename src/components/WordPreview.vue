@@ -19,10 +19,10 @@ onMounted(async () => {
   try {
     const response = await axios({
       method: "GET",
-      responseType: "blob", // 设置响应文件格式
+      responseType: "blob",
       url: http + "word/" + id,
     });
-    renderAsync(response.data, file.value); // 渲染到页面预览
+    renderAsync(response.data, file.value);
   } catch (error) {
     console.log(error);
   }

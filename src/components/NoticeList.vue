@@ -39,11 +39,7 @@
 
     <el-table-column type="expand">
       <template #default="props">
-        <!-- <ul>
-          <li v-for="i in props.row.content"> {{i}}</li>
-        </ul>-->
         {{ props.row.content }}
-        <!-- {{typeof props.row.content}} -->
       </template>
     </el-table-column>
 

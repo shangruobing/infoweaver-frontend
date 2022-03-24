@@ -116,7 +116,6 @@ const search = async (question: string) => {
   const api = http + "neo4j/";
   try {
     const response = await Axios.post(api, data);
-    console.log("test baidu", response);
     if (typeof response.data == "string" && response.data.constructor == String) {
       if (response.data.length > 0) {
         return response.data;
@@ -161,8 +160,6 @@ const receivedText = async (message: any) => {
   try {
     const result: notice[] | string = await search(message.data.text);
     if (typeof result == "string" && result.constructor == String) {
-      console.log("str是字符串类型");
-      console.log("是百度");
       messageList.push({
         type: "text",
         author: `robot`,

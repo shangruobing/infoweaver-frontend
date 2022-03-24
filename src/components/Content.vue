@@ -51,7 +51,7 @@
         <el-main>
           <component :is="showComponent"></component>
           <router-view></router-view>
-          <my-robt></my-robt>
+          <!-- <my-robt></my-robt> -->
         </el-main>
         <!-- <el-footer>Footer</el-footer> -->
       </el-container>
