@@ -3,6 +3,9 @@ import { createStore } from "vuex";
 const store = createStore({
     state: {
         hasHistory: false,
+        displayPreview: false,
+        chatCount: 0,
+        history: { context: [] },
         username: "a1a1",
         isShowLoginDialog: false,
         isShowRegisterDialog: false,
