@@ -41,8 +41,6 @@
             </div>
 
             <div align="left" v-else>{{ message.data.text }}</div>
-
-            <!-- <div v-if="displayRate">为我们打分！<el-rate /></div> -->
         </template>
     </beautiful-chat>
 </template>
@@ -54,7 +52,7 @@ import { getCurrentInstance, reactive, ref } from "vue";
 import { Download, View as iconview } from "@element-plus/icons-vue";
 
 import getHttp from "../utils/django-http";
-import { message, notice } from "../utils/interfaces";
+import { message, notice, record } from "../utils/interfaces";
 import { stringIsEmpty, isString } from "../utils/type-utils";
 import { colors, participants, titleImageUrl } from "../utils/robot-information";
 
@@ -69,124 +67,115 @@ let messageList: Array<message> = reactive([
     generateMessage("robot", { text: "你可以向我一些问题。" }),
 ]);
 
-let displayRate = ref(false);
-
 let newMessagesCount = ref(0);
 let isChatOpen = ref(false);
 let showTypingIndicator = ref("");
 let alwaysScrollToBottom = ref(false);
 let messageStyling = ref(true);
 
-const sendMessage = (text: any) => {
-    if (text.length > 0) {
-        newMessagesCount.value = isChatOpen.value
-            ? newMessagesCount.value
-            : newMessagesCount.value + 1;
-        onMessageWasSent(generateMessage("support", { text: text }));
-    }
-};
-
 const search = async (question: string) => {
-    let data = { question: question, state: 0, history: { context: [] }, count: 0 };
     const instance = getCurrentInstance();
     const http = getHttp(instance);
     const api = http + "neo4j/";
+    store.state.chatCount += 1;
 
     try {
-        store.state.chatCount += 1;
+        let data: record = { question: question, state: 0, history: { context: [] }, count: 0 };
 
         if (store.state.hasHistory) {
-            if (store.state.chatCount === 2) {
-                const item_number = Number(question);
-                store.state.history.context = store.state.history.context[item_number - 1];
-                data = {
-                    question: "selected",
-                    state: 1,
-                    history: store.state.history.context,
-                    count: store.state.chatCount,
-                };
-            } else {
-                data = {
-                    question: question,
-                    state: 1,
-                    history: store.state.history.context[0],
-                    count: store.state.chatCount,
-                };
-
-                if (store.state.chatCount === 5) {
-                    if (question === "YES") {
-                        let data = {
-                            text: store.state.history.context[0].name,
-                            meta: "/word/" + store.state.history.context[0].mysql_id,
-                            url: store.state.history.context[0].url,
-                        };
-                        messageList.push(generateMessage("robot", data));
-                        messageList.push(generateMessage("robot", { text: "您对此次服务满意吗" }));
-                        store.state.displayPreview = true;
-                    }
-                    displayRate.value = true;
-                }
-                if (store.state.chatCount === 6) {
-                    if (question === "YES") {
-                        messageList.push(generateMessage("robot", { text: "谢谢，是否退出！" }));
-                    }
-                }
-                if (store.state.chatCount === 7) {
-                    if (question === "YES") {
-                        messageList.push(generateMessage("robot", { text: "再见！！！" }));
-                    }
-                }
-            }
-            // store.state.chatCount += 1;
-
-            // if(store.state.chatCount===4){
-
-            // }
-            // store.state.displayPreview = true;
+            data = executeHistoryHandler(question);
         }
 
-        // console.log("有无历史记录", store.state.hasHistory);
-        // console.log("历史记录", history);
+        //当聊天轮数小于5 才请求后端
         let response = { data: { results: "" } };
         if (store.state.chatCount < 5) {
             response = await Axios.post(api, data);
         }
-
         const results: Array<notice> | string = response.data.results;
-
-        store.state.hasHistory = true;
-        // store.state.chatCount += 1;
-        console.log("results");
-
-        console.log(results);
-        console.log(typeof results);
-
         if (store.state.chatCount < 3) {
             store.state.history = {
                 context: results,
             };
         }
-        console.log(history);
+        store.state.hasHistory = true;
 
-        if (Array.isArray(results)) {
-            let result: Array<notice> = [];
-            results.forEach((item: { mysql_id: number; name: string; url: string }) => {
-                result.push({
-                    id: item.mysql_id,
-                    name: item.name,
-                    url: item.url,
-                });
-            });
-            return result;
-        }
-
-        if (!stringIsEmpty(results)) {
-            return results;
-        }
+        return processResult(results);
     } catch (error) {
         console.log(error);
         throw new Error("没有查找到结果");
     }
+};
+
+const selectedFile = (question: string): record => {
+    const item_number = Number(question);
+    store.state.history.context = store.state.history.context[item_number - 1];
+    let data: record = {
+        question: "selected",
+        state: 1,
+        history: store.state.history.context,
+        count: store.state.chatCount,
+    };
+    return data;
+};
+
+const executeHistoryHandler = (question: string): record => {
+    let data: record;
+    if (store.state.chatCount === 2) {
+        data = selectedFile(question);
+    } else {
+        data = {
+            question: question,
+            state: 1,
+            history: store.state.history.context[0],
+            count: store.state.chatCount,
+        };
+
+        if (store.state.chatCount === 5) {
+            if (question === "YES") {
+                confirmPreview();
+            }
+        }
+        if (store.state.chatCount === 6) {
+            if (question === "YES") {
+                messageList.push(generateMessage("robot", { text: "谢谢，是否退出！" }));
+            }
+        }
+        if (store.state.chatCount === 7) {
+            if (question === "YES") {
+                messageList.push(generateMessage("robot", { text: "再见！！！" }));
+            }
+        }
+    }
+
+    return data;
+};
+
+const processResult = (results: Array<notice> | string) => {
+    if (Array.isArray(results)) {
+        let result: Array<notice> = [];
+        results.forEach((item) => {
+            result.push({
+                id: item.id,
+                name: item.name,
+                url: item.url,
+            });
+        });
+        return result;
+    }
+    if (!stringIsEmpty(results)) {
+        return results;
+    }
+};
+
+const confirmPreview = (): void => {
+    let data = {
+        text: store.state.history.context[0].name,
+        meta: "/word/" + store.state.history.context[0].mysql_id,
+        url: store.state.history.context[0].url,
+    };
+    messageList.push(generateMessage("robot", data));
+    messageList.push(generateMessage("robot", { text: "您对此次服务满意吗" }));
+    store.state.displayPreview = true;
 };
 
 const onMessageWasSent = async (message: any) => {
@@ -207,9 +196,6 @@ const receivedText = async (message: any) => {
         const result: notice[] | string | any = await search(message.data.text);
 
         if (isString(result)) {
-            // messageList.push(
-            //     generateMessage("robot", { text: "这个问题我不知道，但我去查了百度，结果如下" })
-            // );
             messageList.push(generateMessage("robot", { text: result }));
 
             if (store.state.chatCount === 4) {
@@ -245,15 +231,6 @@ const receivedText = async (message: any) => {
                 };
                 messageList.push(generateMessage("robot", data));
             }
-
-            // if (!store.state.displayPreview) {
-            //     messageList.push(generateMessage("robot", { text: "请问您对哪个文件感兴趣?" }));
-            //     messageList.push(generateMessage("robot", { text: "输入1 2 3确定文件" }));
-            // } else {
-            //     messageList.push(
-            //         generateMessage("robot", { text: "你可以问我关于这个文件的问题" })
-            //     );
-            // }
         }
     } catch (error) {
         console.log(error);
@@ -274,8 +251,8 @@ const openChat = () => {
     isChatOpen.value = true;
     newMessagesCount.value = 0;
 };
+
 const closeChat = () => {
-    // called when the user clicks on the botton to close the chat
     store.state.hasHistory = false;
     store.state.history = { context: [] };
     store.state.chatCount = 0;
@@ -284,15 +261,26 @@ const closeChat = () => {
     messageList.splice(0, messageList.length);
     messageList.push(generateMessage("robot", { text: "欢迎来到NFQA!" }));
     messageList.push(generateMessage("robot", { text: "你可以向我一些问题。" }));
-    console.log("close chat");
 };
+
 const handleScrollToTop = () => {
     // called when the user scrolls message list to top
     // leverage pagination for loading another page of messages
 };
+
 const handleOnType = () => {
     // console.log("Emit typing event");
 };
+
+const sendMessage = (text: any) => {
+    if (text.length > 0) {
+        newMessagesCount.value = isChatOpen.value
+            ? newMessagesCount.value
+            : newMessagesCount.value + 1;
+        onMessageWasSent(generateMessage("support", { text: text }));
+    }
+};
+
 const editMessage = (message: any) => {
     console.log("editMessage", message);
 };
