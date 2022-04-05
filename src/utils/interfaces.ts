@@ -6,6 +6,8 @@ export declare interface message {
         meta?: string;
         emoji?: string;
         url?: string;
+        preview?: boolean;
+        rate?: boolean;
     };
 }
 export declare interface notice {
@@ -19,6 +21,8 @@ export interface record {
     history: { context: any };
     count: number;
 }
+
+export type searchResult = Array<notice> | string;
 
 //按理说不需要这样写，可能是Vite的编译问题
 export let message: message;

@@ -45,7 +45,26 @@
                 </el-link>
             </div>
 
-            <div align="left" v-else>{{ message.data.text }}</div>
+            <div align="left" v-else>
+                {{ message.data.text }}
+
+                <div v-if="message.data.preview">
+                    <el-radio-group v-model="isNeedPreview" @change="myRadioCallBack">
+                        <el-radio :label="true" size="small" :disabled="isDisableRadio">是</el-radio>
+                        <el-radio :label="false" size="small" :disabled="isDisableRadio">否</el-radio>
+                    </el-radio-group>
+                </div>
+
+                <div>
+                    <el-rate
+                        v-if="message.data.rate"
+                        allow-half
+                        v-model="rate"
+                        @click="thanks"
+                        :disabled="isDisableRate"
+                    />
+                </div>
+            </div>
         </template>
     </beautiful-chat>
 </template>
@@ -53,30 +72,54 @@
 <script lang="ts" setup>
 import Axios from "axios";
 import { useStore } from "vuex";
-import { getCurrentInstance, reactive, ref } from "vue";
+import { ElNotification } from "element-plus";
+import { getCurrentInstance, reactive, ref, h } from "vue";
 import { Download, View as iconview } from "@element-plus/icons-vue";
 
 import getHttp from "../utils/django-http";
-import { message, notice, record } from "../utils/interfaces";
+import { message, notice, record, searchResult } from "../utils/interfaces";
 import { stringIsEmpty, isString } from "../utils/type-utils";
 import { colors, participants, titleImageUrl } from "../utils/robot-information";
 
 const store = useStore();
+const isNeedPreview = ref<boolean>();
+const isDisableRadio = ref(false);
+const isDisableRate = ref(false);
 
-const addMessage = (author: string, data: object, type: string = "text"): message => {
-    return { type: type, author: author, data: data };
+const myRadioCallBack = () => {
+    isDisableRadio.value = true;
+    if (isNeedPreview.value) {
+        confirmPreview();
+    } else {
+        addMessage("robot", { text: "不给你看!" });
+    }
 };
 
-let messageList: Array<message> = reactive([
-    addMessage("robot", { text: "欢迎来到NFQA!" }),
-    addMessage("robot", { text: "你可以向我一些问题。" }),
+const rate = ref(null);
+const thanks = () => {
+    isDisableRate.value = true;
+    ElNotification({
+        title: "谢谢评分😜",
+        message: h("i", { style: "color: teal" }, "我们会继续努力的！"),
+        position: "bottom-right",
+    });
+};
+
+const addMessage = (author: string, data: object, type: string = "text"): void => {
+    const message = { type: type, author: author, data: data };
+    messageList.push(message);
+};
+
+const messageList: Array<message> = reactive([
+    // addMessage("robot", { text: "欢迎来到NFQA!" }),
+    // addMessage("robot", { text: "你可以向我一些问题。" }),
 ]);
 
-let newMessagesCount = ref(0);
-let isChatOpen = ref(false);
-let showTypingIndicator = ref("");
-let alwaysScrollToBottom = ref(false);
-let messageStyling = ref(true);
+const newMessagesCount = ref(0);
+const isChatOpen = ref(false);
+const showTypingIndicator = ref("");
+const alwaysScrollToBottom = ref(true);
+const messageStyling = ref(true);
 
 const search = async (question: string) => {
     const instance = getCurrentInstance();
@@ -88,7 +131,7 @@ const search = async (question: string) => {
         let data: record = { question: question, state: 0, history: { context: [] }, count: 0 };
 
         if (store.state.hasHistory) {
-            data = executeHistoryHandler(question);
+            data = await executeHistoryHandler(question);
         }
 
         //当聊天轮数小于5 才请求后端
@@ -103,6 +146,7 @@ const search = async (question: string) => {
                 context: results,
             };
         }
+
         store.state.hasHistory = true;
 
         return processResult(results);
@@ -124,7 +168,7 @@ const selectedFile = (question: string): record => {
     return data;
 };
 
-const executeHistoryHandler = (question: string): record => {
+const executeHistoryHandler = async (question: string): Promise<record> => {
     let data: record;
     if (store.state.chatCount === 2) {
         data = selectedFile(question);
@@ -136,19 +180,9 @@ const executeHistoryHandler = (question: string): record => {
             count: store.state.chatCount,
         };
 
-        if (store.state.chatCount === 5) {
-            if (question === "YES") {
-                confirmPreview();
-            }
-        }
-        if (store.state.chatCount === 6) {
-            if (question === "YES") {
-                messageList.push(addMessage("robot", { text: "谢谢，是否退出！" }));
-            }
-        }
         if (store.state.chatCount === 7) {
             if (question === "YES") {
-                messageList.push(addMessage("robot", { text: "再见！！！" }));
+                addMessage("robot", { text: "再见！！！" });
             }
         }
     }
@@ -156,7 +190,7 @@ const executeHistoryHandler = (question: string): record => {
     return data;
 };
 
-const processResult = (results: Array<notice> | string) => {
+const processResult = (results: searchResult): searchResult | undefined => {
     if (Array.isArray(results)) {
         let result: Array<notice> = [];
         results.forEach((item) => {
@@ -179,12 +213,12 @@ const confirmPreview = (): void => {
         meta: "/word/" + store.state.history.context[0].mysql_id,
         url: store.state.history.context[0].url,
     };
-    messageList.push(addMessage("robot", data));
-    messageList.push(addMessage("robot", { text: "您对此次服务满意吗" }));
+    addMessage("robot", data);
+    // messageList.push(addMessage("robot", { text: "您对此次服务满意吗" }));
     store.state.displayPreview = true;
 };
 
-const onMessageWasSent = async (message: any) => {
+const onMessageWasSent = async (message: message): Promise<void> => {
     messageList.push(message);
     if (message.type === "text") {
         await receivedText(message);
@@ -202,71 +236,71 @@ const receivedText = async (message: any) => {
         const result: notice[] | string | any = await search(message.data.text);
 
         if (isString(result)) {
-            messageList.push(addMessage("robot", { text: result }));
+            addMessage("robot", { text: result });
 
             if (store.state.chatCount === 4) {
-                messageList.push(
-                    addMessage("robot", { text: "请问您需要预览或者下载这个文件嘛?" })
-                );
-                store.state.displayPreview = true;
+                addMessage("robot", { text: "请为我们评分 谢谢!", rate: true });
             }
             return;
         }
 
         if (typeof result == "object") {
             if (store.state.chatCount === 1) {
-                messageList.push(
-                    addMessage("robot", {
-                        text: "已经为您找到如下文件,请问您对哪个文件感兴趣?输入123指定",
-                    })
-                );
+                addMessage("robot", { text: "已经为您找到如下文件,请问您对哪个文件感兴趣?" });
             }
             if (store.state.chatCount === 2) {
                 //TODO 缺少文件相关信息的查询展示
-                messageList.push(
-                    addMessage("robot", {
-                        text: "已经为您找到下面这篇文件的相关信息，您可以关于这篇文件对我进行提问",
-                    })
-                );
-            }
-            for (let i = 0; i < result.length; i++) {
-                let data = {
-                    text: result[i].name,
-                    meta: "/word/" + result[i].id,
-                    url: result[i].url,
-                };
-                messageList.push(addMessage("robot", data));
+
+                addMessage("robot", { text: "已经为您找到下面这篇文件的相关信息，您可以关于这篇文件对我进行提问" });
+
+                addMessage("robot", { text: "请问您需要预览或者下载这个文件嘛?", preview: true });
+            } else {
+                for (let i = 0; i < result.length; i++) {
+                    let data = {
+                        text: result[i].name,
+                        meta: "/word/" + result[i].id,
+                        url: result[i].url,
+                    };
+                    addMessage("robot", data);
+                }
             }
         }
     } catch (error) {
         console.log(error);
-        messageList.push(addMessage("robot", { text: "对不起，这个问题我不知道" }));
+        addMessage("robot", { text: "对不起，这个问题我不知道" });
     }
 };
 
-const receivedEmoji = (message: any) => {
-    messageList.push(addMessage("robot", { emoji: message.data.emoji }, "emoji"));
+const receivedEmoji = (message: any): void => {
+    addMessage("robot", { emoji: message.data.emoji }, "emoji");
 };
 
-const receivedFile = (message: any) => {
-    messageList.push(addMessage("robot", { text: "暂不支持上传文件功能哦" }));
+const receivedFile = (message: any): void => {
+    console.log(message);
+    addMessage("robot", { text: "暂不支持上传文件功能哦" });
 };
 
-const openChat = () => {
+const openChat = (): void => {
     // called when the user clicks on the fab button to open the chat
     isChatOpen.value = true;
     newMessagesCount.value = 0;
+    store.state.hasHistory = false;
+    store.state.history = { context: [] };
+    store.state.chatCount = 0;
+    store.state.displayPreview = false;
+    addMessage("robot", { text: "欢迎来到NFQA!" });
+    addMessage("robot", { text: "你可以向我一些问题。" });
 };
 
-const closeChat = () => {
+const closeChat = (): void => {
     store.state.hasHistory = false;
     store.state.history = { context: [] };
     store.state.chatCount = 0;
     store.state.displayPreview = false;
     isChatOpen.value = false;
     messageList.splice(0, messageList.length);
-    messageList.push(addMessage("robot", { text: "欢迎来到NFQA!" }));
-    messageList.push(addMessage("robot", { text: "你可以向我一些问题。" }));
+    // messageList.push(addMessage("robot", { text: "欢迎来到NFQA!" }));
+    // messageList.push(addMessage("robot", { text: "你可以向我一些问题。" }));
 };
 
 const handleScrollToTop = () => {
@@ -278,16 +312,14 @@ const handleOnType = () => {
     // console.log("Emit typing event");
 };
 
-const sendMessage = (text: any) => {
+const sendMessage = (text: string) => {
     if (text.length > 0) {
-        newMessagesCount.value = isChatOpen.value
-            ? newMessagesCount.value
-            : newMessagesCount.value + 1;
-        onMessageWasSent(addMessage("support", { text: text }));
+        newMessagesCount.value = isChatOpen.value ? newMessagesCount.value : newMessagesCount.value + 1;
+        addMessage("support", { text: text });
     }
 };
 
-const editMessage = (message: any) => {
+const editMessage = (message: message) => {
     console.log("editMessage", message);
 };
 </script>
