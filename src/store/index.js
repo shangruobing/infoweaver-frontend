@@ -6,7 +6,8 @@ const store = createStore({
         displayPreview: false,
         chatCount: 0,
         history: { context: [] },
-        username: "a1a1",
+
+        username: "ruobing",
         isShowLoginDialog: false,
         isShowRegisterDialog: false,
         isLogin: false,

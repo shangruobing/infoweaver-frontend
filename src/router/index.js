@@ -39,12 +39,11 @@ const routes = [
     {
         path: "/upload",
         name: "upload",
-        component: () => import("../components/UploadFile.vue"),
+        component: () => import("../components/UploadFileForm.vue"),
     },
 ];
 const index = createRouter({
     history: createWebHistory(),
-    // history: createWebHashHistory(),
     routes,
 });
 export default index;

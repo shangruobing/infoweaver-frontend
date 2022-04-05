@@ -22,16 +22,19 @@ export const colors = {
         text: "#565867",
     },
 };
+
+const imageUrl = "https://s2.loli.net/2022/04/05/kzlOhqcEpBmf7Qi.png";
+//圆环 "https://s2.loli.net/2022/04/05/r5PQqsmZyhvE7Xk.png";
+//头像 "https://portrait.gitee.com/uploads/avatars/user/3474/10422230_shangruobing_1644648546.png!avatar60",
+
 export const participants = [
     {
         id: "robot",
         name: "Robot",
-        imageUrl:
-            "https://portrait.gitee.com/uploads/avatars/user/3474/10422230_shangruobing_1644648546.png!avatar60",
+        imageUrl: imageUrl,
     },
 ];
 
-export const titleImageUrl =
-    "https://portrait.gitee.com/uploads/avatars/user/3474/10422230_shangruobing_1644648546.png!avatar60";
+export const titleImageUrl = "https://s2.loli.net/2022/04/05/twBVPMoiYxsFK27.png";
 
 export default {};

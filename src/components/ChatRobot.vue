@@ -22,6 +22,7 @@
         :messageStyling="messageStyling"
         @onType="handleOnType"
         @edit="editMessage"
+        title="NFQA问答机器人"
     >
         <template v-slot:text-message-body="{ message }">
             <div align="left" v-if="message.data.meta">
@@ -31,13 +32,17 @@
                     <router-link target="_blank" :to="message.data.meta">
                         <span>预览</span>
                     </router-link>
-                    <el-icon class="el-icon--right"><iconview /></el-icon>
+                    <el-icon class="el-icon--right">
+                        <iconview />
+                    </el-icon>
                 </el-link>
 
                 <el-link :href="message.data.url" v-if="store.state.displayPreview">
                     <span>下载</span>
-                    <el-icon class="el-icon--right"><download /> </el-icon
-                ></el-link>
+                    <el-icon class="el-icon--right">
+                        <download />
+                    </el-icon>
+                </el-link>
             </div>
 
             <div align="left" v-else>{{ message.data.text }}</div>
@@ -58,13 +63,13 @@ import { colors, participants, titleImageUrl } from "../utils/robot-information"
 
 const store = useStore();
 
-const generateMessage = (author: string, data: object, type: string = "text") => {
+const addMessage = (author: string, data: object, type: string = "text"): message => {
     return { type: type, author: author, data: data };
 };
 
 let messageList: Array<message> = reactive([
-    generateMessage("robot", { text: "欢迎来到NFQA!" }),
-    generateMessage("robot", { text: "你可以向我一些问题。" }),
+    addMessage("robot", { text: "欢迎来到NFQA!" }),
+    addMessage("robot", { text: "你可以向我一些问题。" }),
 ]);
 
 let newMessagesCount = ref(0);
@@ -92,6 +97,7 @@ const search = async (question: string) => {
             response = await Axios.post(api, data);
         }
         const results: Array<notice> | string = response.data.results;
+        //当聊天轮数小于3 才保存历史
         if (store.state.chatCount < 3) {
             store.state.history = {
                 context: results,
@@ -137,12 +143,12 @@ const executeHistoryHandler = (question: string): record => {
         }
         if (store.state.chatCount === 6) {
             if (question === "YES") {
-                messageList.push(generateMessage("robot", { text: "谢谢，是否退出！" }));
+                messageList.push(addMessage("robot", { text: "谢谢，是否退出！" }));
             }
         }
         if (store.state.chatCount === 7) {
             if (question === "YES") {
-                messageList.push(generateMessage("robot", { text: "再见！！！" }));
+                messageList.push(addMessage("robot", { text: "再见！！！" }));
             }
         }
     }
@@ -173,15 +179,15 @@ const confirmPreview = (): void => {
         meta: "/word/" + store.state.history.context[0].mysql_id,
         url: store.state.history.context[0].url,
     };
-    messageList.push(generateMessage("robot", data));
-    messageList.push(generateMessage("robot", { text: "您对此次服务满意吗" }));
+    messageList.push(addMessage("robot", data));
+    messageList.push(addMessage("robot", { text: "您对此次服务满意吗" }));
     store.state.displayPreview = true;
 };
 
 const onMessageWasSent = async (message: any) => {
     messageList.push(message);
     if (message.type === "text") {
-        receivedText(message);
+        await receivedText(message);
     }
     if (message.type === "emoji") {
         receivedEmoji(message);
@@ -196,11 +202,11 @@ const receivedText = async (message: any) => {
         const result: notice[] | string | any = await search(message.data.text);
 
         if (isString(result)) {
-            messageList.push(generateMessage("robot", { text: result }));
+            messageList.push(addMessage("robot", { text: result }));
 
             if (store.state.chatCount === 4) {
                 messageList.push(
-                    generateMessage("robot", { text: "请问您需要预览或者下载这个文件嘛?" })
+                    addMessage("robot", { text: "请问您需要预览或者下载这个文件嘛?" })
                 );
                 store.state.displayPreview = true;
             }
@@ -210,7 +216,7 @@ const receivedText = async (message: any) => {
         if (typeof result == "object") {
             if (store.state.chatCount === 1) {
                 messageList.push(
-                    generateMessage("robot", {
+                    addMessage("robot", {
                         text: "已经为您找到如下文件,请问您对哪个文件感兴趣?输入123指定",
                     })
                 );
@@ -218,7 +224,7 @@ const receivedText = async (message: any) => {
             if (store.state.chatCount === 2) {
                 //TODO 缺少文件相关信息的查询展示
                 messageList.push(
-                    generateMessage("robot", {
+                    addMessage("robot", {
                         text: "已经为您找到下面这篇文件的相关信息，您可以关于这篇文件对我进行提问",
                     })
                 );
@@ -229,21 +235,21 @@ const receivedText = async (message: any) => {
                     meta: "/word/" + result[i].id,
                     url: result[i].url,
                 };
-                messageList.push(generateMessage("robot", data));
+                messageList.push(addMessage("robot", data));
             }
         }
     } catch (error) {
         console.log(error);
-        messageList.push(generateMessage("robot", { text: "对不起，这个问题我不知道" }));
+        messageList.push(addMessage("robot", { text: "对不起，这个问题我不知道" }));
     }
 };
 
 const receivedEmoji = (message: any) => {
-    messageList.push(generateMessage("robot", { emoji: message.data.emoji }, "emoji"));
+    messageList.push(addMessage("robot", { emoji: message.data.emoji }, "emoji"));
 };
 
 const receivedFile = (message: any) => {
-    messageList.push(generateMessage("robot", { text: "暂不支持上传文件功能哦" }));
+    messageList.push(addMessage("robot", { text: "暂不支持上传文件功能哦" }));
 };
 
 const openChat = () => {
@@ -259,8 +265,8 @@ const closeChat = () => {
     store.state.displayPreview = false;
     isChatOpen.value = false;
     messageList.splice(0, messageList.length);
-    messageList.push(generateMessage("robot", { text: "欢迎来到NFQA!" }));
-    messageList.push(generateMessage("robot", { text: "你可以向我一些问题。" }));
+    messageList.push(addMessage("robot", { text: "欢迎来到NFQA!" }));
+    messageList.push(addMessage("robot", { text: "你可以向我一些问题。" }));
 };
 
 const handleScrollToTop = () => {
@@ -277,7 +283,7 @@ const sendMessage = (text: any) => {
         newMessagesCount.value = isChatOpen.value
             ? newMessagesCount.value
             : newMessagesCount.value + 1;
-        onMessageWasSent(generateMessage("support", { text: text }));
+        onMessageWasSent(addMessage("support", { text: text }));
     }
 };
 
@@ -289,7 +295,8 @@ const editMessage = (message: any) => {
 <style scoped>
 div {
     /* font-family: Microsoft YaHei, Helvetica, Arial, sans-serif; */
-    font-family: STHeiti Light, Helvetica, Arial, sans-serif;
+    /* font-family: STHeiti Light, Helvetica, Arial, sans-serif; */
+    font-weight: 500;
 }
 .el-link {
     margin-right: 45px;
