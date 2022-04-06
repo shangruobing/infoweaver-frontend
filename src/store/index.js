@@ -4,6 +4,7 @@ const store = createStore({
     state: {
         hasHistory: false,
         displayPreview: false,
+        isSelectedFile: false,
         chatCount: 0,
         history: { context: [] },
 

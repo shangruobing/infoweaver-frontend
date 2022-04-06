@@ -28,26 +28,31 @@
             <div align="left" v-if="message.data.meta">
                 <div>{{ message.data.text }}</div>
 
-                <el-link v-if="store.state.displayPreview">
-                    <router-link target="_blank" :to="message.data.meta">
-                        <span>预览</span>
-                    </router-link>
-                    <el-icon class="el-icon--right">
-                        <iconview />
-                    </el-icon>
-                </el-link>
+                <el-link v-if="!store.state.isSelectedFile" type="info" @click="selectFile(message.data)"
+                    >点击查看更多详情</el-link
+                >
 
-                <el-link :href="message.data.url" v-if="store.state.displayPreview">
-                    <span>下载</span>
-                    <el-icon class="el-icon--right">
-                        <download />
-                    </el-icon>
-                </el-link>
+                <div v-if="store.state.displayPreview && !message.data.id">
+                    <el-link>
+                        <router-link target="_blank" :to="message.data.meta">
+                            <span>预览</span>
+                        </router-link>
+                        <el-icon class="el-icon--right">
+                            <iconview />
+                        </el-icon>
+                    </el-link>
+
+                    <el-link :href="message.data.url">
+                        <span>下载</span>
+                        <el-icon class="el-icon--right">
+                            <download />
+                        </el-icon>
+                    </el-link>
+                </div>
             </div>
 
             <div align="left" v-else>
                 {{ message.data.text }}
-
                 <div v-if="message.data.preview">
                     <el-radio-group v-model="isNeedPreview" @change="myRadioCallBack">
                         <el-radio :label="true" size="small" :disabled="isDisableRadio">是</el-radio>
@@ -86,6 +91,22 @@ const isNeedPreview = ref<boolean>();
 const isDisableRadio = ref(false);
 const isDisableRate = ref(false);
 
+const selectFile = (message: any) => {
+    store.state.isSelectedFile = true;
+    const id = message.id;
+
+    const array = store.state.history.context;
+    array.forEach((i: { mysql_id: string }) => {
+        if (i.mysql_id === id) {
+            store.state.history.context = i;
+        }
+    });
+    store.state.isSelectedFile = true;
+    store.state.chatCount += 1;
+    addMessage("robot", { text: "已经为您找到下面这篇文件的相关信息，您可以关于这篇文件对我进行提问" });
+    addMessage("robot", { text: "请问您需要预览或者下载这个文件嘛?", preview: true });
+};
+
 const myRadioCallBack = () => {
     isDisableRadio.value = true;
     if (isNeedPreview.value) {
@@ -96,6 +117,7 @@ const myRadioCallBack = () => {
 };
 
 const rate = ref(null);
+
 const thanks = () => {
     isDisableRate.value = true;
     ElNotification({
@@ -103,6 +125,7 @@ const thanks = () => {
         message: h("i", { style: "color: teal" }, "我们会继续努力的！"),
         position: "bottom-right",
     });
+    addMessage("robot", { text: "再见！！！" });
 };
 
 const addMessage = (author: string, data: object, type: string = "text"): void => {
@@ -110,10 +133,7 @@ const addMessage = (author: string, data: object, type: string = "text"): void =
     messageList.push(message);
 };
 
-const messageList: Array<message> = reactive([
-    // addMessage("robot", { text: "欢迎来到NFQA!" }),
-    // addMessage("robot", { text: "你可以向我一些问题。" }),
-]);
+const messageList: Array<message> = reactive([]);
 
 const newMessagesCount = ref(0);
 const isChatOpen = ref(false);
@@ -131,7 +151,12 @@ const search = async (question: string) => {
         let data: record = { question: question, state: 0, history: { context: [] }, count: 0 };
 
         if (store.state.hasHistory) {
-            data = await executeHistoryHandler(question);
+            if (store.state.isSelectedFile) {
+                data = await executeHistoryHandler(question);
+            } else {
+                addMessage("robot", { text: "请先选择一个文件" });
+                return;
+            }
         }
 
         //当聊天轮数小于5 才请求后端
@@ -139,14 +164,12 @@ const search = async (question: string) => {
         if (store.state.chatCount < 5) {
             response = await Axios.post(api, data);
         }
-        const results: Array<notice> | string = response.data.results;
-        //当聊天轮数小于3 才保存历史
-        if (store.state.chatCount < 3) {
-            store.state.history = {
-                context: results,
-            };
-        }
 
+        const results: Array<notice> | string = response.data.results;
+        //当聊天轮数小于2 才保存历史
+        if (store.state.chatCount < 2) {
+            store.state.history = { context: results };
+        }
         store.state.hasHistory = true;
 
         return processResult(results);
@@ -156,36 +179,15 @@ const search = async (question: string) => {
     }
 };
 
-const selectedFile = (question: string): record => {
-    const item_number = Number(question);
-    store.state.history.context = store.state.history.context[item_number - 1];
-    let data: record = {
-        question: "selected",
+const executeHistoryHandler = async (question: string): Promise<record> => {
+    let data: record;
+
+    data = {
+        question: question,
         state: 1,
         history: store.state.history.context,
         count: store.state.chatCount,
     };
-    return data;
-};
-
-const executeHistoryHandler = async (question: string): Promise<record> => {
-    let data: record;
-    if (store.state.chatCount === 2) {
-        data = selectedFile(question);
-    } else {
-        data = {
-            question: question,
-            state: 1,
-            history: store.state.history.context[0],
-            count: store.state.chatCount,
-        };
-
-        if (store.state.chatCount === 7) {
-            if (question === "YES") {
-                addMessage("robot", { text: "再见！！！" });
-            }
-        }
-    }
 
     return data;
 };
@@ -193,13 +195,15 @@ const executeHistoryHandler = async (question: string): Promise<record> => {
 const processResult = (results: searchResult): searchResult | undefined => {
     if (Array.isArray(results)) {
         let result: Array<notice> = [];
+
         results.forEach((item) => {
             result.push({
-                id: item.id,
+                id: item.mysql_id,
                 name: item.name,
                 url: item.url,
             });
         });
+
         return result;
     }
     if (!stringIsEmpty(results)) {
@@ -209,12 +213,11 @@ const processResult = (results: searchResult): searchResult | undefined => {
 
 const confirmPreview = (): void => {
     let data = {
-        text: store.state.history.context[0].name,
-        meta: "/word/" + store.state.history.context[0].mysql_id,
-        url: store.state.history.context[0].url,
+        text: store.state.history.context.name,
+        meta: "/word/" + store.state.history.context.mysql_id,
+        url: store.state.history.context.url,
     };
     addMessage("robot", data);
-    // messageList.push(addMessage("robot", { text: "您对此次服务满意吗" }));
     store.state.displayPreview = true;
 };
 
@@ -237,32 +240,25 @@ const receivedText = async (message: any) => {
 
         if (isString(result)) {
             addMessage("robot", { text: result });
-
             if (store.state.chatCount === 4) {
                 addMessage("robot", { text: "请为我们评分 谢谢!", rate: true });
             }
-            return;
         }
 
         if (typeof result == "object") {
             if (store.state.chatCount === 1) {
                 addMessage("robot", { text: "已经为您找到如下文件,请问您对哪个文件感兴趣?" });
             }
-            if (store.state.chatCount === 2) {
-                //TODO 缺少文件相关信息的查询展示
 
-                addMessage("robot", { text: "已经为您找到下面这篇文件的相关信息，您可以关于这篇文件对我进行提问" });
+            for (let i = 0; i < result.length; i++) {
+                let data = {
+                    text: result[i].name,
+                    meta: "/word/" + result[i].id,
+                    url: result[i].url,
+                    id: result[i].id,
+                };
 
-                addMessage("robot", { text: "请问您需要预览或者下载这个文件嘛?", preview: true });
-            } else {
-                for (let i = 0; i < result.length; i++) {
-                    let data = {
-                        text: result[i].name,
-                        meta: "/word/" + result[i].id,
-                        url: result[i].url,
-                    };
-                    addMessage("robot", data);
-                }
+                addMessage("robot", data);
             }
         }
     } catch (error) {
@@ -299,8 +295,6 @@ const closeChat = (): void => {
     store.state.displayPreview = false;
     isChatOpen.value = false;
     messageList.splice(0, messageList.length);
-    // messageList.push(addMessage("robot", { text: "欢迎来到NFQA!" }));
-    // messageList.push(addMessage("robot", { text: "你可以向我一些问题。" }));
 };
 
 const handleScrollToTop = () => {
@@ -330,9 +324,17 @@ div {
     /* font-family: STHeiti Light, Helvetica, Arial, sans-serif; */
     font-weight: 500;
 }
+span {
+    color: #000;
+}
+.el-radio {
+    font-weight: 500;
+    color: #000;
+}
 .el-link {
     margin-right: 45px;
     font-size: 80%;
+    font-weight: 500;
 }
 
 .router-link-active {

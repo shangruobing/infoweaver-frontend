@@ -14,6 +14,7 @@ export declare interface notice {
     id?: string;
     name?: string;
     url?: string;
+    mysql_id?: string;
 }
 export interface record {
     question: string;

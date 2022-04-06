@@ -27,6 +27,7 @@
         <template v-slot:text-message-body="{ message }">
             <div align="left" v-if="message.data.meta">
                 <div>{{ message.data.text }}</div>
+                <el-link type="info" @click="myLink(message.data)">info</el-link>
 
                 <el-link v-if="store.state.displayPreview">
                     <router-link target="_blank" :to="message.data.meta">
@@ -47,7 +48,6 @@
 
             <div align="left" v-else>
                 {{ message.data.text }}
-
                 <div v-if="message.data.preview">
                     <el-radio-group v-model="isNeedPreview" @change="myRadioCallBack">
                         <el-radio :label="true" size="small" :disabled="isDisableRadio">是</el-radio>
@@ -82,18 +82,25 @@ import { stringIsEmpty, isString } from "../utils/type-utils";
 import { colors, participants, titleImageUrl } from "../utils/robot-information";
 
 const store = useStore();
-const isNeedPreview = ref(false);
+const isNeedPreview = ref<boolean>();
 const isDisableRadio = ref(false);
 const isDisableRate = ref(false);
+
+const myLink = (message: any) => {
+    // console.log("点击了连接");
+    console.log(message);
+    // sele
+};
 
 const myRadioCallBack = () => {
     isDisableRadio.value = true;
     if (isNeedPreview.value) {
-        messageList.push(addMessage("robot", { text: "给你看!" }));
+        confirmPreview();
     } else {
-        messageList.push(addMessage("robot", { text: "不给你看!" }));
+        addMessage("robot", { text: "不给你看!" });
     }
 };
+
 const rate = ref(null);
 
 const thanks = () => {
@@ -101,26 +108,23 @@ const thanks = () => {
     ElNotification({
         title: "谢谢评分😜",
         message: h("i", { style: "color: teal" }, "我们会继续努力的！"),
-        position: "top-right",
+        position: "bottom-right",
     });
+    addMessage("robot", { text: "再见！！！" });
 };
 
-const addMessage = (author: string, data: object, type: string = "text"): message => {
-    return { type: type, author: author, data: data };
+const addMessage = (author: string, data: object, type: string = "text"): void => {
+    const message = { type: type, author: author, data: data };
+    messageList.push(message);
 };
 
-let messageList: Array<message> = reactive([
-    addMessage("robot", { text: "欢迎来到NFQA!" }),
-    addMessage("robot", { text: "你可以向我一些问题。" }),
-    addMessage("robot", { text: "请问您要预览文件吗？", preview: true }),
-    addMessage("robot", { text: "请为我们评分 谢谢!", rate: true }),
-]);
+const messageList: Array<message> = reactive([]);
 
-let newMessagesCount = ref(0);
-let isChatOpen = ref(false);
-let showTypingIndicator = ref("");
-let alwaysScrollToBottom = ref(false);
-let messageStyling = ref(true);
+const newMessagesCount = ref(0);
+const isChatOpen = ref(false);
+const showTypingIndicator = ref("");
+const alwaysScrollToBottom = ref(true);
+const messageStyling = ref(true);
 
 const search = async (question: string) => {
     const instance = getCurrentInstance();
@@ -132,7 +136,7 @@ const search = async (question: string) => {
         let data: record = { question: question, state: 0, history: { context: [] }, count: 0 };
 
         if (store.state.hasHistory) {
-            data = executeHistoryHandler(question);
+            data = await executeHistoryHandler(question);
         }
 
         //当聊天轮数小于5 才请求后端
@@ -140,12 +144,11 @@ const search = async (question: string) => {
         if (store.state.chatCount < 5) {
             response = await Axios.post(api, data);
         }
+
         const results: Array<notice> | string = response.data.results;
         //当聊天轮数小于3 才保存历史
         if (store.state.chatCount < 3) {
-            store.state.history = {
-                context: results,
-            };
+            store.state.history = { context: results };
         }
         store.state.hasHistory = true;
 
@@ -157,18 +160,32 @@ const search = async (question: string) => {
 };
 
 const selectedFile = (question: string): record => {
-    const item_number = Number(question);
-    store.state.history.context = store.state.history.context[item_number - 1];
+    // console.log("输入的", question);
+    // console.log("local", store.state.history.context);
+    const array = store.state.history.context;
+    let xx = "";
+    array.forEach((i: { mysql_id: string; }) => {
+        console.log(i);
+        if (i.mysql_id === question) {
+            store.state.history.context=i
+            // xx = i;
+        }
+    });
+    console.log("点击的是", xx);
+
+    // const item_number = Number(question);
+    // store.state.history.context = store.state.history.context[item_number - 1];
     let data: record = {
         question: "selected",
         state: 1,
         history: store.state.history.context,
         count: store.state.chatCount,
     };
+    
     return data;
 };
 
-const executeHistoryHandler = (question: string): record => {
+const executeHistoryHandler = async (question: string): Promise<record> => {
     let data: record;
     if (store.state.chatCount === 2) {
         data = selectedFile(question);
@@ -179,22 +196,6 @@ const executeHistoryHandler = (question: string): record => {
             history: store.state.history.context[0],
             count: store.state.chatCount,
         };
-
-        if (store.state.chatCount === 5) {
-            if (question === "YES") {
-                confirmPreview();
-            }
-        }
-        if (store.state.chatCount === 6) {
-            if (question === "YES") {
-                messageList.push(addMessage("robot", { text: "谢谢，是否退出！" }));
-            }
-        }
-        if (store.state.chatCount === 7) {
-            if (question === "YES") {
-                messageList.push(addMessage("robot", { text: "再见！！！" }));
-            }
-        }
     }
 
     return data;
@@ -223,8 +224,7 @@ const confirmPreview = (): void => {
         meta: "/word/" + store.state.history.context[0].mysql_id,
         url: store.state.history.context[0].url,
     };
-    messageList.push(addMessage("robot", data));
-    messageList.push(addMessage("robot", { text: "您对此次服务满意吗" }));
+    addMessage("robot", data);
     store.state.displayPreview = true;
 };
 
@@ -246,59 +246,58 @@ const receivedText = async (message: any) => {
         const result: notice[] | string | any = await search(message.data.text);
 
         if (isString(result)) {
-            messageList.push(addMessage("robot", { text: result }));
+            addMessage("robot", { text: result });
 
             if (store.state.chatCount === 4) {
-                messageList.push(addMessage("robot", { text: "请问您需要预览或者下载这个文件嘛?" }));
-                store.state.displayPreview = true;
+                addMessage("robot", { text: "请为我们评分 谢谢!", rate: true });
             }
-            return;
         }
 
         if (typeof result == "object") {
             if (store.state.chatCount === 1) {
-                messageList.push(
-                    addMessage("robot", {
-                        text: "已经为您找到如下文件,请问您对哪个文件感兴趣?输入123指定",
-                    })
-                );
+                addMessage("robot", { text: "已经为您找到如下文件,请问您对哪个文件感兴趣?" });
             }
             if (store.state.chatCount === 2) {
                 //TODO 缺少文件相关信息的查询展示
-                messageList.push(
-                    addMessage("robot", {
-                        text: "已经为您找到下面这篇文件的相关信息，您可以关于这篇文件对我进行提问",
-                    })
-                );
-            }
-            for (let i = 0; i < result.length; i++) {
-                let data = {
-                    text: result[i].name,
-                    meta: "/word/" + result[i].id,
-                    url: result[i].url,
-                };
-                messageList.push(addMessage("robot", data));
+                addMessage("robot", { text: "已经为您找到下面这篇文件的相关信息，您可以关于这篇文件对我进行提问" });
+
+                addMessage("robot", { text: "请问您需要预览或者下载这个文件嘛?", preview: true });
+            } else {
+                for (let i = 0; i < result.length; i++) {
+                    let data = {
+                        text: result[i].name,
+                        meta: "/word/" + result[i].id,
+                        url: result[i].url,
+                    };
+                    addMessage("robot", data);
+                }
             }
         }
     } catch (error) {
         console.log(error);
-        messageList.push(addMessage("robot", { text: "对不起，这个问题我不知道" }));
+        addMessage("robot", { text: "对不起，这个问题我不知道" });
     }
 };
 
 const receivedEmoji = (message: any): void => {
-    messageList.push(addMessage("robot", { emoji: message.data.emoji }, "emoji"));
+    addMessage("robot", { emoji: message.data.emoji }, "emoji");
 };
 
 const receivedFile = (message: any): void => {
     console.log(message);
-    messageList.push(addMessage("robot", { text: "暂不支持上传文件功能哦" }));
+    addMessage("robot", { text: "暂不支持上传文件功能哦" });
 };
 
 const openChat = (): void => {
     // called when the user clicks on the fab button to open the chat
     isChatOpen.value = true;
     newMessagesCount.value = 0;
+    store.state.hasHistory = false;
+    store.state.history = { context: [] };
+    store.state.chatCount = 0;
+    store.state.displayPreview = false;
+    addMessage("robot", { text: "欢迎来到NFQA!" });
+    addMessage("robot", { text: "你可以向我一些问题。" });
 };
 
 const closeChat = (): void => {
@@ -308,8 +307,8 @@ const closeChat = (): void => {
     store.state.displayPreview = false;
     isChatOpen.value = false;
     messageList.splice(0, messageList.length);
-    messageList.push(addMessage("robot", { text: "欢迎来到NFQA!" }));
-    messageList.push(addMessage("robot", { text: "你可以向我一些问题。" }));
+    // messageList.push(addMessage("robot", { text: "欢迎来到NFQA!" }));
+    // messageList.push(addMessage("robot", { text: "你可以向我一些问题。" }));
 };
 
 const handleScrollToTop = () => {
@@ -324,7 +323,7 @@ const handleOnType = () => {
 const sendMessage = (text: string) => {
     if (text.length > 0) {
         newMessagesCount.value = isChatOpen.value ? newMessagesCount.value : newMessagesCount.value + 1;
-        onMessageWasSent(addMessage("support", { text: text }));
+        addMessage("support", { text: text });
     }
 };
 
@@ -339,9 +338,17 @@ div {
     /* font-family: STHeiti Light, Helvetica, Arial, sans-serif; */
     font-weight: 500;
 }
+span {
+    color: #000;
+}
+.el-radio {
+    font-weight: 500;
+    color: #000;
+}
 .el-link {
     margin-right: 45px;
     font-size: 80%;
+    font-weight: 500;
 }
 
 .router-link-active {

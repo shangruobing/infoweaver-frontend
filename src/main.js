@@ -1,18 +1,19 @@
 import { createApp } from "vue";
-import ElementPlus from "element-plus";
-import "element-plus/dist/index.css";
-import App from "./App.vue";
 import Axios from "axios";
-import Router from "./router/index.js";
-import store from './store/index.js'
-import zhCn from "element-plus/es/locale/lang/zh-cn";
-import Chat from "vue3-beautiful-chat";
+import App from "./App.vue";
 import "default-passive-events";
+import "element-plus/dist/index.css";
+import ElementPlus from "element-plus";
+import Chat from "vue3-beautiful-chat";
+import zhCn from "element-plus/es/locale/lang/zh-cn";
+
+import store from "./store/index.js";
+import Router from "./router/index.js";
 
 const app = createApp(App);
 
 app.use(ElementPlus, { locale: zhCn });
-app.use(store)
+app.use(store);
 app.use(Router);
 app.use(Chat);
 app.mount("#app");
