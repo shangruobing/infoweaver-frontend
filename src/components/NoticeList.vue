@@ -81,11 +81,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted, getCurrentInstance } from "vue";
-import { Search } from "@element-plus/icons-vue";
-import { Download, View as iconview } from "@element-plus/icons-vue";
-import getHttp from "../utils/django-http";
 import Axios from "axios";
+import { ref, reactive, onMounted, getCurrentInstance } from "vue";
+import { Search, Download, View as iconview } from "@element-plus/icons-vue";
+import getHttp from "../utils/django-http";
 
 const loading = ref(false);
 const filename = ref("");
@@ -114,15 +113,8 @@ const search = async () => {
         if (filename.value.length !== 0) {
             name = filename.value;
         }
-        const api =
-            http +
-            "word/" +
-            "?name=" +
-            name +
-            "&start_date=" +
-            start_date +
-            "&end_date=" +
-            end_date;
+        const api = http + "word/" + "?name=" + name + "&start_date=" + start_date + "&end_date=" + end_date;
+
         const response = await Axios.get(api);
         loading.value = false;
         results.value = response.data["results"];

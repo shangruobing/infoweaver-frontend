@@ -1,53 +1,52 @@
 <template>
     <el-container>
-        <el-header>
-            <h3>Notice File Question & Answer</h3>
-        </el-header>
+        <el-aside width="200px">
+            <img src="../assets/图标.svg" width="75" height="75" />
+
+            <el-menu default-active="2" active-text-color="#ffd04b" background-color=" #40485B" text-color="#fff">
+                <el-sub-menu index="1">
+                    <template #title>
+                        <el-icon>
+                            <icon-menu />
+                        </el-icon>
+                        <span>通知管理</span>
+                    </template>
+                    <el-menu-item index="1-1" @click="Show('noticeList')">查看文件</el-menu-item>
+                    <el-menu-item index="1-2" @click="Show('neo4j')">文件查询</el-menu-item>
+                    <el-menu-item index="1-3" @click="Show('myChart')">用户数据</el-menu-item>
+                </el-sub-menu>
+
+                <el-sub-menu index="2">
+                    <template #title>
+                        <el-icon>
+                            <document />
+                        </el-icon>
+                        <span>文件管理</span>
+                    </template>
+                    <el-menu-item index="2-1" @click="Show('FileList')">文件预览</el-menu-item>
+                    <el-menu-item index="2-2" @click="Show('upload')">文件上传</el-menu-item>
+                    <el-menu-item index="2-3">文件迁移</el-menu-item>
+                </el-sub-menu>
+
+                <el-sub-menu index="3">
+                    <template #title>
+                        <el-icon>
+                            <setting></setting>
+                        </el-icon>
+                        <span>系统设置</span>
+                    </template>
+                    <el-menu-item index="3-1" @click="Show('SystemInfo')">运行状况</el-menu-item>
+                    <el-menu-item index="3-2">数据库监控</el-menu-item>
+                    <el-menu-item index="3-3" @click="Show('MyRobot')">问答机器人</el-menu-item>
+                    <el-menu-item index="3-4">系统参数</el-menu-item>
+                </el-sub-menu>
+            </el-menu>
+        </el-aside>
+
         <el-container>
-            <el-aside width="200px">
-                <el-menu default-active="2" :unique-opened="true">
-                    <el-sub-menu index="1">
-                        <template #title>
-                            <el-icon>
-                                <icon-menu />
-                            </el-icon>
-                            <span>文件管理</span>
-                        </template>
-                        <el-menu-item index="1-1" @click="Show('noticeList')"
-                            >查看文件</el-menu-item
-                        >
-                        <el-menu-item index="1-2" @click="Show('neo4j')">文件查询</el-menu-item>
-                        <el-menu-item index="1-3">TODO1</el-menu-item>
-                        <el-menu-item index="1-4">TODO2</el-menu-item>
-                    </el-sub-menu>
-
-                    <el-sub-menu index="2">
-                        <template #title>
-                            <el-icon>
-                                <location />
-                            </el-icon>
-                            <span>XX管理</span>
-                        </template>
-                        <el-menu-item index="2-1">TODO1</el-menu-item>
-                        <el-menu-item index="2-2">TODO2</el-menu-item>
-                        <el-menu-item index="2-3">TODO3</el-menu-item>
-                        <el-menu-item index="2-4">TODO4</el-menu-item>
-                    </el-sub-menu>
-
-                    <el-sub-menu index="3">
-                        <template #title>
-                            <el-icon>
-                                <setting></setting>
-                            </el-icon>
-                            <span>XX功能</span>
-                        </template>
-                        <el-menu-item index="3-1">TODO1</el-menu-item>
-                        <el-menu-item index="3-2">TODO2</el-menu-item>
-                        <el-menu-item index="3-3">TODO3</el-menu-item>
-                        <el-menu-item index="3-4">TODO4</el-menu-item>
-                    </el-sub-menu>
-                </el-menu>
-            </el-aside>
+            <el-header>
+                <h2>InfoWeaver Intelligent Question Answering System</h2>
+            </el-header>
 
             <el-container>
                 <el-main>
@@ -63,23 +62,30 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { Location, Message, Menu, Setting } from "@element-plus/icons";
+import { Message, Menu, Setting, Document } from "@element-plus/icons";
 import { ElEmpty } from "element-plus";
 import NoticeList from "./NoticeList.vue";
 import Neo4j from "./Neo4j.vue";
-import MyRobt from "./ChatRobot.vue";
-
+import MyRobot from "./ChatRobot.vue";
+import myChart from "./Statistics.vue";
+import FileList from "./FileList.vue";
+import upload from "./UploadFileForm.vue";
+import SystemInfo from "./SystemInfo.vue";
 export default defineComponent({
     name: "Content",
     components: {
         Message,
-        Location,
         Setting,
         "icon-menu": Menu,
         noticeList: NoticeList,
         neo4j: Neo4j,
         empty: ElEmpty,
-        MyRobt,
+        MyRobot,
+        myChart,
+        FileList,
+        upload,
+        SystemInfo,
+        Document,
     },
     setup() {
         let showComponent = ref("empty");
@@ -95,14 +101,27 @@ export default defineComponent({
 <style scoped>
 .el-header,
 .el-footer {
-    background-color: #409eff;
-    color: var(--el-text-color-primary);
-    /* line-height: 60px; */
+    background-color: #40485b;
 }
-h3 {
+
+h2 {
     color: white;
+    font-family: "Consolas";
+}
+.el-avatar {
+    background-color: #999;
 }
 .el-aside {
     color: var(--el-text-color-primary);
+    height: 100%;
+    background-color: #40485b;
+}
+
+html,
+body,
+.el-container {
+    padding: 0px !important;
+    margin: 0px !important;
+    height: 99vh;
 }
 </style>

@@ -23,10 +23,8 @@ export const colors = {
     },
 };
 
-// const imageUrl = "https://s2.loli.net/2022/04/05/kzlOhqcEpBmf7Qi.png";
-const imageUrl = "https://s2.loli.net/2022/04/06/OubpSy7859EzAm3.png";
-//圆环 "https://s2.loli.net/2022/04/05/r5PQqsmZyhvE7Xk.png";
-//头像 "https://portrait.gitee.com/uploads/avatars/user/3474/10422230_shangruobing_1644648546.png!avatar60",
+const imageUrl = "src/assets/robot.svg";
+// const imageUrl = "src/assets/test2.svg";
 
 export const participants = [
     {
@@ -36,6 +34,7 @@ export const participants = [
     },
 ];
 
-export const titleImageUrl = "https://s2.loli.net/2022/04/05/twBVPMoiYxsFK27.png";
+// export const titleImageUrl = "src/assets/织信.png";
+export const titleImageUrl = ""
 
 export default {};

@@ -1,6 +1,7 @@
 {
   "name": "nfqa",
   "version": "1.0.0",
+  "main": "main.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -11,8 +12,10 @@
     "@element-plus/icons-vue": "^0.2.7",
     "axios": "^0.25.0",
     "default-passive-events": "^2.0.0",
+    "echarts": "^5.3.2",
     "element-plus": "^2.0.1",
     "jszip": "^3.7.1",
+    "sass": "^1.50.0",
     "vue": "^3.2.25",
     "vue-router": "^4.0.12",
     "vue3-beautiful-chat": "^3.2.0",

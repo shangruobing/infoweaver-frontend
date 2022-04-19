@@ -41,6 +41,16 @@ const routes = [
         name: "upload",
         component: () => import("../components/UploadFileForm.vue"),
     },
+    {
+        path: "/echarts",
+        name: "echarts",
+        component: () => import("../components/Statistics.vue"),
+    },
+    {
+        path: "/fileList",
+        name: "fileList",
+        component: () => import("../components/FileList.vue"),
+    },
 ];
 const index = createRouter({
     history: createWebHistory(),

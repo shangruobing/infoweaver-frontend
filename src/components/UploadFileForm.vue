@@ -1,5 +1,5 @@
 <template>
-    <el-form :model="form" label-width="120px">
+    <el-form :model="form" >
         <el-form-item label="通知名称">
             <el-col :span="10">
                 <el-input v-model="form.name" />

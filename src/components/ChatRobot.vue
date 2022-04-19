@@ -22,7 +22,7 @@
         :messageStyling="messageStyling"
         @onType="handleOnType"
         @edit="editMessage"
-        title="NFQA问答机器人"
+        title="InfoWeaver智能问答机器人"
     >
         <template v-slot:text-message-body="{ message }">
             <div align="left" v-if="message.data.meta">
@@ -111,8 +111,6 @@ const myRadioCallBack = () => {
     isDisableRadio.value = true;
     if (isNeedPreview.value) {
         confirmPreview();
-    } else {
-        addMessage("robot", { text: "不给你看!" });
     }
 };
 
@@ -165,6 +163,8 @@ const search = async (question: string) => {
             response = await Axios.post(api, data);
         }
 
+        console.log("response", response);
+
         const results: Array<notice> | string = response.data.results;
         //当聊天轮数小于2 才保存历史
         if (store.state.chatCount < 2) {
@@ -193,9 +193,14 @@ const executeHistoryHandler = async (question: string): Promise<record> => {
 };
 
 const processResult = (results: searchResult): searchResult | undefined => {
+    if (results.length <= 0) {
+        throw new Error("results is null!");
+    }
     if (Array.isArray(results)) {
         let result: Array<notice> = [];
-
+        if (results.length <= 0) {
+            throw new Error("Array is null!");
+        }
         results.forEach((item) => {
             result.push({
                 id: item.mysql_id,
@@ -239,6 +244,11 @@ const receivedText = async (message: any) => {
         const result: notice[] | string | any = await search(message.data.text);
 
         if (isString(result)) {
+            if (stringIsEmpty(result)) {
+                throw new Error("result is null!");
+            }
+            console.log("string");
+
             addMessage("robot", { text: result });
             if (store.state.chatCount === 4) {
                 addMessage("robot", { text: "请为我们评分 谢谢!", rate: true });
@@ -246,13 +256,17 @@ const receivedText = async (message: any) => {
         }
 
         if (typeof result == "object") {
+            console.log("object");
+            if (result.length <= 0) {
+                throw new Error("result is null!");
+            }
             if (store.state.chatCount === 1) {
                 addMessage("robot", { text: "已经为您找到如下文件,请问您对哪个文件感兴趣?" });
             }
 
             for (let i = 0; i < result.length; i++) {
                 let data = {
-                    text: result[i].name,
+                    text: result[i].name.split(".")[0],
                     meta: "/word/" + result[i].id,
                     url: result[i].url,
                     id: result[i].id,
@@ -268,7 +282,8 @@ const receivedText = async (message: any) => {
 };
 
 const receivedEmoji = (message: any): void => {
-    addMessage("robot", { emoji: message.data.emoji }, "emoji");
+    setTimeout(() => addMessage("robot", { emoji: message.data.emoji }, "emoji"), 1000);
+    // addMessage("robot", { emoji: message.data.emoji }, "emoji");
 };
 
 const receivedFile = (message: any): void => {
@@ -284,7 +299,7 @@ const openChat = (): void => {
     store.state.history = { context: [] };
     store.state.chatCount = 0;
     store.state.displayPreview = false;
-    addMessage("robot", { text: "欢迎来到NFQA!" });
+    addMessage("robot", { text: "欢迎来到InfoWeaver!" });
     addMessage("robot", { text: "你可以向我一些问题。" });
 };
 
@@ -351,5 +366,27 @@ a {
 }
 .el-link .el-icon--right.el-icon {
     vertical-align: text-bottom;
+}
+
+:deep(.sc-header--title) {
+    font-family: "Consolas";
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+:deep(.sc-message--content) {
+    animation-name: fadeIn;
+    animation-duration: 0.6s;
+    animation-iteration-count: 1;
+    animation-delay: 0s;
 }
 </style>

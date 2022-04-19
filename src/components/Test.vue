@@ -22,28 +22,33 @@
         :messageStyling="messageStyling"
         @onType="handleOnType"
         @edit="editMessage"
-        title="NFQA问答机器人"
+        title="织信问答机器人"
     >
         <template v-slot:text-message-body="{ message }">
             <div align="left" v-if="message.data.meta">
                 <div>{{ message.data.text }}</div>
-                <el-link type="info" @click="myLink(message.data)">info</el-link>
 
-                <el-link v-if="store.state.displayPreview">
-                    <router-link target="_blank" :to="message.data.meta">
-                        <span>预览</span>
-                    </router-link>
-                    <el-icon class="el-icon--right">
-                        <iconview />
-                    </el-icon>
-                </el-link>
+                <el-link v-if="!store.state.isSelectedFile" type="info" @click="selectFile(message.data)"
+                    >点击查看更多详情</el-link
+                >
 
-                <el-link :href="message.data.url" v-if="store.state.displayPreview">
-                    <span>下载</span>
-                    <el-icon class="el-icon--right">
-                        <download />
-                    </el-icon>
-                </el-link>
+                <div v-if="store.state.displayPreview && !message.data.id">
+                    <el-link>
+                        <router-link target="_blank" :to="message.data.meta">
+                            <span>预览</span>
+                        </router-link>
+                        <el-icon class="el-icon--right">
+                            <iconview />
+                        </el-icon>
+                    </el-link>
+
+                    <el-link :href="message.data.url">
+                        <span>下载</span>
+                        <el-icon class="el-icon--right">
+                            <download />
+                        </el-icon>
+                    </el-link>
+                </div>
             </div>
 
             <div align="left" v-else>
@@ -86,18 +91,26 @@ const isNeedPreview = ref<boolean>();
 const isDisableRadio = ref(false);
 const isDisableRate = ref(false);
 
-const myLink = (message: any) => {
-    // console.log("点击了连接");
-    console.log(message);
-    // sele
+const selectFile = (message: any) => {
+    store.state.isSelectedFile = true;
+    const id = message.id;
+
+    const array = store.state.history.context;
+    array.forEach((i: { mysql_id: string }) => {
+        if (i.mysql_id === id) {
+            store.state.history.context = i;
+        }
+    });
+    store.state.isSelectedFile = true;
+    store.state.chatCount += 1;
+    addMessage("robot", { text: "已经为您找到下面这篇文件的相关信息，您可以关于这篇文件对我进行提问" });
+    addMessage("robot", { text: "请问您需要预览或者下载这个文件嘛?", preview: true });
 };
 
 const myRadioCallBack = () => {
     isDisableRadio.value = true;
     if (isNeedPreview.value) {
         confirmPreview();
-    } else {
-        addMessage("robot", { text: "不给你看!" });
     }
 };
 
@@ -136,7 +149,12 @@ const search = async (question: string) => {
         let data: record = { question: question, state: 0, history: { context: [] }, count: 0 };
 
         if (store.state.hasHistory) {
-            data = await executeHistoryHandler(question);
+            if (store.state.isSelectedFile) {
+                data = await executeHistoryHandler(question);
+            } else {
+                addMessage("robot", { text: "请先选择一个文件" });
+                return;
+            }
         }
 
         //当聊天轮数小于5 才请求后端
@@ -145,9 +163,11 @@ const search = async (question: string) => {
             response = await Axios.post(api, data);
         }
 
+        console.log("response", response);
+
         const results: Array<notice> | string = response.data.results;
-        //当聊天轮数小于3 才保存历史
-        if (store.state.chatCount < 3) {
+        //当聊天轮数小于2 才保存历史
+        if (store.state.chatCount < 2) {
             store.state.history = { context: results };
         }
         store.state.hasHistory = true;
@@ -159,58 +179,36 @@ const search = async (question: string) => {
     }
 };
 
-const selectedFile = (question: string): record => {
-    // console.log("输入的", question);
-    // console.log("local", store.state.history.context);
-    const array = store.state.history.context;
-    let xx = "";
-    array.forEach((i: { mysql_id: string; }) => {
-        console.log(i);
-        if (i.mysql_id === question) {
-            store.state.history.context=i
-            // xx = i;
-        }
-    });
-    console.log("点击的是", xx);
+const executeHistoryHandler = async (question: string): Promise<record> => {
+    let data: record;
 
-    // const item_number = Number(question);
-    // store.state.history.context = store.state.history.context[item_number - 1];
-    let data: record = {
-        question: "selected",
+    data = {
+        question: question,
         state: 1,
         history: store.state.history.context,
         count: store.state.chatCount,
     };
-    
-    return data;
-};
-
-const executeHistoryHandler = async (question: string): Promise<record> => {
-    let data: record;
-    if (store.state.chatCount === 2) {
-        data = selectedFile(question);
-    } else {
-        data = {
-            question: question,
-            state: 1,
-            history: store.state.history.context[0],
-            count: store.state.chatCount,
-        };
-    }
 
     return data;
 };
 
 const processResult = (results: searchResult): searchResult | undefined => {
+    if (results.length <= 0) {
+        throw new Error("results is null!");
+    }
     if (Array.isArray(results)) {
         let result: Array<notice> = [];
+        if (results.length <= 0) {
+            throw new Error("Array is null!");
+        }
         results.forEach((item) => {
             result.push({
-                id: item.id,
+                id: item.mysql_id,
                 name: item.name,
                 url: item.url,
             });
         });
+
         return result;
     }
     if (!stringIsEmpty(results)) {
@@ -220,9 +218,9 @@ const processResult = (results: searchResult): searchResult | undefined => {
 
 const confirmPreview = (): void => {
     let data = {
-        text: store.state.history.context[0].name,
-        meta: "/word/" + store.state.history.context[0].mysql_id,
-        url: store.state.history.context[0].url,
+        text: store.state.history.context.name,
+        meta: "/word/" + store.state.history.context.mysql_id,
+        url: store.state.history.context.url,
     };
     addMessage("robot", data);
     store.state.displayPreview = true;
@@ -246,31 +244,35 @@ const receivedText = async (message: any) => {
         const result: notice[] | string | any = await search(message.data.text);
 
         if (isString(result)) {
-            addMessage("robot", { text: result });
+            if (stringIsEmpty(result)) {
+                throw new Error("result is null!");
+            }
+            console.log("string");
 
+            addMessage("robot", { text: result });
             if (store.state.chatCount === 4) {
                 addMessage("robot", { text: "请为我们评分 谢谢!", rate: true });
             }
         }
 
         if (typeof result == "object") {
+            console.log("object");
+            if (result.length <= 0) {
+                throw new Error("result is null!");
+            }
             if (store.state.chatCount === 1) {
                 addMessage("robot", { text: "已经为您找到如下文件,请问您对哪个文件感兴趣?" });
             }
-            if (store.state.chatCount === 2) {
-                //TODO 缺少文件相关信息的查询展示
-                addMessage("robot", { text: "已经为您找到下面这篇文件的相关信息，您可以关于这篇文件对我进行提问" });
 
-                addMessage("robot", { text: "请问您需要预览或者下载这个文件嘛?", preview: true });
-            } else {
-                for (let i = 0; i < result.length; i++) {
-                    let data = {
-                        text: result[i].name,
-                        meta: "/word/" + result[i].id,
-                        url: result[i].url,
-                    };
-                    addMessage("robot", data);
-                }
+            for (let i = 0; i < result.length; i++) {
+                let data = {
+                    text: result[i].name.split(".")[0],
+                    meta: "/word/" + result[i].id,
+                    url: result[i].url,
+                    id: result[i].id,
+                };
+
+                addMessage("robot", data);
             }
         }
     } catch (error) {
@@ -296,8 +298,17 @@ const openChat = (): void => {
     store.state.history = { context: [] };
     store.state.chatCount = 0;
     store.state.displayPreview = false;
-    addMessage("robot", { text: "欢迎来到NFQA!" });
+    addMessage("robot", { text: "欢迎来到织信问答系统!" });
     addMessage("robot", { text: "你可以向我一些问题。" });
+    addMessage("me", { text: "今年考研的时间是什么时候" });
+    addMessage("robot", { text: "2022年硕士研究生招生考试初试将在12月25日-12月26日举行。" });
+    addMessage("me", { text: "我们学校2022年报名人数大概有多少" });
+    addMessage("robot", { text: "考研报名人数约1.4万人" });
+    addMessage("me", { text: "我们学校2022年招生人数是多少" });
+    addMessage("robot", { text: "暂时还未公布哦" });
+    addMessage("robot", { text: "您还有其他疑问吗?" });
+    addMessage("me", { text: "没有了" });
+    addMessage("robot", { text: "请为我们评分 谢谢!", rate: true });
 };
 
 const closeChat = (): void => {
@@ -307,8 +318,6 @@ const closeChat = (): void => {
     store.state.displayPreview = false;
     isChatOpen.value = false;
     messageList.splice(0, messageList.length);
-    // messageList.push(addMessage("robot", { text: "欢迎来到NFQA!" }));
-    // messageList.push(addMessage("robot", { text: "你可以向我一些问题。" }));
 };
 
 const handleScrollToTop = () => {
@@ -334,8 +343,6 @@ const editMessage = (message: message) => {
 
 <style scoped>
 div {
-    /* font-family: Microsoft YaHei, Helvetica, Arial, sans-serif; */
-    /* font-family: STHeiti Light, Helvetica, Arial, sans-serif; */
     font-weight: 500;
 }
 span {
@@ -365,5 +372,24 @@ a {
 }
 .el-link .el-icon--right.el-icon {
     vertical-align: text-bottom;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+:deep(.sc-message--content) {
+    animation-name: fadeIn;
+    animation-duration: 0.6s;
+    animation-iteration-count: 1;
+    animation-delay: 0s;
 }
 </style>
