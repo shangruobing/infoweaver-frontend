@@ -52,38 +52,43 @@ const routes = [
         component: () => import("../components/Content.vue"),
         children: [
             {
+                path: "",
+                // name: "home",
+                component: () => import("../components/Home.vue"),
+            },
+            {
                 path: "notice",
-                name: "notice",
+                // name: "notice",
                 component: () => import("../components/NoticeList.vue"),
             },
             {
                 path: "neo4j",
-                name: "neo4j",
+                // name: "neo4j",
                 component: () => import("../components/Neo4j.vue"),
             },
             {
                 path: "echarts",
-                name: "echarts",
+                // name: "echarts",
                 component: () => import("../components/Statistics.vue"),
             },
             {
                 path: "fileList",
-                name: "fileList",
+                // name: "fileList",
                 component: () => import("../components/FileList.vue"),
             },
             {
                 path: "upload",
-                name: "upload",
+                // name: "upload",
                 component: () => import("../components/UploadFileForm.vue"),
             },
             {
                 path: "systemInfo",
-                name: "systeminfo",
+                // name: "systeminfo",
                 component: () => import("../components/SystemInfo.vue"),
             },
             {
                 path: "chatRobot",
-                name: "chatRobot",
+                // name: "chatRobot",
                 component: () => import("../components/ChatRobot.vue"),
             },
         ],

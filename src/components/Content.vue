@@ -9,40 +9,39 @@
                 :collapse="isCollapse"
                 router
             >
-                <el-sub-menu index="1">
+                <el-sub-menu index="1" @click="submenu = '通知管理'">
                     <template #title>
                         <el-icon>
                             <icon-menu />
                         </el-icon>
                         <span>通知管理</span>
                     </template>
-                    <el-menu-item index="notice">查看文件</el-menu-item>
-                    <el-menu-item index="neo4j">文件查询</el-menu-item>
-                    <el-menu-item index="echarts">用户数据</el-menu-item>
+
+                    <el-menu-item index="notice" @click="menuItem = '查看文件'"> 查看文件</el-menu-item>
+                    <el-menu-item index="neo4j" @click="menuItem = '文件查询'">文件查询</el-menu-item>
+                    <el-menu-item index="echarts" @click="menuItem = '用户数据'">用户数据</el-menu-item>
                 </el-sub-menu>
 
                 <el-sub-menu index="2">
                     <template #title>
-                        <el-icon>
-                            <document />
-                        </el-icon>
+                        <el-icon><document /></el-icon>
                         <span>文件管理</span>
                     </template>
-                    <el-menu-item index="fileList">文件预览</el-menu-item>
-                    <el-menu-item index="upload">文件上传</el-menu-item>
-                    <el-menu-item>文件迁移</el-menu-item>
+                    <div @click="submenu = '文件管理'">
+                        <el-menu-item index="fileList" @click="menuItem = '文件预览'">文件预览</el-menu-item>
+                        <el-menu-item index="upload" @click="menuItem = '文件上传'">文件上传</el-menu-item>
+                        <el-menu-item>文件迁移</el-menu-item>
+                    </div>
                 </el-sub-menu>
 
-                <el-sub-menu index="3">
+                <el-sub-menu index="3" @click="submenu = '系统设置'">
                     <template #title>
-                        <el-icon>
-                            <setting />
-                        </el-icon>
+                        <el-icon><setting /></el-icon>
                         <span>系统设置</span>
                     </template>
-                    <el-menu-item index="systemInfo">运行状况</el-menu-item>
+                    <el-menu-item index="systemInfo" @click="menuItem = '运行状况'">运行状况</el-menu-item>
                     <el-menu-item>数据库监控</el-menu-item>
-                    <el-menu-item index="chatRobot">问答机器人</el-menu-item>
+                    <el-menu-item index="chatRobot" @click="menuItem = '问答机器人'">问答机器人</el-menu-item>
                     <el-menu-item>系统参数</el-menu-item>
                 </el-sub-menu>
             </el-menu>
@@ -58,8 +57,8 @@
                             </el-button>
                             <el-breadcrumb :separator-icon="ArrowRight">
                                 <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                                <el-breadcrumb-item>系统管理</el-breadcrumb-item>
-                                <el-breadcrumb-item>用户数据</el-breadcrumb-item>
+                                <el-breadcrumb-item v-if="submenu.length > 0">{{ submenu }}</el-breadcrumb-item>
+                                <el-breadcrumb-item v-if="menuItem.length > 0">{{ menuItem }}</el-breadcrumb-item>
                             </el-breadcrumb>
                         </el-row>
                     </el-col>
@@ -106,9 +105,16 @@ import { Setting, Document, Menu as iconMenu } from "@element-plus/icons";
 
 //TODO 页面折叠
 const isCollapse = ref(false);
+
+const submenu = ref("");
+const menuItem = ref("");
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+$aside-color: #40485b;
+$header-color: #fff;
+$main-color: #f0f2f4;
+
 .el-container {
     padding: 0px !important;
     margin: 0px !important;
@@ -117,21 +123,17 @@ const isCollapse = ref(false);
 
 .el-aside {
     color: var(--el-text-color-primary);
-    background-color: #40485b;
+    background-color: $aside-color;
 }
 
 .el-header {
-    background-color: #f0f2f4;
+    background-color: $header-color;
     padding: 0;
-    border-bottom: 4px solid #40485b;
-}
-
-.el-footer {
-    background-color: #40485b;
+    border-bottom: 3px solid #f0f2f5;
 }
 
 .el-main {
-    background-color: #f0f2f5;
+    background-color: $main-color;
 }
 
 .el-row {
@@ -148,23 +150,24 @@ const isCollapse = ref(false);
 :deep(.el-menu--horizontal) {
     text-align: right;
     width: 350px;
+    border: none;
 }
 
 :deep(.el-menu--horizontal > .el-menu-item.is-active) {
     height: 53px;
-    border: 0;
+    border: none;
 }
 
 .aside-menu-item {
     width: 80px;
     height: 53px;
-    border: 0;
+    border: none;
 }
 
 .header-menu-item {
     width: 70px;
     height: 53px;
-    border: 0;
+    border: none;
 }
 
 .header-button {
@@ -172,7 +175,7 @@ const isCollapse = ref(false);
     padding-left: 10px;
     color: #303133;
     height: 53px;
-    background-color: #f0f2f4;
+    background-color: $header-color;
     border: none;
 }
 </style>
