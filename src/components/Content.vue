@@ -1,9 +1,9 @@
 <template>
     <el-container>
         <el-aside width="200px">
-            <img src="../assets/图标.svg" width="75" height="75" />
-
+            <img src="../assets/白全.svg" width="160" height="70" />
             <el-menu default-active="2" active-text-color="#ffd04b" background-color=" #40485B" text-color="#fff">
+                <!-- :collapse="isCollapse" -->
                 <el-sub-menu index="1">
                     <template #title>
                         <el-icon>
@@ -31,7 +31,7 @@
                 <el-sub-menu index="3">
                     <template #title>
                         <el-icon>
-                            <setting></setting>
+                            <setting />
                         </el-icon>
                         <span>系统设置</span>
                     </template>
@@ -45,16 +45,57 @@
 
         <el-container>
             <el-header>
-                <h2>InfoWeaver Intelligent Question Answering System</h2>
+                <!-- <el-row> -->
+                <el-row justify="end" align="middle">
+                    <!-- <div align="left"> -->
+                    <el-col :span="15">
+                        <!-- <el-menu mode="horizontal" active-text-color="#000000" background-color="f0f2f4"> -->
+                        <!-- <el-menu-item index="1" -->
+                        <el-row align="middle">
+                            <el-button size="large">
+                                <el-icon :size="20"><fold /></el-icon>
+                            </el-button>
+                            <!-- </el-col> -->
+
+                            <!-- <el-col :span="10"> -->
+                            <el-breadcrumb :separator-icon="ArrowRight">
+                                <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+                                <el-breadcrumb-item>系统管理</el-breadcrumb-item>
+                                <el-breadcrumb-item>用户数据</el-breadcrumb-item>
+                            </el-breadcrumb></el-row
+                        >
+                    </el-col>
+                    <!-- </div> -->
+                    <el-col :span="9">
+                        <el-menu mode="horizontal" active-text-color="#000000" background-color="f0f2f4">
+                            <el-menu-item index="1">消息通知</el-menu-item>
+                            <el-menu-item index="2">系统设置</el-menu-item>
+                            <el-menu-item index="3">个人中心</el-menu-item>
+                            <el-menu-item index="4">
+                                <el-dropdown>
+                                    <el-avatar
+                                        src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                                    />
+                                    <template #dropdown>
+                                        <el-dropdown-menu>
+                                            <el-dropdown-item>个人中心</el-dropdown-item>
+                                            <el-dropdown-item>设置</el-dropdown-item>
+                                            <el-dropdown-item disabled>禁用设置</el-dropdown-item>
+                                            <el-dropdown-item divided>退出登录</el-dropdown-item>
+                                        </el-dropdown-menu>
+                                    </template>
+                                </el-dropdown>
+                            </el-menu-item>
+                        </el-menu>
+                    </el-col>
+                </el-row>
             </el-header>
 
             <el-container>
                 <el-main>
                     <component :is="showComponent"></component>
                     <router-view></router-view>
-                    <!-- <my-robt></my-robt> -->
                 </el-main>
-                <!-- <el-footer>Footer</el-footer> -->
             </el-container>
         </el-container>
     </el-container>
@@ -71,6 +112,7 @@ import myChart from "./Statistics.vue";
 import FileList from "./FileList.vue";
 import upload from "./UploadFileForm.vue";
 import SystemInfo from "./SystemInfo.vue";
+import { ChatDotRound, Expand, Fold, ArrowRight } from "@element-plus/icons-vue";
 export default defineComponent({
     name: "Content",
     components: {
@@ -86,24 +128,34 @@ export default defineComponent({
         upload,
         SystemInfo,
         Document,
+        ChatDotRound,
+        Expand,
+        Fold,
+        ArrowRight,
     },
     setup() {
-        let showComponent = ref("empty");
-
+        const showComponent = ref("empty");
+        const isCollapse = ref(true);
         const Show = (name: string) => {
             showComponent.value = name;
         };
-        return { showComponent, Show };
+        return { showComponent, Show, ChatDotRound, isCollapse, ArrowRight };
     },
 });
 </script>
 
 <style scoped>
-.el-header,
 .el-footer {
     background-color: #40485b;
 }
+:deep(.el-sub-menu),
+.el-menu-item {
+    width: 200px;
+}
 
+:deep(.el-sub-menu__title) {
+    width: 200px;
+}
 h2 {
     color: white;
     font-family: "Consolas";
@@ -113,15 +165,64 @@ h2 {
 }
 .el-aside {
     color: var(--el-text-color-primary);
-    height: 100%;
+    /* height: 100vh; */
     background-color: #40485b;
 }
 
-html,
-body,
+.el-header {
+    background-color: #f0f2f4;
+
+    padding: 0;
+
+    /* border-bottom: 4px solid #40485b */
+    border-bottom: 4px solid #40485b
+    /* border-top: 3px solid #40485b; */
+}
 .el-container {
     padding: 0px !important;
     margin: 0px !important;
-    height: 99vh;
+    height: 100vh;
+}
+
+.el-row {
+    padding: 0;
+    height: 100%;
+}
+.el-main {
+    background-color: #f0f2f5;
+}
+
+.example-showcase .el-dropdown-link {
+    cursor: pointer;
+    color: var(--el-color-primary);
+    display: flex;
+    align-items: center;
+}
+:deep(.el-menu--horizontal > .el-menu-item.is-active) {
+    width: 80px;
+    height: 53px;
+    border: 0;
+}
+:deep(.el-menu-item) {
+    width: 80px;
+    height: 53px;
+    border: 0;
+}
+
+:deep(.el-menu--horizontal) {
+    /* width: 400px; */
+    text-align: right;
+}
+/* .el-icon svg {
+    width: 2em;
+    height: 2em;
+} */
+.el-button--large {
+    padding-right: 20px;
+    padding-left: 10px;
+    color: #303133;
+    height: 53px;
+    background-color: #f0f2f4;
+    border: 0;
 }
 </style>

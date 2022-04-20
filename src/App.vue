@@ -13,4 +13,8 @@
     padding: -8px -8px auto;
     height: 100%;
 }
+html,
+body {
+    height: 100%;
+}
 </style>
