@@ -17,11 +17,6 @@ const routes = [
         component: () => import("../components/WordPreview.vue"),
     },
     {
-        path: "/content",
-        name: "content",
-        component: () => import("../components/Content.vue"),
-    },
-    {
         path: "/neo4j",
         name: "neo4j",
         component: () => import("../components/Neo4j.vue"),
@@ -50,6 +45,48 @@ const routes = [
         path: "/fileList",
         name: "fileList",
         component: () => import("../components/FileList.vue"),
+    },
+    {
+        path: "/content",
+        name: "content",
+        component: () => import("../components/Content.vue"),
+        children: [
+            {
+                path: "notice",
+                name: "notice",
+                component: () => import("../components/NoticeList.vue"),
+            },
+            {
+                path: "neo4j",
+                name: "neo4j",
+                component: () => import("../components/Neo4j.vue"),
+            },
+            {
+                path: "echarts",
+                name: "echarts",
+                component: () => import("../components/Statistics.vue"),
+            },
+            {
+                path: "fileList",
+                name: "fileList",
+                component: () => import("../components/FileList.vue"),
+            },
+            {
+                path: "upload",
+                name: "upload",
+                component: () => import("../components/UploadFileForm.vue"),
+            },
+            {
+                path: "systemInfo",
+                name: "systeminfo",
+                component: () => import("../components/SystemInfo.vue"),
+            },
+            {
+                path: "chatRobot",
+                name: "chatRobot",
+                component: () => import("../components/ChatRobot.vue"),
+            },
+        ],
     },
 ];
 const index = createRouter({

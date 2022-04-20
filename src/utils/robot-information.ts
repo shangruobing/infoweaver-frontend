@@ -24,7 +24,7 @@ export const colors = {
 };
 
 const imageUrl = "src/assets/robot.svg";
-// const imageUrl = "src/assets/test2.svg";
+// const imageUrl = "https://gitee.com/shangruobing/nfqa-front-end-development/tree/master/src/assets/robot.svg";
 
 export const participants = [
     {
@@ -35,6 +35,6 @@ export const participants = [
 ];
 
 // export const titleImageUrl = "src/assets/织信.png";
-export const titleImageUrl = ""
+export const titleImageUrl = "";
 
 export default {};
