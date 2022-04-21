@@ -8,18 +8,32 @@
                 text-color="#fff"
                 :collapse="isCollapse"
                 router
+                unique-opened="true"
             >
-                <el-sub-menu index="1" @click="submenu = '通知管理'">
+                <el-sub-menu index="1">
                     <template #title>
-                        <el-icon>
-                            <icon-menu />
-                        </el-icon>
+                        <el-icon><icon-menu /></el-icon>
                         <span>通知管理</span>
                     </template>
 
-                    <el-menu-item index="notice" @click="menuItem = '查看文件'"> 查看文件</el-menu-item>
-                    <el-menu-item index="neo4j" @click="menuItem = '文件查询'">文件查询</el-menu-item>
-                    <el-menu-item index="echarts" @click="menuItem = '用户数据'">用户数据</el-menu-item>
+                    <el-menu-item index="notice" @click="clickMenu('通知管理', '查看文件')">
+                        <template #title>
+                            <el-icon><Reading /></el-icon>
+                            <span>查看文件</span>
+                        </template>
+                    </el-menu-item>
+                    <el-menu-item index="neo4j" @click="clickMenu('通知管理', '文件查询')">
+                        <template #title>
+                            <el-icon><Search /></el-icon>
+                            <span>文件查询</span>
+                        </template>
+                    </el-menu-item>
+                    <el-menu-item index="echarts" @click="clickMenu('通知管理', '用户数据')">
+                        <template #title>
+                            <el-icon><PieChart /></el-icon>
+                            <span>用户数据</span>
+                        </template>
+                    </el-menu-item>
                 </el-sub-menu>
 
                 <el-sub-menu index="2">
@@ -27,22 +41,46 @@
                         <el-icon><document /></el-icon>
                         <span>文件管理</span>
                     </template>
-                    <div @click="submenu = '文件管理'">
-                        <el-menu-item index="fileList" @click="menuItem = '文件预览'">文件预览</el-menu-item>
-                        <el-menu-item index="upload" @click="menuItem = '文件上传'">文件上传</el-menu-item>
-                        <el-menu-item>文件迁移</el-menu-item>
-                    </div>
+
+                    <el-menu-item index="fileList" @click="clickMenu('文件管理', '文件预览')">
+                        <template #title>
+                            <el-icon><View /></el-icon>
+                            <span>文件预览</span>
+                        </template>
+                    </el-menu-item>
+                    <el-menu-item index="upload" @click="clickMenu('文件管理', '文件上传')">
+                        <template #title>
+                            <el-icon><UploadFilled /></el-icon>
+                            <span>文件上传</span>
+                        </template>
+                    </el-menu-item>
                 </el-sub-menu>
 
-                <el-sub-menu index="3" @click="submenu = '系统设置'">
+                <el-sub-menu index="3">
                     <template #title>
                         <el-icon><setting /></el-icon>
                         <span>系统设置</span>
                     </template>
-                    <el-menu-item index="systemInfo" @click="menuItem = '运行状况'">运行状况</el-menu-item>
-                    <el-menu-item>数据库监控</el-menu-item>
-                    <el-menu-item index="chatRobot" @click="menuItem = '问答机器人'">问答机器人</el-menu-item>
-                    <el-menu-item>系统参数</el-menu-item>
+
+                    <el-menu-item index="systemInfo" @click="clickMenu('系统设置', '运行状况')">
+                        <template #title>
+                            <el-icon><Cpu /></el-icon>
+                            <span>运行状况</span>
+                        </template>
+                    </el-menu-item>
+
+                    <el-menu-item index="dbInfo" @click="clickMenu('系统设置', '数据库监控')">
+                        <template #title>
+                            <el-icon><Coin /></el-icon>
+                            <span>数据库监控</span>
+                        </template>
+                    </el-menu-item>
+                    <el-menu-item index="chatRobot" @click="clickMenu('系统设置', '问答机器人')">
+                        <template #title>
+                            <el-icon><Help /></el-icon>
+                            <span>问答机器人</span>
+                        </template>
+                    </el-menu-item>
                 </el-sub-menu>
             </el-menu>
         </el-aside>
@@ -101,13 +139,18 @@
 import { ref } from "vue";
 
 import { Expand, Fold, ArrowRight } from "@element-plus/icons-vue";
-import { Setting, Document, Menu as iconMenu } from "@element-plus/icons";
-
+import { Setting, Document, Menu as iconMenu, Cpu, Coin, Help, View } from "@element-plus/icons";
+import { UploadFilled, PieChart, Reading, Search } from "@element-plus/icons";
 //TODO 页面折叠
 const isCollapse = ref(false);
 
 const submenu = ref("");
 const menuItem = ref("");
+
+const clickMenu = (menu: string, item: string) => {
+    submenu.value = menu;
+    menuItem.value = item;
+};
 </script>
 
 <style lang="scss" scoped>

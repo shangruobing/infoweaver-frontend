@@ -23,7 +23,8 @@ export const colors = {
     },
 };
 
-const imageUrl = "src/assets/robot.svg";
+// const imageUrl = "src/assets/robot.svg";
+const imageUrl = "../../public/robot.svg"
 // const imageUrl = "https://gitee.com/shangruobing/nfqa-front-end-development/tree/master/src/assets/robot.svg";
 
 export const participants = [

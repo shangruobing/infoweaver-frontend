@@ -91,6 +91,11 @@ const routes = [
                 // name: "chatRobot",
                 component: () => import("../components/ChatRobot.vue"),
             },
+            {
+                path: "dbInfo",
+                // name: "chatRobot",
+                component: () => import("../components/DBinfo.vue"),
+            },
         ],
     },
 ];
