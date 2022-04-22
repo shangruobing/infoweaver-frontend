@@ -453,8 +453,12 @@ a {
         background: #409eff;
         border-radius: 50%;
         animation: living 3s linear infinite;
-        // z-index: 1000;
     }
+
+    span:nth-child(2) {
+        animation-delay: 1.5s; /*第二个span动画延迟1.5秒*/
+    }
+
     #robot {
         position: absolute;
         right: 0px;
@@ -462,36 +466,19 @@ a {
         width: 60px;
         height: 60px;
         z-index: 1000;
+
+        // :deep(.sc-launcher) {
+        //     position: relative;
+        //     right: 30px;
+        //     bottom: 30px;
+
+        //     .sc-open-icon,
+        //     .sc-closed-icon {
+        //         position: relative;
+        //         right: 0px;
+        //         bottom: 0px;
+        //     }
+        // }
     }
 }
-// .live span {
-//     position: fixed;
-//     width: 60px;
-//     height: 60px;
-//     right: 25px;
-//     bottom: 25px;
-//     background: #409eff;
-//     border-radius: 50%;
-//     animation: living 3s linear infinite;
-//     z-index: 1000;
-// }
-// .live span:nth-child(2) {
-//     animation-delay: 1.5s; /*第二个span动画延迟1.5秒*/
-// }
-// :deep(.sc-launcher) {
-//     position: relative;
-//     right: 30px;
-//     bottom: 30px;
-
-//     // .sc-closed-icon {
-//     //     position: relative;
-//     //     right: 0px;
-//     //     bottom: 0px;
-//     // }
-//     .sc-open-icon {
-//         position: relative;
-//         right: 0px;
-//         bottom: 60px;
-//     }
-// }
 </style>

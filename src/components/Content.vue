@@ -87,14 +87,16 @@
 
         <el-container>
             <el-header>
-                <el-row justify="end" align="middle">
+                <el-row justify="space-between" align="middle">
                     <el-col :span="15">
                         <el-row align="middle">
                             <el-button size="large" class="header-button">
                                 <el-icon :size="20"><fold /></el-icon>
                             </el-button>
                             <el-breadcrumb :separator-icon="ArrowRight">
-                                <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+                                <el-breadcrumb-item :to="{ path: '/' }">
+                                    <span style="cursor: pointer, color: #222222;">首页</span>
+                                </el-breadcrumb-item>
                                 <el-breadcrumb-item v-if="submenu.length > 0">{{ submenu }}</el-breadcrumb-item>
                                 <el-breadcrumb-item v-if="menuItem.length > 0">{{ menuItem }}</el-breadcrumb-item>
                             </el-breadcrumb>
@@ -102,7 +104,13 @@
                     </el-col>
 
                     <el-col :span="9" align="right">
-                        <el-menu mode="horizontal" active-text-color="#000000" background-color="f0f2f4">
+                        <el-menu
+                            mode="horizontal"
+                            active-text-color="#000000"
+                            background-color="f0f2f4"
+                            style="width: 290px"
+                            :ellipsis="false"
+                        >
                             <el-menu-item index="1" class="header-menu-item">消息通知</el-menu-item>
                             <el-menu-item index="2" class="header-menu-item">系统设置</el-menu-item>
                             <el-menu-item index="3" class="header-menu-item">个人中心</el-menu-item>
@@ -173,6 +181,7 @@ $main-color: #f0f2f4;
     background-color: $header-color;
     padding: 0;
     border-bottom: 3px solid #f0f2f5;
+    box-shadow: 0 7px 5px -5px #f2f4f5;
 }
 
 .el-main {
