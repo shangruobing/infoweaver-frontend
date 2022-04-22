@@ -1,77 +1,82 @@
 <template>
-    <beautiful-chat
-        :participants="participants"
-        :titleImageUrl="titleImageUrl"
-        :onMessageWasSent="onMessageWasSent"
-        :messageList="messageList"
-        :newMessagesCount="newMessagesCount"
-        :isOpen="isChatOpen"
-        :close="closeChat"
-        :open="openChat"
-        :showEmoji="true"
-        :showFile="true"
-        :showEdition="true"
-        :showDeletion="true"
-        :deletionConfirmation="true"
-        :showTypingIndicator="showTypingIndicator"
-        :showLauncher="true"
-        :showCloseButton="true"
-        :colors="colors"
-        :alwaysScrollToBottom="alwaysScrollToBottom"
-        :disableUserListToggle="true"
-        :messageStyling="messageStyling"
-        @onType="handleOnType"
-        @edit="editMessage"
-        title="InfoWeaver智能问答机器人"
-    >
-        <template v-slot:text-message-body="{ message }">
-            <div align="left" v-if="message.data.meta">
-                <div>{{ message.data.text }}</div>
+    <div class="wave">
+        <beautiful-chat
+            :participants="participants"
+            :titleImageUrl="titleImageUrl"
+            :onMessageWasSent="onMessageWasSent"
+            :messageList="messageList"
+            :newMessagesCount="newMessagesCount"
+            :isOpen="isChatOpen"
+            :close="closeChat"
+            :open="openChat"
+            :showEmoji="true"
+            :showFile="true"
+            :showEdition="true"
+            :showDeletion="true"
+            :deletionConfirmation="true"
+            :showTypingIndicator="showTypingIndicator"
+            :showLauncher="true"
+            :showCloseButton="true"
+            :colors="colors"
+            :alwaysScrollToBottom="alwaysScrollToBottom"
+            :disableUserListToggle="true"
+            :messageStyling="messageStyling"
+            @onType="handleOnType"
+            @edit="editMessage"
+            title="InfoWeaver智能问答机器人"
+            id="robot"
+        >
+            <template v-slot:text-message-body="{ message }">
+                <div align="left" v-if="message.data.meta">
+                    <div>{{ message.data.text }}</div>
 
-                <el-link v-if="!store.state.isSelectedFile" type="info" @click="selectFile(message.data)"
-                    >点击查看更多详情</el-link
-                >
+                    <el-link v-if="!store.state.isSelectedFile" type="info" @click="selectFile(message.data)"
+                        >点击查看更多详情</el-link
+                    >
 
-                <div v-if="store.state.displayPreview && !message.data.id">
-                    <el-link>
-                        <router-link target="_blank" :to="message.data.meta">
-                            <span>预览</span>
-                        </router-link>
-                        <el-icon class="el-icon--right">
-                            <iconview />
-                        </el-icon>
-                    </el-link>
+                    <div v-if="store.state.displayPreview && !message.data.id">
+                        <el-link>
+                            <router-link target="_blank" :to="message.data.meta">
+                                <span>预览</span>
+                            </router-link>
+                            <el-icon class="el-icon--right">
+                                <iconview />
+                            </el-icon>
+                        </el-link>
 
-                    <el-link :href="message.data.url">
-                        <span>下载</span>
-                        <el-icon class="el-icon--right">
-                            <download />
-                        </el-icon>
-                    </el-link>
-                </div>
-            </div>
-
-            <div align="left" v-else>
-                {{ message.data.text }}
-                <div v-if="message.data.preview">
-                    <el-radio-group v-model="isNeedPreview" @change="myRadioCallBack">
-                        <el-radio :label="true" size="small" :disabled="isDisableRadio">是</el-radio>
-                        <el-radio :label="false" size="small" :disabled="isDisableRadio">否</el-radio>
-                    </el-radio-group>
+                        <el-link :href="message.data.url">
+                            <span>下载</span>
+                            <el-icon class="el-icon--right">
+                                <download />
+                            </el-icon>
+                        </el-link>
+                    </div>
                 </div>
 
-                <div>
-                    <el-rate
-                        v-if="message.data.rate"
-                        allow-half
-                        v-model="rate"
-                        @click="thanks"
-                        :disabled="isDisableRate"
-                    />
+                <div align="left" v-else>
+                    {{ message.data.text }}
+                    <div v-if="message.data.preview">
+                        <el-radio-group v-model="isNeedPreview" @change="myRadioCallBack">
+                            <el-radio :label="true" size="small" :disabled="isDisableRadio">是</el-radio>
+                            <el-radio :label="false" size="small" :disabled="isDisableRadio">否</el-radio>
+                        </el-radio-group>
+                    </div>
+
+                    <div>
+                        <el-rate
+                            v-if="message.data.rate"
+                            allow-half
+                            v-model="rate"
+                            @click="thanks"
+                            :disabled="isDisableRate"
+                        />
+                    </div>
                 </div>
-            </div>
-        </template>
-    </beautiful-chat>
+            </template>
+        </beautiful-chat>
+        <span></span>
+        <span></span>
+    </div>
 </template>
 
 <script lang="ts" setup>
@@ -292,7 +297,6 @@ const receivedFile = (message: any): void => {
 };
 
 const openChat = (): void => {
-    // called when the user clicks on the fab button to open the chat
     isChatOpen.value = true;
     newMessagesCount.value = 0;
     store.state.hasHistory = false;
@@ -301,6 +305,11 @@ const openChat = (): void => {
     store.state.displayPreview = false;
     addMessage("robot", { text: "欢迎来到InfoWeaver!" });
     addMessage("robot", { text: "你可以向我一些问题。" });
+
+    const node1 = <HTMLElement>document.getElementsByClassName("wave")[0].children[1];
+    const node2 = <HTMLElement>document.getElementsByClassName("wave")[0].children[2];
+    node1.style.animationPlayState = "paused";
+    node2.style.animationPlayState = "paused";
 };
 
 const closeChat = (): void => {
@@ -310,6 +319,11 @@ const closeChat = (): void => {
     store.state.displayPreview = false;
     isChatOpen.value = false;
     messageList.splice(0, messageList.length);
+
+    const node1 = <HTMLElement>document.getElementsByClassName("wave")[0].children[1];
+    const node2 = <HTMLElement>document.getElementsByClassName("wave")[0].children[2];
+    node1.style.animationPlayState = "running";
+    node2.style.animationPlayState = "running";
 };
 
 const handleScrollToTop = () => {
@@ -333,7 +347,7 @@ const editMessage = (message: message) => {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 div {
     /* font-family: Microsoft YaHei, Helvetica, Arial, sans-serif; */
     /* font-family: STHeiti Light, Helvetica, Arial, sans-serif; */
@@ -389,4 +403,95 @@ a {
     animation-iteration-count: 1;
     animation-delay: 0s;
 }
+
+// @keyframes iconRotate {
+//     0% {
+//         transform: scale(0.75);
+//     }
+//     50% {
+//         transform: scale(1.25);
+//     }
+//     100% {
+//         transform: scale(0.75);
+//     }
+// }
+
+@keyframes living {
+    0% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+    25% {
+        transform: scale(1.5);
+        opacity: 0.2;
+    }
+    50% {
+        transform: scale(1.75);
+        opacity: 0; /*圆形放大的同时，透明度逐渐减小为0*/
+    }
+    75% {
+        transform: scale(1.5);
+        opacity: 0.2;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+}
+.wave {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    right: 25px;
+    bottom: 25px;
+    span {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        right: 0px;
+        bottom: 0px;
+        background: #409eff;
+        border-radius: 50%;
+        animation: living 3s linear infinite;
+        // z-index: 1000;
+    }
+    #robot {
+        position: absolute;
+        right: 0px;
+        bottom: 0px;
+        width: 60px;
+        height: 60px;
+        z-index: 1000;
+    }
+}
+// .live span {
+//     position: fixed;
+//     width: 60px;
+//     height: 60px;
+//     right: 25px;
+//     bottom: 25px;
+//     background: #409eff;
+//     border-radius: 50%;
+//     animation: living 3s linear infinite;
+//     z-index: 1000;
+// }
+// .live span:nth-child(2) {
+//     animation-delay: 1.5s; /*第二个span动画延迟1.5秒*/
+// }
+// :deep(.sc-launcher) {
+//     position: relative;
+//     right: 30px;
+//     bottom: 30px;
+
+//     // .sc-closed-icon {
+//     //     position: relative;
+//     //     right: 0px;
+//     //     bottom: 0px;
+//     // }
+//     .sc-open-icon {
+//         position: relative;
+//         right: 0px;
+//         bottom: 60px;
+//     }
+// }
 </style>

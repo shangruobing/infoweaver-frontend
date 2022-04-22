@@ -8,7 +8,7 @@
                 text-color="#fff"
                 :collapse="isCollapse"
                 router
-                unique-opened="true"
+                :unique-opened="true"
             >
                 <el-sub-menu index="1">
                     <template #title>

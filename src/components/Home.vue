@@ -28,7 +28,10 @@
                                     <template #dropdown>
                                         <el-dropdown-menu>
                                             <el-dropdown-item>个人中心</el-dropdown-item>
-                                            <el-dropdown-item>设置</el-dropdown-item>
+                                            <el-dropdown-item @click="router.push('/content/')">
+                                                进入管理端
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>帮助</el-dropdown-item>
                                             <el-dropdown-item disabled>禁用设置</el-dropdown-item>
                                             <el-dropdown-item divided>退出登录</el-dropdown-item>
                                         </el-dropdown-menu>
@@ -45,12 +48,14 @@
                 <el-col :span="9" style="text-align: center">
                     <h1 style="font-size: 30px">欢迎来到织信科技问答系统</h1>
                     <h2>自研智能问答系统</h2>
-                    <h3>致力于简洁、高效的问答机器人</h3>
+                    <h3>致力于研发简洁、高效的问答机器人</h3>
+                    <h4>点击右下角体验机器人</h4>
                     <h4>为我们打分！<el-rate v-model="rate" @click="thanks" /></h4>
-                    <el-button round @click="router.push('/content/')" type="plain"> 进入管理端! </el-button>
+                    <!-- <el-button round @click="router.push('/content/')" type="plain"> 进入管理端! </el-button> -->
                 </el-col>
 
-                <el-col :span="15" style="text-align: left">
+                <el-col :span="15">
+                    <!-- <el-carousel indicator-position="outside" style="text-align: center width: 80%"> -->
                     <el-carousel indicator-position="outside" style="text-align: center">
                         <el-carousel-item>
                             <img src="../assets/模拟用户数据.svg" width="400" height="350" />
@@ -64,23 +69,24 @@
                     </el-carousel>
                 </el-col>
             </el-row>
+            <el-divider />
             <el-row :gutter="20">
-                <el-col :span="8" style="text-align: right">
-                    <img src="../assets/云端管理.svg" width="250" height="250" alt="InfoWeaver" />
+                <el-col :span="10" style="text-align: right">
+                    <img src="../assets/云端管理.svg" width="400" height="250" alt="InfoWeaver" />
                     <br />
                 </el-col>
-                <el-col :span="16" style="text-align: left">
+                <el-col :span="14" style="text-align: left">
                     <el-card class="box-card">
                         <div class="text item">高可靠</div>
-                        <span class="content">使用了数万条人工语料与常规语料包进行训练</span>
-                        <div class="text item">自然语言处理</div>
-                        <span class="content">运用自然语言处理技术自动回复文档中的知识，低成本构建文档问答体系</span>
-
+                        <span class="content">使用了数万条人工语料与常规语料进行训练</span>
                         <div class="text item">FAQ问答</div>
                         <span class="content">通过简单的QA问答对，精准理解用户意图，快速回复用户问题</span>
+                        <div class="text item">自然语言处理</div>
+                        <span class="content">运用自然语言处理技术自动回复文档中的知识，低成本构建文档问答体系</span>
                     </el-card>
                 </el-col>
             </el-row>
+            <el-divider />
             <el-row :gutter="20">
                 <el-col :span="2"></el-col>
 
@@ -110,6 +116,7 @@
                     <img src="../assets/政府工作.svg" width="500" height="400" />
                 </el-col>
             </el-row>
+
             <my-robot />
         </el-main>
     </el-container>

@@ -54,7 +54,7 @@ const routes = [
             {
                 path: "",
                 // name: "home",
-                component: () => import("../components/Home.vue"),
+                component: () => import("../components/TestChart.vue"),
             },
             {
                 path: "notice",
