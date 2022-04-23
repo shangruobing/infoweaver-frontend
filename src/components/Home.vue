@@ -55,11 +55,12 @@
                         <h3>致力于研发简洁、高效的问答机器人</h3>
                         <h4>点击右下角体验机器人</h4>
                         <h4>为我们打分！<el-rate v-model="rate" @click="thanks" /></h4>
-                        <!-- <el-button round @click="router.push('/content/')" type="plain"> 进入管理端! </el-button> -->
                     </el-col>
 
                     <el-col :span="15">
-                        <!-- <el-carousel indicator-position="outside" style="text-align: center width: 80%"> -->
+                        <a href="https://gitee.com/shangruobing/nfqa-front-end-development" id="fork">
+                            <img src="../assets/forkme.svg" alt="Fork me on Gitee" />
+                        </a>
                         <el-carousel indicator-position="outside" style="text-align: center">
                             <el-carousel-item>
                                 <img src="../assets/模拟用户数据.svg" width="400" height="350" />
@@ -279,5 +280,12 @@ const thanks = () => {
             color: #303131;
         }
     }
+}
+
+#fork {
+    position: absolute;
+    right: 10px;
+    top: 0px;
+    z-index: 300;
 }
 </style>

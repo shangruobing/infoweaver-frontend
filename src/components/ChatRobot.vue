@@ -349,8 +349,6 @@ const editMessage = (message: message) => {
 
 <style lang="scss" scoped>
 div {
-    /* font-family: Microsoft YaHei, Helvetica, Arial, sans-serif; */
-    /* font-family: STHeiti Light, Helvetica, Arial, sans-serif; */
     font-weight: 500;
 }
 span {
@@ -404,18 +402,6 @@ a {
     animation-delay: 0s;
 }
 
-// @keyframes iconRotate {
-//     0% {
-//         transform: scale(0.75);
-//     }
-//     50% {
-//         transform: scale(1.25);
-//     }
-//     100% {
-//         transform: scale(0.75);
-//     }
-// }
-
 @keyframes living {
     0% {
         transform: scale(1);
@@ -427,7 +413,7 @@ a {
     }
     50% {
         transform: scale(1.75);
-        opacity: 0; /*圆形放大的同时，透明度逐渐减小为0*/
+        opacity: 0;
     }
     75% {
         transform: scale(1.5);
@@ -444,6 +430,8 @@ a {
     height: 60px;
     right: 25px;
     bottom: 25px;
+    z-index: 1000;
+
     span {
         position: absolute;
         width: 60px;
