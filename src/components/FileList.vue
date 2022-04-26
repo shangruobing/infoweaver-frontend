@@ -57,8 +57,8 @@
 
 <script lang="ts" setup>
 import Axios from "axios";
-import { ref, reactive, onMounted, getCurrentInstance } from "vue";
-import getHttp from "../utils/django-http";
+import { ref, reactive, onMounted } from "vue";
+import { getHttp } from "../utils/django-http";
 
 const loading = ref(false);
 const results = ref([]);
@@ -69,8 +69,7 @@ const pagination = reactive({
     currentPage: 1,
 });
 
-const instance = getCurrentInstance();
-const http = getHttp(instance);
+const http = getHttp();
 
 const handleCurrentChange = async (currentPage: number) => {
     pagination.currentPage = currentPage;

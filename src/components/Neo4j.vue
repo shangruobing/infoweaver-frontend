@@ -62,11 +62,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted, getCurrentInstance } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import Axios from "axios";
 import { Download, Search } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
-import getHttp from "../utils/django-http";
+import { getHttp } from "../utils/django-http";
 const question = ref("");
 const loading = ref(false);
 const results = ref([]);
@@ -76,8 +76,8 @@ const pagination = reactive({
     pageNum: 0,
     currentPage: 1,
 });
-const instance = getCurrentInstance();
-const http = getHttp(instance);
+
+const http = getHttp();
 const search = async () => {
     loading.value = true;
     const data = {

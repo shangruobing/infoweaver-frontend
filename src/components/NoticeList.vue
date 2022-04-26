@@ -84,7 +84,7 @@
 import Axios from "axios";
 import { ref, reactive, onMounted, getCurrentInstance } from "vue";
 import { Search, Download, View as iconview } from "@element-plus/icons-vue";
-import getHttp from "../utils/django-http";
+import { getHttp } from "../utils/django-http";
 
 const loading = ref(false);
 const filename = ref("");
@@ -95,8 +95,8 @@ const pagination = reactive({
     pageNum: 0,
     currentPage: 1,
 });
-const instance = getCurrentInstance();
-const http = getHttp(instance);
+
+const http = getHttp();
 const search = async () => {
     try {
         let start_date = "";

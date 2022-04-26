@@ -13,7 +13,6 @@ import Router from "./router/index.js";
 
 const app = createApp(App);
 
-
 app.use(ElementPlus, { locale: zhCn });
 app.use(store);
 app.use(Router);
@@ -22,7 +21,7 @@ app.mount("#app");
 app.config.globalProperties.$axios = Axios;
 app.config.globalProperties.$echarts = echarts;
 
-const http = "http://127.0.0.1:8000/api/";
-// const http = "http://10.38.81.165:8000/api/";
+// const http = "http://127.0.0.1:8000/api/";
+const http = "http://43.138.43.128:8000/api/";
 
 app.config.globalProperties.$http = http;

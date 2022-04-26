@@ -16,7 +16,7 @@ export declare interface notice {
     url?: string;
     mysql_id?: string;
 }
-export interface record {
+export declare interface record {
     question: string;
     state: number;
     history: { context: any };
@@ -25,7 +25,6 @@ export interface record {
 
 export type searchResult = Array<notice> | string;
 
-//按理说不需要这样写，可能是Vite的编译问题
 export let message: message;
 export let notice: notice;
 export let record: record;

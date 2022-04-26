@@ -74,8 +74,8 @@
                 </div>
             </template>
         </beautiful-chat>
-        <span></span>
-        <span></span>
+        <span class="wave-span"></span>
+        <span class="wave-span"></span>
     </div>
 </template>
 
@@ -83,10 +83,10 @@
 import Axios from "axios";
 import { useStore } from "vuex";
 import { ElNotification } from "element-plus";
-import { getCurrentInstance, reactive, ref, h } from "vue";
+import { reactive, ref, h } from "vue";
 import { Download, View as iconview } from "@element-plus/icons-vue";
 
-import getHttp from "../utils/django-http";
+import { getHttp } from "../utils/django-http";
 import { message, notice, record, searchResult } from "../utils/interfaces";
 import { stringIsEmpty, isString } from "../utils/type-utils";
 import { colors, participants, titleImageUrl } from "../utils/robot-information";
@@ -97,6 +97,7 @@ const isDisableRadio = ref(false);
 const isDisableRate = ref(false);
 
 const selectFile = (message: any) => {
+    addMessage("me", { text: message.text });
     store.state.isSelectedFile = true;
     const id = message.id;
 
@@ -108,8 +109,8 @@ const selectFile = (message: any) => {
     });
     store.state.isSelectedFile = true;
     store.state.chatCount += 1;
-    addMessage("robot", { text: "已经为您找到下面这篇文件的相关信息，您可以关于这篇文件对我进行提问" });
-    addMessage("robot", { text: "请问您需要预览或者下载这个文件嘛?", preview: true });
+    addMessage("robot", { text: "请问您需要预览下载它吗?", preview: true });
+    addMessage("robot", { text: "对于这篇文件，您还有什么疑问吗?" });
 };
 
 const myRadioCallBack = () => {
@@ -145,9 +146,9 @@ const alwaysScrollToBottom = ref(true);
 const messageStyling = ref(true);
 
 const search = async (question: string) => {
-    const instance = getCurrentInstance();
-    const http = getHttp(instance);
+    const http = getHttp();
     const api = http + "neo4j/";
+
     store.state.chatCount += 1;
 
     try {
@@ -167,8 +168,6 @@ const search = async (question: string) => {
         if (store.state.chatCount < 5) {
             response = await Axios.post(api, data);
         }
-
-        console.log("response", response);
 
         const results: Array<notice> | string = response.data.results;
         //当聊天轮数小于2 才保存历史
@@ -216,7 +215,14 @@ const processResult = (results: searchResult): searchResult | undefined => {
 
         return result;
     }
+
     if (!stringIsEmpty(results)) {
+        if (store.state.chatCount === 1) {
+            //百度百科不计入对话轮数
+            addMessage("robot", { text: "这个问题我不知道，但百度百科是这样解释的..." });
+            store.state.chatCount = 0;
+            store.state.hasHistory = false;
+        }
         return results;
     }
 };
@@ -252,7 +258,6 @@ const receivedText = async (message: any) => {
             if (stringIsEmpty(result)) {
                 throw new Error("result is null!");
             }
-            console.log("string");
 
             addMessage("robot", { text: result });
             if (store.state.chatCount === 4) {
@@ -261,7 +266,6 @@ const receivedText = async (message: any) => {
         }
 
         if (typeof result == "object") {
-            console.log("object");
             if (result.length <= 0) {
                 throw new Error("result is null!");
             }
@@ -282,6 +286,7 @@ const receivedText = async (message: any) => {
         }
     } catch (error) {
         console.log(error);
+        store.state.chatCount = 0;
         addMessage("robot", { text: "对不起，这个问题我不知道" });
     }
 };
@@ -302,9 +307,10 @@ const openChat = (): void => {
     store.state.hasHistory = false;
     store.state.history = { context: [] };
     store.state.chatCount = 0;
+    store.state.isSelectedFile = false;
     store.state.displayPreview = false;
     addMessage("robot", { text: "欢迎来到InfoWeaver!" });
-    addMessage("robot", { text: "你可以向我一些问题。" });
+    addMessage("robot", { text: "您可以向我一些问题。" });
 
     const node1 = <HTMLElement>document.getElementsByClassName("wave")[0].children[1];
     const node2 = <HTMLElement>document.getElementsByClassName("wave")[0].children[2];
@@ -317,6 +323,7 @@ const closeChat = (): void => {
     store.state.history = { context: [] };
     store.state.chatCount = 0;
     store.state.displayPreview = false;
+    store.state.isSelectedFile = false;
     isChatOpen.value = false;
     messageList.splice(0, messageList.length);
 
@@ -351,9 +358,11 @@ const editMessage = (message: message) => {
 div {
     font-weight: 500;
 }
+
 span {
     color: #000;
 }
+
 .el-radio {
     font-weight: 500;
     color: #000;
@@ -376,6 +385,7 @@ a {
 .router-link-active {
     text-decoration: none;
 }
+
 .el-link .el-icon--right.el-icon {
     vertical-align: text-bottom;
 }
@@ -383,6 +393,7 @@ a {
 :deep(.sc-header--title) {
     font-family: "Consolas";
 }
+
 @keyframes fadeIn {
     0% {
         opacity: 0;
@@ -424,6 +435,7 @@ a {
         opacity: 0.3;
     }
 }
+
 .wave {
     position: fixed;
     width: 60px;
@@ -432,7 +444,7 @@ a {
     bottom: 25px;
     z-index: 1000;
 
-    span {
+    .wave-span {
         position: absolute;
         width: 60px;
         height: 60px;
@@ -444,7 +456,7 @@ a {
     }
 
     span:nth-child(2) {
-        animation-delay: 1.5s; /*第二个span动画延迟1.5秒*/
+        animation-delay: 1.5s;
     }
 
     #robot {
@@ -454,19 +466,6 @@ a {
         width: 60px;
         height: 60px;
         z-index: 1000;
-
-        // :deep(.sc-launcher) {
-        //     position: relative;
-        //     right: 30px;
-        //     bottom: 30px;
-
-        //     .sc-open-icon,
-        //     .sc-closed-icon {
-        //         position: relative;
-        //         right: 0px;
-        //         bottom: 0px;
-        //     }
-        // }
     }
 }
 </style>

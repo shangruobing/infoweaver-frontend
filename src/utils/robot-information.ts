@@ -23,8 +23,7 @@ export const colors = {
     },
 };
 
-// const imageUrl = "/robot.svg";
-const imageUrl = "/src/assets/robot.svg";
+const imageUrl = "/robot.svg";
 
 export const participants = [
     {
