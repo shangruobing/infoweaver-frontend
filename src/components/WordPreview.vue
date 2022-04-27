@@ -11,7 +11,7 @@ import { renderAsync } from "docx-preview";
 import { getHttp } from "../utils/django-http";
 
 const route = useRoute();
-let file = ref();
+const file = ref();
 
 onMounted(async () => {
     const id = route.params.id;

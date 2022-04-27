@@ -92,6 +92,7 @@ import { stringIsEmpty, isString } from "../utils/type-utils";
 import { colors, participants, titleImageUrl } from "../utils/robot-information";
 
 const store = useStore();
+
 const isNeedPreview = ref<boolean>();
 const isDisableRadio = ref(false);
 const isDisableRate = ref(false);
@@ -145,8 +146,9 @@ const showTypingIndicator = ref("");
 const alwaysScrollToBottom = ref(true);
 const messageStyling = ref(true);
 
+const http = getHttp();
+
 const search = async (question: string) => {
-    const http = getHttp();
     const api = http + "neo4j/";
 
     store.state.chatCount += 1;
@@ -184,9 +186,7 @@ const search = async (question: string) => {
 };
 
 const executeHistoryHandler = async (question: string): Promise<record> => {
-    let data: record;
-
-    data = {
+    const data: record = {
         question: question,
         state: 1,
         history: store.state.history.context,
@@ -220,15 +220,14 @@ const processResult = (results: searchResult): searchResult | undefined => {
         if (store.state.chatCount === 1) {
             //百度百科不计入对话轮数
             addMessage("robot", { text: "这个问题我不知道，但百度百科是这样解释的..." });
-            store.state.chatCount = 0;
-            store.state.hasHistory = false;
+            store.commit("clearHistory");
         }
         return results;
     }
 };
 
 const confirmPreview = (): void => {
-    let data = {
+    const data = {
         text: store.state.history.context.name,
         meta: "/word/" + store.state.history.context.mysql_id,
         url: store.state.history.context.url,
@@ -269,12 +268,13 @@ const receivedText = async (message: any) => {
             if (result.length <= 0) {
                 throw new Error("result is null!");
             }
+
             if (store.state.chatCount === 1) {
                 addMessage("robot", { text: "已经为您找到如下文件,请问您对哪个文件感兴趣?" });
             }
 
             for (let i = 0; i < result.length; i++) {
-                let data = {
+                const data = {
                     text: result[i].name.split(".")[0],
                     meta: "/word/" + result[i].id,
                     url: result[i].url,
@@ -286,14 +286,14 @@ const receivedText = async (message: any) => {
         }
     } catch (error) {
         console.log(error);
-        store.state.chatCount = 0;
+        store.commit("clearHistory");
+
         addMessage("robot", { text: "对不起，这个问题我不知道" });
     }
 };
 
 const receivedEmoji = (message: any): void => {
     setTimeout(() => addMessage("robot", { emoji: message.data.emoji }, "emoji"), 1000);
-    // addMessage("robot", { emoji: message.data.emoji }, "emoji");
 };
 
 const receivedFile = (message: any): void => {
@@ -304,11 +304,9 @@ const receivedFile = (message: any): void => {
 const openChat = (): void => {
     isChatOpen.value = true;
     newMessagesCount.value = 0;
-    store.state.hasHistory = false;
-    store.state.history = { context: [] };
-    store.state.chatCount = 0;
-    store.state.isSelectedFile = false;
-    store.state.displayPreview = false;
+
+    store.commit("clearHistory");
+
     addMessage("robot", { text: "欢迎来到InfoWeaver!" });
     addMessage("robot", { text: "您可以向我一些问题。" });
 
@@ -319,12 +317,9 @@ const openChat = (): void => {
 };
 
 const closeChat = (): void => {
-    store.state.hasHistory = false;
-    store.state.history = { context: [] };
-    store.state.chatCount = 0;
-    store.state.displayPreview = false;
-    store.state.isSelectedFile = false;
     isChatOpen.value = false;
+    store.commit("clearHistory");
+
     messageList.splice(0, messageList.length);
 
     const node1 = <HTMLElement>document.getElementsByClassName("wave")[0].children[1];

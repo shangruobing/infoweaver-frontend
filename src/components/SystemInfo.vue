@@ -1,51 +1,28 @@
 <template>
-    <el-table :data="tableData" stripe style="width: 100%">
-        <el-table-column prop="date" label="名称" />
-        <el-table-column prop="name" label="参数" />
+    <el-table stripe style="width: 100%" :data="sysinfo">
+        <el-table-column prop="name" label="名称" />
+        <el-table-column prop="value" label="参数" />
     </el-table>
 </template>
 
 <script lang="ts" setup>
-const tableData = [
-    {
-        date: "系统名称",
-        name: "未设置",
-    },
-    {
-        date: "操作系统",
-        name: "未设置",
-    },
-    {
-        date: "主机名称",
-        name: "未设置",
-    },
-    {
-        date: "内核名称",
-        name: "未设置",
-    },
-    {
-        date: "发行版本",
-        name: "未设置",
-    },
-    {
-        date: "内核版本",
-        name: "未设置",
-    },
-    {
-        date: "系统架构",
-        name: "未设置",
-    },
-    {
-        date: "当前时间",
-        name: "未设置",
-    },
-    {
-        date: "开机时间",
-        name: "未设置",
-    },
-    {
-        date: "运行时长",
-        name: "未设置",
-    },
-];
+import Axios from "axios";
+import { onMounted, reactive } from "vue";
+import { getHttp } from "../utils/django-http";
+const http = getHttp();
+
+const sysinfo = reactive([{}]);
+
+onMounted(async () => {
+    const api = http + "sysinfo/";
+    const response = await Axios.get(api);
+    try {
+        const results = response.data;
+        for (const i in results) {
+            sysinfo.push({ name: i.toUpperCase(), value: results[i] });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});
 </script>

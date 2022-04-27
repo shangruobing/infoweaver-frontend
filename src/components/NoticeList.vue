@@ -82,7 +82,7 @@
 
 <script lang="ts" setup>
 import Axios from "axios";
-import { ref, reactive, onMounted, getCurrentInstance } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import { Search, Download, View as iconview } from "@element-plus/icons-vue";
 import { getHttp } from "../utils/django-http";
 

@@ -9,36 +9,24 @@ const store = createStore({
         history: { context: [] },
 
         username: "ruobing",
-        isShowLoginDialog: false,
-        isShowRegisterDialog: false,
+
         isLogin: false,
     },
     getters: {
         getUsername: (state) => {
             return state.username;
         },
-        getIsShowLoginDialog: (state) => {
-            return state.isShowLoginDialog;
-        },
-        getIsShowRegisterDialog: (state) => {
-            return state.isShowRegisterDialog;
-        },
         getIsLogin: (state) => {
             return state.isLogin;
         },
     },
     mutations: {
-        setUsername(state, value) {
-            state.username = value;
-        },
-        setIsShowLoginDialog(state, bool) {
-            state.isShowLoginDialog = bool;
-        },
-        setIsShowRegisterDialog(state, bool) {
-            state.isShowRegisterDialog = bool;
-        },
-        setIsLogin(state, bool) {
-            state.isLogin = bool;
+        clearHistory(state) {
+            state.hasHistory = false;
+            state.displayPreview = false;
+            state.isSelectedFile = false;
+            state.chatCount = 0;
+            state.history = { context: [] };
         },
     },
     actions: {},
