@@ -35,13 +35,13 @@
         v-if="pagination.count > 0"
         v-loading="loading"
     >
-        <!-- <el-table-column prop="mysql_id" label="ID" width="85" /> -->
+        <el-table-column prop="mysql_id" label="ID" width="85" />
 
-        <el-table-column type="expand">
+        <!-- <el-table-column type="expand">
             <template #default="props">
                 {{ props.row.content }}
             </template>
-        </el-table-column>
+        </el-table-column> -->
 
         <el-table-column prop="name" label="Name" />
         <el-table-column prop="date" label="Date" width="180" sortable />

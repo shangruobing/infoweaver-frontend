@@ -27,10 +27,6 @@
                     <el-date-picker v-model="form.date1" type="date" placeholder="请选择日期" style="width: 100%" />
                 </el-form-item>
             </el-col>
-            <!-- 
-                    <el-col :span="1" class="text-center">
-                        <span class="text-gray-500">-</span>
-                    </el-col> -->
 
             <el-col :span="12">
                 <el-form-item label="通知对象">
@@ -43,7 +39,6 @@
             </el-col>
         </el-row>
 
-        <!-- <el-form-item label="立即发布"> <el-switch v-model="form.delivery" /> </el-form-item> -->
         <el-row :gutter="24">
             <el-col :span="12">
                 <el-form-item label="活动时间">
@@ -75,32 +70,27 @@
                         ref="uploadRef"
                         :auto-upload="false"
                         :limit="1"
-                        class="xxx"
+                        :show-file-list="false"
+                        :on-change="upload_success"
                     >
                         <el-button type="text" class="upload">
                             上传附件<el-icon class="el-icon--right"><upload /> </el-icon>
                         </el-button>
-                        <!--!-- <el-icon class="el-icon--upload"><upload-filled /></el-icon> -->
-
-                        <!-- <div class="el-upload__text">
-                    拖动文件至此<em>或者点击上传</em> <br /><small>一次只能上传一个文件哦</small>
-                </div> -->
                     </el-upload>
                 </el-form-item>
             </el-col>
         </el-row>
-        <!--         
         <el-form-item>
             <el-button type="primary" @click="onSubmit">发布</el-button>
             <el-button>取消</el-button>
-        </el-form-item> -->
+        </el-form-item>
     </el-form>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue";
+import { h, ref, reactive } from "vue";
+import { ElNotification } from "element-plus";
 import { Upload } from "@element-plus/icons-vue";
-import { ref } from "vue";
 
 const form = reactive({
     name: "",
@@ -120,6 +110,13 @@ const onSubmit = () => {
 };
 
 const uploadRef = ref();
+
+const upload_success = () => {
+    ElNotification.success({
+        message: h("i", { style: "color: teal" }, "文件已成功上传！"),
+        position: "top-right",
+    });
+};
 </script>
 
 <style>

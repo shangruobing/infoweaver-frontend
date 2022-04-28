@@ -11,7 +11,7 @@ import { onMounted, reactive } from "vue";
 import { getHttp } from "../utils/django-http";
 const http = getHttp();
 
-const sysinfo = reactive([{}]);
+const sysinfo = reactive([{ name: "NFQA", value: "V1.0" }]);
 
 onMounted(async () => {
     const api = http + "sysinfo/";

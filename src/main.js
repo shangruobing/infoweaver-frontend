@@ -21,7 +21,12 @@ app.mount("#app");
 app.config.globalProperties.$axios = Axios;
 app.config.globalProperties.$echarts = echarts;
 
-// const http = "http://127.0.0.1:8000/api/";
-const http = "http://43.138.43.128:8000/api/";
+const is_development_mode = false;
+// const is_development_mode = true;
+
+let http = "http://43.138.43.128:8000/api/";
+if (is_development_mode) {
+    http = "http://127.0.0.1:8000/api/";
+}
 
 app.config.globalProperties.$http = http;

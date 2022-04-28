@@ -1,4 +1,4 @@
-export declare interface message {
+export declare interface Message {
     type?: string;
     author?: string;
     data: {
@@ -10,21 +10,36 @@ export declare interface message {
         rate?: boolean;
     };
 }
-export declare interface notice {
+export declare interface Notice {
     id?: string;
     name?: string;
     url?: string;
     mysql_id?: string;
 }
-export declare interface record {
+export declare interface ChatRecord {
     question: string;
-    state: number;
-    history: { context: any };
-    count: number;
+    has_history: boolean;
+    history: any;
 }
 
-export type searchResult = Array<notice> | string;
+export declare interface ChatReply {
+    answer_type: string;
+    results: SearchResult;
+}
 
-export let message: message;
-export let notice: notice;
-export let record: record;
+export enum AnswerType {
+    BAIDU = "baidu",
+    DATABASE = "database_search",
+    CHAT = "chat",
+    LOCAL = "local",
+    BERT = "bert",
+    UNKNOWN = "unknown",
+}
+
+export type SearchResult = Array<Notice> | string;
+
+// export let message: message;
+// export let notice: notice;
+// export let chatRecord: chatRecord;
+// export let chatReply: chatReply;
+// export let AnswerType: AnswerType;

@@ -2,14 +2,7 @@ import { createStore } from "vuex";
 
 const store = createStore({
     state: {
-        hasHistory: false,
-        displayPreview: false,
-        isSelectedFile: false,
-        chatCount: 0,
-        history: { context: [] },
-
         username: "ruobing",
-
         isLogin: false,
     },
     getters: {
@@ -24,9 +17,6 @@ const store = createStore({
         clearHistory(state) {
             state.hasHistory = false;
             state.displayPreview = false;
-            state.isSelectedFile = false;
-            state.chatCount = 0;
-            state.history = { context: [] };
         },
     },
     actions: {},
