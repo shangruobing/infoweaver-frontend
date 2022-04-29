@@ -1,0 +1,139 @@
+<template>
+    <el-form :inline="true" :model="form">
+        <el-form-item label="问题">
+            <el-input v-model="form.question" placeholder="请输入问题" />
+        </el-form-item>
+
+        <el-form-item label="答案">
+            <el-input v-model="form.answer" placeholder="请输入答案" />
+        </el-form-item>
+
+        <el-form-item>
+            <el-button @click="addCorpus">添加</el-button>
+        </el-form-item>
+    </el-form>
+
+    <el-table :data="results" stripe border style="width: 100%" v-if="pagination.count > 0">
+        <el-table-column prop="Question" label="Question" width="350" />
+        <el-table-column prop="Answer" label="Answer" width="550" />
+
+        <el-table-column label="Operations">
+            <template #default="scope">
+                <el-popconfirm
+                    confirm-button-text="Yes"
+                    cancel-button-text="No"
+                    icon-color="red"
+                    title="Are you sure to delete this?"
+                    @cancel="cancelEvent"
+                    @confirm="confirmEvent"
+                >
+                    <template #reference>
+                        <el-button
+                            type="danger"
+                            size="small"
+                            v-show="!scope.row.show"
+                            @click.prevent="scope.row.show = false"
+                            >删除
+                        </el-button>
+                    </template>
+                </el-popconfirm>
+            </template>
+        </el-table-column>
+    </el-table>
+
+    <el-empty description="好像什么也没有诶" v-else></el-empty>
+
+    <el-row justify="center">
+        <el-pagination
+            layout="prev, pager, next, jumper"
+            :page-count="pagination.pageNum"
+            background
+            :current-page="pagination.currentPage"
+            :hide-on-single-page="true"
+            @current-change="handleCurrentChange"
+        ></el-pagination>
+    </el-row>
+    <my-robot />
+</template>
+
+<script lang="ts" setup>
+import Axios from "axios";
+import { h, ref, reactive, onMounted } from "vue";
+import { getHttp } from "../utils/django-http";
+import { ElNotification } from "element-plus";
+import MyRobot from "./ChatRobot.vue";
+const form = reactive({
+    question: "",
+    answer: "",
+});
+
+const loading = ref(false);
+const results = ref([]);
+const pagination = reactive({
+    count: 0,
+    perPageCount: 0,
+    pageNum: 0,
+    currentPage: 1,
+});
+
+const http = getHttp();
+
+const handleCurrentChange = async (currentPage: number) => {
+    pagination.currentPage = currentPage;
+    const api = http + "corpus/?page=" + pagination.currentPage;
+
+    const response = await Axios.get(api);
+    try {
+        loading.value = false;
+        results.value = response.data["results"];
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+onMounted(async () => {
+    search();
+});
+
+const search = async () => {
+    const api = http + "corpus/";
+    const response = await Axios.get(api);
+    try {
+        loading.value = false;
+        results.value = response.data["results"];
+        console.log(results.value);
+        pagination.count = response.data["count"];
+        pagination.perPageCount = results.value.length;
+        pagination.pageNum = Math.ceil(pagination.count / pagination.perPageCount);
+    } catch (error) {
+        console.log(error);
+    }
+};
+const addCorpus = async () => {
+    const api = http + "corpus/";
+    const data = { question: form.question, answer: form.answer };
+    const response = await Axios.post(api, data);
+    ElNotification.success({
+        message: h("i", { style: "color: teal" }, "添加成功！"),
+        position: "top-right",
+    });
+    console.log(response);
+};
+
+const confirmEvent = () => {
+    console.log("confirm!");
+    //   this.students.splice(this.delInfo.index, 1);
+};
+const cancelEvent = () => {
+    console.log("cancel!");
+};
+</script>
+
+<style scoped>
+.el-row {
+    margin-bottom: 15px;
+}
+.el-col {
+    border-radius: 4px;
+}
+</style>

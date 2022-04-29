@@ -12,7 +12,7 @@
                     <el-col :span="13" class="right-pan">
                         <el-form label-position="right">
                             <el-row align="bottom" justify="space-between">
-                                <h2>注册</h2>
+                                <h1>注册</h1>
                                 <el-button @click="goLogin" type="text">已有账号？去登录</el-button>
                             </el-row>
 

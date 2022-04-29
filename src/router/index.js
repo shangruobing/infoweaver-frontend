@@ -12,6 +12,11 @@ const routes = [
         component: () => import("../components/NoticeList.vue"),
     },
     {
+        path: "/corpus",
+        name: "corpus",
+        component: () => import("../components/CorpusList.vue"),
+    },
+    {
         path: "/word/:id",
         name: "word",
         component: () => import("../components/WordPreview.vue"),
@@ -63,48 +68,43 @@ const routes = [
         children: [
             {
                 path: "",
-                // name: "home",
                 component: () => import("../components/TestChart.vue"),
             },
             {
                 path: "notice",
-                // name: "notice",
                 component: () => import("../components/NoticeList.vue"),
             },
             {
                 path: "neo4j",
-                // name: "neo4j",
                 component: () => import("../components/Neo4j.vue"),
             },
             {
                 path: "echarts",
-                // name: "echarts",
                 component: () => import("../components/Statistics.vue"),
             },
             {
                 path: "fileList",
-                // name: "fileList",
                 component: () => import("../components/FileList.vue"),
             },
             {
                 path: "upload",
-                // name: "upload",
                 component: () => import("../components/UploadFileForm.vue"),
             },
             {
                 path: "systemInfo",
-                // name: "systeminfo",
                 component: () => import("../components/SystemInfo.vue"),
             },
             {
                 path: "chatRobot",
-                // name: "chatRobot",
                 component: () => import("../components/ChatRobot.vue"),
             },
             {
                 path: "dbInfo",
-                // name: "chatRobot",
                 component: () => import("../components/DBinfo.vue"),
+            },
+            {
+                path: "corpus",
+                component: () => import("../components/CorpusList.vue"),
             },
         ],
     },

@@ -21,8 +21,8 @@ app.mount("#app");
 app.config.globalProperties.$axios = Axios;
 app.config.globalProperties.$echarts = echarts;
 
-const is_development_mode = false;
-// const is_development_mode = true;
+// const is_development_mode = false;
+const is_development_mode = true;
 
 let http = "http://43.138.43.128:8000/api/";
 if (is_development_mode) {

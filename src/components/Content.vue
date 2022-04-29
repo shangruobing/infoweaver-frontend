@@ -76,10 +76,10 @@
                                 <span>数据库监控</span>
                             </template>
                         </el-menu-item>
-                        <el-menu-item index="chatRobot" @click="clickMenu('系统设置', '问答机器人')">
+                        <el-menu-item index="corpus" @click="clickMenu('系统设置', '问答语料')">
                             <template #title>
                                 <el-icon><Help /></el-icon>
-                                <span>问答机器人</span>
+                                <span>问答语料</span>
                             </template>
                         </el-menu-item>
                     </el-sub-menu>
