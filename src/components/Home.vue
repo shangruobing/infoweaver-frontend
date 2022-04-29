@@ -12,19 +12,24 @@
                     <el-col :span="10"> </el-col>
                     <el-col :span="12">
                         <el-row align="middle" justify="end" style="width: 100%">
-                            <el-input placeholder="Search" :prefix-icon="Search" style="width: 200px" />
+                            <el-input
+                                placeholder="Search"
+                                :prefix-icon="Search"
+                                style="width: 30%; padding-right: 10px"
+                            />
                             <el-menu
                                 mode="horizontal"
                                 active-text-color="#000000"
                                 background-color="f0f2f4"
                                 style="width: 370px"
                                 :ellipsis="false"
+                                router
                             >
-                                <el-menu-item index="1" class="header-menu-item">指南</el-menu-item>
-                                <el-menu-item index="2" class="header-menu-item">资源</el-menu-item>
-                                <el-menu-item index="3" class="header-menu-item">登录</el-menu-item>
-                                <el-menu-item index="4" class="header-menu-item">注册</el-menu-item>
-                                <el-menu-item index="5" class="header-menu-item">
+                                <el-menu-item class="header-menu-item">指南</el-menu-item>
+                                <el-menu-item class="header-menu-item">资源</el-menu-item>
+                                <el-menu-item index="login" class="header-menu-item">登录</el-menu-item>
+                                <el-menu-item index="register" class="header-menu-item">注册</el-menu-item>
+                                <el-menu-item class="header-menu-item">
                                     <el-dropdown>
                                         <el-avatar
                                             src="https://portrait.gitee.com/uploads/avatars/user/3474/10422230_shangruobing_1644648546.png!avatar200"
