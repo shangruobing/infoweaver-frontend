@@ -3,14 +3,14 @@
         <el-container>
             <el-header>
                 <el-row align="middle" justify="space-between" style="width: 100%">
-                    <el-col :span="2">
+                    <el-col :span="12" style="text-align: left; height: 53px">
                         <el-popover :width="150" popper-style="text-align: center; padding: 10px;">
                             <template #reference> <img src="../assets/黑横.svg" width="160" height="60" /></template>
                             <template #default><p>编织信息 共赢未来🎉</p></template>
                         </el-popover>
                     </el-col>
-                    <el-col :span="10"> </el-col>
-                    <el-col :span="12">
+
+                    <el-col :span="12" style="text-align: right; height: 53px">
                         <el-row align="middle" justify="end" style="width: 100%">
                             <el-input
                                 placeholder="Search"
@@ -21,7 +21,7 @@
                                 mode="horizontal"
                                 active-text-color="#000000"
                                 background-color="f0f2f4"
-                                style="width: 370px"
+                                style="width: 360px"
                                 :ellipsis="false"
                                 router
                             >
@@ -83,7 +83,6 @@
                 <el-row :gutter="20">
                     <el-col :span="10" style="text-align: right">
                         <img src="../assets/云端管理.svg" width="400" height="250" alt="InfoWeaver" />
-                        <br />
                     </el-col>
                     <el-col :span="14" style="text-align: left">
                         <el-card class="box-card">
@@ -168,7 +167,7 @@ import { useRouter } from "vue-router";
 import { ElNotification } from "element-plus";
 import { Search, Message } from "@element-plus/icons-vue";
 import MyRobot from "./ChatRobot.vue";
-
+import "element-plus/theme-chalk/display.css";
 const router = useRouter();
 const rate = ref(null);
 
@@ -192,13 +191,18 @@ const thanks = () => {
 .el-header {
     position: fixed;
     width: 100vw;
+    padding-left: 15px;
     padding-right: 0;
     z-index: 1000;
     background-color: #fff;
     box-shadow: 0 7px 5px -5px #f2f4f5;
     border-bottom: 3px solid #f0f2f4;
+    height: 60px;
 }
-
+// .el-row {
+//     padding: 0;
+//     height: 100%;
+// }
 .header-menu-item {
     width: 70px;
     height: 53px;
@@ -214,10 +218,6 @@ const thanks = () => {
     text-align: right;
     width: 500px;
     border: none;
-}
-
-.my-collapse {
-    background-color: #f2f4f5;
 }
 
 .text {

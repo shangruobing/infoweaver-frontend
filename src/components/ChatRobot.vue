@@ -30,9 +30,9 @@
                 <div align="left" v-if="message.data.meta">
                     <div>{{ message.data.text }}</div>
 
-                    <el-link v-if="!isSelectedFile" type="info" @click="selectFile(message.data)"
-                        >点击查看更多详情</el-link
-                    >
+                    <el-link v-if="!isSelectedFile" type="info" @click="selectFile(message.data)">
+                        点击查看更多详情
+                    </el-link>
 
                     <div v-if="displayPreview && !message.data.id">
                         <el-link>
@@ -62,6 +62,13 @@
                         </el-radio-group>
                     </div>
 
+                    <el-link v-if="message.data.changeNoticeList" type="info" @click="changeBatch">
+                        <span>点击换一批</span>
+                        <el-icon class="el-icon--right">
+                            <refresh />
+                        </el-icon>
+                    </el-link>
+
                     <div>
                         <el-rate
                             v-if="message.data.rate"
@@ -83,7 +90,7 @@
 import Axios from "axios";
 import { reactive, ref, h } from "vue";
 import { ElNotification } from "element-plus";
-import { Download, View as iconview } from "@element-plus/icons-vue";
+import { Download, View as iconview, Refresh } from "@element-plus/icons-vue";
 
 import { getHttp } from "../utils/django-http";
 import { stringIsEmpty, isString } from "../utils/type-utils";
@@ -149,8 +156,11 @@ const displayPreview = ref(false);
 const chatRecord: ChatRecord = reactive({ question: "", has_history: false, history: {} });
 const chatReply: ChatReply = reactive({ answer_type: "", results: "" });
 const chatCount = ref(0);
+const searchPage = ref(1);
 
 const clearHistory = () => {
+    isSelectedFile.value = false;
+    displayPreview.value = false;
     chatRecord.question = "";
     chatRecord.has_history = false;
     chatRecord.history = {};
@@ -159,37 +169,51 @@ const clearHistory = () => {
     chatCount.value = 0;
 };
 
+const changeBatch = async () => {
+    messageList.splice(-5, 5);
+    searchPage.value += 1;
+    chatCount.value -= 1;
+    const api = http + "neo4j/?page=" + searchPage.value;
+
+    const response = await Axios.post(api, { question: chatRecord.question });
+    const search = saveHistory(response);
+    processSearchResult(search);
+};
+
 const search = async (question: string) => {
     const api = http + "neo4j/";
 
     try {
-        if (chatRecord.has_history) {
-            if (isSelectedFile) {
-                chatRecord.question = question;
-            } else {
-                addMessage("robot", { text: "请先选择一个文件" });
-                return;
-            }
-        }
-
         chatRecord.question = question;
-        const response = await Axios.post(api, chatRecord);
-        console.log(response);
 
-        chatReply.answer_type = response.data.answer_type;
-        chatReply.results = response.data.results;
-
-        if (chatReply.answer_type === AnswerType.DATABASE) {
-            chatCount.value += 1;
-            chatRecord.history = chatReply.results;
-            chatRecord.has_history = true;
+        //Test 2次输入刘海丹
+        if (!isSelectedFile.value) {
+            chatRecord.has_history = false;
         }
+        const response = await Axios.post(api, chatRecord);
 
-        return processResult(chatReply.results);
+        console.log("response", response);
+        console.log("isSelectedFile", isSelectedFile.value);
+        console.log("chatRecord", chatRecord);
+
+        return saveHistory(response);
     } catch (error) {
         console.log(error);
         throw new Error("Result is NULL!");
     }
+};
+
+const saveHistory = (response: any): any => {
+    chatReply.answer_type = response.data.answer_type;
+    chatReply.results = response.data.results;
+
+    if (chatReply.answer_type === AnswerType.DATABASE) {
+        chatCount.value += 1;
+        chatRecord.history = chatReply.results;
+        chatRecord.has_history = true;
+    }
+
+    return processResult(chatReply.results);
 };
 
 const processResult = (results: SearchResult): SearchResult | undefined => {
@@ -197,10 +221,7 @@ const processResult = (results: SearchResult): SearchResult | undefined => {
         throw new Error("Results is null!");
     }
     if (Array.isArray(results)) {
-        let result: Array<Notice> = [];
-        if (results.length <= 0) {
-            throw new Error("Array is null!");
-        }
+        const result: Array<Notice> = [];
         results.forEach((item) => {
             result.push({
                 id: item.mysql_id,
@@ -212,7 +233,7 @@ const processResult = (results: SearchResult): SearchResult | undefined => {
         return result;
     }
 
-    if (!stringIsEmpty(results)) {
+    if (isString(results)) {
         if (chatReply.answer_type === AnswerType.BAIDU) {
             addMessage("robot", { text: "这个问题我不知道，但百度百科是这样解释的..." });
         }
@@ -249,41 +270,44 @@ const onMessageWasSent = async (message: Message): Promise<void> => {
 const receivedText = async (message: any) => {
     try {
         const result: Notice[] | string | any = await search(message.data.text);
-
-        if (isString(result)) {
-            if (stringIsEmpty(result)) {
-                throw new Error("result is null!");
-            }
-
-            addMessage("robot", { text: result });
-            if (chatCount.value === 4) {
-                addMessage("robot", { text: "请为我们评分 谢谢!", rate: true });
-            }
-        }
-
-        if (typeof result == "object") {
-            if (result.length <= 0) {
-                throw new Error("result is null!");
-            }
-
-            if (chatCount.value === 1) {
-                addMessage("robot", { text: "已经为您找到如下文件,请问您对哪个文件感兴趣?" });
-            }
-
-            for (let i = 0; i < result.length; i++) {
-                const data = {
-                    text: result[i].name.split(".")[0],
-                    meta: "/word/" + result[i].id,
-                    url: result[i].url,
-                    id: result[i].id,
-                };
-
-                addMessage("robot", data);
-            }
-        }
+        processSearchResult(result);
     } catch (error) {
         console.log(error);
         addMessage("robot", { text: "对不起，这个问题我不知道" });
+    }
+};
+
+const processSearchResult = (result: Notice[] | string | any): void => {
+    if (isString(result)) {
+        addMessage("robot", { text: result });
+    }
+
+    if (Array.isArray(result)) {
+        renderNoticeList(result);
+    }
+
+    robotReply();
+};
+
+const renderNoticeList = (noticeList: Array<Notice>): void => {
+    addMessage("robot", { text: "已经为您找到如下文件,请问您对哪个文件感兴趣?" });
+    const result: Notice[] | any = noticeList;
+    for (let i = 0; i < result.length; i++) {
+        const data = {
+            text: result[i].name.split(".")[0],
+            meta: "/word/" + result[i].id,
+            url: result[i].url,
+            id: result[i].id,
+        };
+
+        addMessage("robot", data);
+    }
+    addMessage("robot", { text: "没有满意的文件?", changeNoticeList: true });
+};
+
+const robotReply = (): void => {
+    if (chatCount.value === 4) {
+        addMessage("robot", { text: "请为我们评分 谢谢!", rate: true });
     }
 };
 
@@ -301,7 +325,7 @@ const openChat = (): void => {
     clearHistory();
 
     addMessage("robot", { text: "欢迎来到InfoWeaver!" });
-    addMessage("robot", { text: "您可以向我一些问题。" });
+    addMessage("robot", { text: "您可以向我问一些问题。" });
 
     const node1 = <HTMLElement>document.getElementsByClassName("wave")[0].children[1];
     const node2 = <HTMLElement>document.getElementsByClassName("wave")[0].children[2];

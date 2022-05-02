@@ -68,7 +68,7 @@ const form = reactive({
     password: "",
 });
 const login = async () => {
-    router.push("/content");
+    router.push("/content/");
     ElNotification.success({
         message: h("i", { style: "color: teal" }, "登录成功！"),
         position: "top-right",

@@ -2,7 +2,9 @@
     <el-scrollbar>
         <el-container>
             <el-aside width="200px">
+                
                 <img src="../assets/白全.svg" width="160" height="70" />
+
                 <el-menu
                     active-text-color="#ffd04b"
                     background-color=" #40485B"
@@ -88,7 +90,7 @@
 
             <el-container>
                 <el-header>
-                    <el-row justify="space-between" align="middle">
+                    <el-row justify="space-between" align="middle" style="width: 100%; height: 53px">
                         <el-col :span="15">
                             <el-row align="middle">
                                 <el-button size="large" class="header-button">
@@ -104,33 +106,35 @@
                             </el-row>
                         </el-col>
 
-                        <el-col :span="9" align="right">
-                            <el-menu
-                                mode="horizontal"
-                                active-text-color="#000000"
-                                background-color="f0f2f4"
-                                style="width: 290px"
-                                :ellipsis="false"
+                        <el-col :span="9" style="text-align: right">
+                            <el-row align="middle" justify="end" style="width: 100%">
+                                <el-menu
+                                    mode="horizontal"
+                                    active-text-color="#000000"
+                                    background-color="f0f2f4"
+                                    style="width: 290px"
+                                    :ellipsis="false"
+                                >
+                                    <el-menu-item index="1" class="header-menu-item">消息通知</el-menu-item>
+                                    <el-menu-item index="2" class="header-menu-item">系统设置</el-menu-item>
+                                    <el-menu-item index="3" class="header-menu-item">个人中心</el-menu-item>
+                                    <el-menu-item index="4" class="header-menu-item">
+                                        <el-dropdown>
+                                            <el-avatar
+                                                src="https://portrait.gitee.com/uploads/avatars/user/3474/10422230_shangruobing_1644648546.png!avatar200"
+                                            />
+                                            <template #dropdown>
+                                                <el-dropdown-menu>
+                                                    <el-dropdown-item>个人中心</el-dropdown-item>
+                                                    <el-dropdown-item>设置</el-dropdown-item>
+                                                    <el-dropdown-item disabled>禁用设置</el-dropdown-item>
+                                                    <el-dropdown-item divided>退出登录</el-dropdown-item>
+                                                </el-dropdown-menu>
+                                            </template>
+                                        </el-dropdown>
+                                    </el-menu-item>
+                                </el-menu></el-row
                             >
-                                <el-menu-item index="1" class="header-menu-item">消息通知</el-menu-item>
-                                <el-menu-item index="2" class="header-menu-item">系统设置</el-menu-item>
-                                <el-menu-item index="3" class="header-menu-item">个人中心</el-menu-item>
-                                <el-menu-item index="4" class="header-menu-item">
-                                    <el-dropdown>
-                                        <el-avatar
-                                            src="https://portrait.gitee.com/uploads/avatars/user/3474/10422230_shangruobing_1644648546.png!avatar200"
-                                        />
-                                        <template #dropdown>
-                                            <el-dropdown-menu>
-                                                <el-dropdown-item>个人中心</el-dropdown-item>
-                                                <el-dropdown-item>设置</el-dropdown-item>
-                                                <el-dropdown-item disabled>禁用设置</el-dropdown-item>
-                                                <el-dropdown-item divided>退出登录</el-dropdown-item>
-                                            </el-dropdown-menu>
-                                        </template>
-                                    </el-dropdown>
-                                </el-menu-item>
-                            </el-menu>
                         </el-col>
                     </el-row>
                 </el-header>
@@ -182,6 +186,7 @@ $main-color: #f0f2f4;
 .el-header {
     background-color: $header-color;
     padding: 0;
+    height: 60px;
     border-bottom: 3px solid #f0f2f5;
     box-shadow: 0 7px 5px -5px #f2f4f5;
 }
