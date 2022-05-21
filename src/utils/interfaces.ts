@@ -1,45 +1,41 @@
-export declare interface Message {
-    type?: string;
-    author?: string;
-    data: {
-        text?: string;
-        meta?: string;
-        emoji?: string;
-        url?: string;
-        preview?: boolean;
-        rate?: boolean;
-    };
+/* eslint-disable no-unused-vars */
+export interface Message {
+  type?: string
+  author?: string
+  data: {
+    text?: string
+    meta?: string
+    emoji?: string
+    url?: string
+    preview?: boolean
+    rate?: boolean
+  }
 }
-export declare interface Notice {
-    id?: string;
-    name?: string;
-    url?: string;
-    mysql_id?: string;
-}
-export declare interface ChatRecord {
-    question: string;
-    has_history: boolean;
-    history: any;
+export interface Notice {
+  id?: string
+  name?: string
+  url?: string
+  mysql_id?: string
 }
 
-export declare interface ChatReply {
-    answer_type: string;
-    results: SearchResult;
+export interface ChatRecord {
+  question: string
+  has_history: boolean
+  history: any
+}
+
+export type SearchResult = Array<Notice> | string
+
+export interface ChatReply {
+  answer_type: string
+  results: SearchResult
 }
 
 export enum AnswerType {
-    BAIDU = "baidu",
-    DATABASE = "database_search",
-    CHAT = "chat",
-    LOCAL = "local",
-    BERT = "bert",
-    UNKNOWN = "unknown",
+  BAIDU = 'baidu',
+  DATABASE = 'database_search',
+  CHAT = 'chat',
+  LOCAL = 'local',
+  BERT = 'bert',
+  UNKNOWN = 'unknown'
 }
-
-export type SearchResult = Array<Notice> | string;
-
-// export let message: message;
-// export let notice: notice;
-// export let chatRecord: chatRecord;
-// export let chatReply: chatReply;
-// export let AnswerType: AnswerType;
