@@ -34,5 +34,3 @@ export const participants = [
 ]
 
 export const titleImageUrl = ''
-
-export default {}

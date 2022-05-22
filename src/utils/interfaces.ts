@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-export interface Message {
+export declare interface Message {
   type?: string
   author?: string
   data: {
@@ -11,14 +11,14 @@ export interface Message {
     rate?: boolean
   }
 }
-export interface Notice {
+export declare interface Notice {
   id?: string
   name?: string
   url?: string
   mysql_id?: string
 }
 
-export interface ChatRecord {
+export declare interface ChatRecord {
   question: string
   has_history: boolean
   history: any
@@ -26,12 +26,12 @@ export interface ChatRecord {
 
 export type SearchResult = Array<Notice> | string
 
-export interface ChatReply {
+export declare interface ChatReply {
   answer_type: string
   results: SearchResult
 }
 
-export enum AnswerType {
+export const enum AnswerType {
   BAIDU = 'baidu',
   DATABASE = 'database_search',
   CHAT = 'chat',

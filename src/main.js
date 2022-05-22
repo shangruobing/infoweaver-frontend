@@ -22,7 +22,7 @@ app.config.globalProperties.$axios = Axios
 app.config.globalProperties.$echarts = echarts
 
 const isDevelopmentMode = false
-// const is_development_mode = true;
+// const isDevelopmentMode = true;
 
 let http = 'http://43.138.43.128:8000/api/'
 if (isDevelopmentMode) {

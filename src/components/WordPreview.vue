@@ -22,7 +22,6 @@ onMounted(async () => {
       responseType: 'blob',
       url: http + 'word/' + id
     })
-
     renderAsync(response.data, file.value)
   } catch (error) {
     console.log(error)

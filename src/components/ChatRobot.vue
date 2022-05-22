@@ -207,10 +207,6 @@ const search = async (question: string) => {
     }
     const response = await Axios.post(api, chatRecord)
 
-    console.log('response', response)
-    console.log('isSelectedFile', isSelectedFile.value)
-    console.log('chatRecord', chatRecord)
-
     return saveHistory(response)
   } catch (error) {
     console.log(error)
