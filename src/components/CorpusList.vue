@@ -14,10 +14,10 @@
   </el-form>
 
   <el-table :data="results" stripe border style="width: 100%" v-if="pagination.count > 0">
-    <el-table-column prop="Question" label="Question" />
-    <el-table-column prop="Answer" label="Answer" width="500" />
+    <el-table-column prop="Question" label="Question" width="350" />
+    <el-table-column prop="Answer" label="Answer" />
 
-    <el-table-column label="Operations">
+    <el-table-column label="Operations" width="150">
       <template #default="scope">
         <el-popconfirm
           confirm-button-text="Yes"
@@ -122,7 +122,6 @@ const addCorpus = async () => {
 
 const confirmEvent = () => {
   console.log('confirm!')
-  //   this.students.splice(this.delInfo.index, 1);
 }
 const cancelEvent = () => {
   console.log('cancel!')

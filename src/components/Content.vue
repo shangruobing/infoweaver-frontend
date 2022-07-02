@@ -2,14 +2,16 @@
   <el-scrollbar>
     <el-container>
       <el-aside width="200px" id="asideMenu">
-        <img src="../assets/白全.svg" width="160" height="70" alt="logo" v-if="!isCollapse" />
-        <img src="../assets/白.svg" width="58" height="70" alt="logo" v-else />
-
+        <transition name="Fade">
+          <img src="../assets/白全.svg" width="160" height="70" alt="logo" v-if="!isCollapse" />
+          <img src="../assets/白.svg" width="50" height="70" alt="logo" v-else />
+        </transition>
         <el-menu
           active-text-color="#ffd04b"
           background-color=" #40485B"
           text-color="#fff"
           :collapse="isCollapse"
+          :collapse-transition="false"
           router
           :unique-opened="true"
         >
@@ -182,7 +184,7 @@ const clickMenu = (menu: string, item: string) => {
 const changeMenuView = () => {
   isCollapse.value = !isCollapse.value
   const asideMenu = document.getElementById('asideMenu')!
-  asideMenu.style.width = isCollapse.value ? '100px' : '200px'
+  asideMenu.style.width = isCollapse.value ? '70px' : '200px'
 }
 </script>
 
@@ -219,12 +221,12 @@ $main-color: #f0f2f4;
   height: 100%;
 }
 
-.sub-menu-expand {
-  width: 200px;
+.sub-menu-fold {
+  width: 70px;
 }
 
-.sub-menu-fold {
-  width: 100px;
+.sub-menu-expand {
+  width: 200px;
 }
 
 :deep(.el-menu--horizontal) {
@@ -258,5 +260,13 @@ $main-color: #f0f2f4;
   height: 53px;
   background-color: $header-color;
   border: none;
+}
+
+.Fade-enter-active {
+  transition: opacity 2s ease;
+}
+
+.Fade-enter-from {
+  opacity: 0;
 }
 </style>
