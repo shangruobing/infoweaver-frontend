@@ -1,8 +1,9 @@
 <template>
   <el-scrollbar>
     <el-container>
-      <el-aside width="200px">
-        <img src="../assets/白全.svg" width="160" height="70" alt="logo" />
+      <el-aside width="200px" id="asideMenu">
+        <img src="../assets/白全.svg" width="160" height="70" alt="logo" v-if="!isCollapse" />
+        <img src="../assets/白.svg" width="58" height="70" alt="logo" v-else />
 
         <el-menu
           active-text-color="#ffd04b"
@@ -12,7 +13,7 @@
           router
           :unique-opened="true"
         >
-          <el-sub-menu index="1">
+          <el-sub-menu index="1" :class="!isCollapse ? 'sub-menu-expand' : 'sub-menu-fold'">
             <template #title>
               <el-icon><icon-menu /></el-icon>
               <span>通知管理</span>
@@ -38,7 +39,7 @@
             </el-menu-item>
           </el-sub-menu>
 
-          <el-sub-menu index="2">
+          <el-sub-menu index="2" :class="!isCollapse ? 'sub-menu-expand' : 'sub-menu-fold'">
             <template #title>
               <el-icon><document /></el-icon>
               <span>文件管理</span>
@@ -58,7 +59,7 @@
             </el-menu-item>
           </el-sub-menu>
 
-          <el-sub-menu index="3">
+          <el-sub-menu index="3" :class="!isCollapse ? 'sub-menu-expand' : 'sub-menu-fold'">
             <template #title>
               <el-icon><setting /></el-icon>
               <span>系统设置</span>
@@ -92,8 +93,9 @@
           <el-row justify="space-between" align="middle" style="width: 100%; height: 53px">
             <el-col :span="15">
               <el-row align="middle">
-                <el-button size="large" text class="header-button">
-                  <el-icon :size="20"><fold /></el-icon>
+                <el-button size="large" text class="header-button" @click="changeMenuView">
+                  <el-icon :size="20" v-if="!isCollapse"><fold /></el-icon>
+                  <el-icon :size="20" v-else><expand /></el-icon>
                 </el-button>
                 <el-breadcrumb :separator-icon="ArrowRight">
                   <el-breadcrumb-item :to="{ path: '/' }">
@@ -152,7 +154,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-import { Fold, ArrowRight } from '@element-plus/icons-vue'
+import { Fold, Expand, ArrowRight } from '@element-plus/icons-vue'
 import {
   Setting,
   Document,
@@ -175,6 +177,12 @@ const menuItem = ref('')
 const clickMenu = (menu: string, item: string) => {
   submenu.value = menu
   menuItem.value = item
+}
+
+const changeMenuView = () => {
+  isCollapse.value = !isCollapse.value
+  const asideMenu = document.getElementById('asideMenu')!
+  asideMenu.style.width = isCollapse.value ? '100px' : '200px'
 }
 </script>
 
@@ -211,10 +219,12 @@ $main-color: #f0f2f4;
   height: 100%;
 }
 
-:deep(.el-sub-menu),
-.el-menu-item,
-:deep(.el-sub-menu__title) {
+.sub-menu-expand {
   width: 200px;
+}
+
+.sub-menu-fold {
+  width: 100px;
 }
 
 :deep(.el-menu--horizontal) {
