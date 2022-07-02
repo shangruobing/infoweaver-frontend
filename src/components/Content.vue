@@ -2,7 +2,7 @@
   <el-scrollbar>
     <el-container>
       <el-aside width="200px">
-        <img src="../assets/白全.svg" width="160" height="70" />
+        <img src="../assets/白全.svg" width="160" height="70" alt="logo" />
 
         <el-menu
           active-text-color="#ffd04b"
@@ -92,7 +92,7 @@
           <el-row justify="space-between" align="middle" style="width: 100%; height: 53px">
             <el-col :span="15">
               <el-row align="middle">
-                <el-button size="large" class="header-button">
+                <el-button size="large" text class="header-button">
                   <el-icon :size="20"><fold /></el-icon>
                 </el-button>
                 <el-breadcrumb :separator-icon="ArrowRight">
@@ -121,6 +121,7 @@
                     <el-dropdown>
                       <el-avatar
                         src="https://portrait.gitee.com/uploads/avatars/user/3474/10422230_shangruobing_1644648546.png!avatar200"
+                        alt="avatar"
                       />
                       <template #dropdown>
                         <el-dropdown-menu>
@@ -240,8 +241,9 @@ $main-color: #f0f2f4;
 }
 
 .header-button {
-  padding-right: 20px;
+  padding-right: 10px;
   padding-left: 10px;
+  margin-right: 10px;
   color: #303133;
   height: 53px;
   background-color: $header-color;

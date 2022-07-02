@@ -155,8 +155,9 @@
           </el-col>
         </el-row>
 
-        <el-divider />
-
+        <el-divider style="margin-bottom: 10px" />
+        <el-link href="https://beian.miit.gov.cn/" target="_blank"> 滇ICP备2022003697号-1 </el-link>
+        <p style="font-size: 14px; color: #606266">All Rights Reserved Ruobing Shang 版权所有</p>
         <my-robot />
       </el-main>
     </el-container>

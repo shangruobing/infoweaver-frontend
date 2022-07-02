@@ -24,7 +24,10 @@ app.config.globalProperties.$echarts = echarts
 const isDevelopmentMode = false
 // const isDevelopmentMode = true;
 
-let http = 'http://43.138.43.128:8000/api/'
+// let http = 'http://43.138.43.128:8000/api/'
+// let http = 'http://43.138.43.128:8000/api/'
+let http = 'https://www.infoweaver.cloud/api/'
+
 if (isDevelopmentMode) {
   http = 'http://127.0.0.1:8000/api/'
 }

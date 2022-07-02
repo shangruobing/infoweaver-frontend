@@ -7,7 +7,6 @@ import axios from 'axios'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { renderAsync } from 'docx-preview'
-
 import { getHttp } from '../utils/django-http'
 
 const route = useRoute()
