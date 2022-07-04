@@ -1,8 +1,8 @@
 <template>
   <el-scrollbar>
     <el-container>
-      <el-aside width="200px" id="asideMenu">
-        <transition name="Fade">
+      <el-aside width="200px" id="asideMenu" style="transition: width 0.6s">
+        <transition name="logo-fade" mode="out-in">
           <img src="../assets/白全.svg" width="160" height="70" alt="logo" v-if="!isCollapse" />
           <img src="../assets/白.svg" width="50" height="70" alt="logo" v-else />
         </transition>
@@ -137,15 +137,15 @@
                       </template>
                     </el-dropdown>
                   </el-menu-item>
-                </el-menu></el-row
-              >
+                </el-menu>
+              </el-row>
             </el-col>
           </el-row>
         </el-header>
 
         <el-container>
           <el-main>
-            <router-view></router-view>
+            <transition><router-view></router-view></transition>
           </el-main>
         </el-container>
       </el-container>
@@ -262,11 +262,19 @@ $main-color: #f0f2f4;
   border: none;
 }
 
-.Fade-enter-active {
-  transition: opacity 2s ease;
+.logo-fade-enter-from {
+  opacity: 0;
 }
 
-.Fade-enter-from {
+.logo-fade-enter-active {
+  transition: opacity 0.5s ease;
+}
+
+.logo-fade-leave-to {
   opacity: 0;
+}
+
+.logo-fade-leave-active {
+  transition: opacity 0.3s ease;
 }
 </style>

@@ -3,20 +3,19 @@ import { createStore } from 'vuex'
 const store = createStore({
   state: {
     username: 'ruobing',
-    isLogin: false
+    isLogin: true
   },
   getters: {
-    getUsername: (state) => {
+    username: (state) => {
       return state.username
     },
-    getIsLogin: (state) => {
+    isLogin: (state) => {
       return state.isLogin
     }
   },
   mutations: {
-    clearHistory(state) {
-      state.hasHistory = false
-      state.displayPreview = false
+    logOut(state) {
+      state.username = ''
     }
   },
   actions: {},

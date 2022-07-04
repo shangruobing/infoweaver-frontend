@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import store from '../store/index'
 
 const routes = [
   {
@@ -109,8 +110,19 @@ const routes = [
     ]
   }
 ]
-const index = createRouter({
+const router = createRouter({
   history: createWebHistory(),
   routes
 })
-export default index
+
+router.beforeEach((from) => {
+  const isLogin = store.getters.isLogin
+
+  if (isLogin || from.name === 'login' || from.name === 'home') {
+    return true
+  } else {
+    return { name: 'login' }
+  }
+})
+
+export default router
