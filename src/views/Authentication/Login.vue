@@ -4,16 +4,16 @@
       <el-card class="box-card">
         <el-row align="middle" justify="space-between" style="width: 100%">
           <el-col :span="11" class="left-pan">
-            <img src="../assets/黑横.svg" width="160" height="60" />
+            <img src="@/assets/黑横.svg" width="160" height="60" />
             <h3>致力于研发简洁、高效的问答机器人</h3>
-            <img src="../assets/检索站点.svg" width="300" height="300" />
+            <img src="@/assets/检索站点.svg" width="300" height="300" />
           </el-col>
 
           <el-col :span="13" class="right-pan">
             <el-form label-position="right">
               <el-row align="bottom" justify="space-between">
-                <h1>注册</h1>
-                <el-button @click="goLogin" type="text">已有账号？去登录</el-button>
+                <h1>登录</h1>
+                <el-button @click="goRegister" type="text">没有账号？去注册</el-button>
               </el-row>
 
               <el-form-item label="用户名称">
@@ -22,39 +22,37 @@
               <el-form-item label="输入密码">
                 <el-input v-model="form.password" type="password" placeholder="请输入密码" />
               </el-form-item>
-              <el-form-item label="再次输入">
-                <el-input v-model="form.repeat" type="password" placeholder="请再次输入密码" />
-              </el-form-item>
-              <el-form-item>
-                <el-checkbox>我已阅读并同意相关条款</el-checkbox>
-              </el-form-item>
 
-              <el-form-item>
-                <el-button @click="register" type="primary" style="width: 100%">立即注册</el-button>
-              </el-form-item>
+              <el-row align="bottom" justify="space-between" style="margin-bottom: 10px">
+                <el-checkbox>记住我</el-checkbox>
+
+                <el-button type="text">短信验证码登录</el-button>
+              </el-row>
+
+              <el-button @click="login" type="primary" style="width: 100%">立即登录</el-button>
 
               <div class="right-footer">
                 <el-divider>其他方式登录</el-divider>
                 <el-row align="middle" justify="space-between">
                   <el-icon :size="25">
-                    <img src="../assets/qq.svg" width="25" height="25" />
-                  </el-icon>
-
-                  <el-icon :size="25">
-                    <img src="../assets/wechat.svg" width="25" height="25" />
+                    <img src="@/assets/qq.svg" width="25" height="25" />
                   </el-icon>
                   <el-icon :size="25">
-                    <img src="../assets/github.svg" width="25" height="25" />
+                    <img src="@/assets/wechat.svg" width="25" height="25" />
                   </el-icon>
                   <el-icon :size="25">
-                    <img src="../assets/gitee.svg" width="25" height="25" />
+                    <img src="@/assets/github.svg" width="25" height="25" />
+                  </el-icon>
+                  <el-icon :size="25">
+                    <img src="@/assets/gitee.svg" width="25" height="25" />
                   </el-icon>
                 </el-row>
               </div>
             </el-form>
           </el-col>
-        </el-row> </el-card
-    ></el-main>
+        </el-row>
+      </el-card>
+    </el-main>
   </el-container>
 </template>
 
@@ -63,25 +61,25 @@ import { h, reactive } from 'vue'
 import Axios from 'axios'
 import { useRouter } from 'vue-router'
 import { ElNotification } from 'element-plus'
+
 const router = useRouter()
 const form = reactive({
   username: '',
-  password: '',
-  repeat: ''
+  password: ''
 })
-const register = async () => {
+const login = async () => {
+  router.push('/content/')
   ElNotification.success({
-    message: h('i', { style: 'color: teal' }, '注册成功！'),
+    message: h('i', { style: 'color: teal' }, '登录成功！'),
     position: 'top-right'
   })
-  router.push('/login')
 
+  // router.push("/content");
   const api = 'http://127.0.0.1:8000/api/user/'
   const data = {
     username: form.username,
     password: form.password
   }
-
   try {
     const response = await Axios.post(api, data)
     console.log(response)
@@ -89,8 +87,9 @@ const register = async () => {
     console.log(error)
   }
 }
-const goLogin = () => {
-  router.push('/login')
+
+const goRegister = () => {
+  router.push('/register')
 }
 </script>
 

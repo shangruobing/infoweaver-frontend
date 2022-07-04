@@ -66,7 +66,7 @@ import { ref, reactive, onMounted } from 'vue'
 import Axios from 'axios'
 import { Download, Search } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { getHttp } from '../utils/django-http'
+import { getHttp } from '@/utils/django-http'
 const question = ref('')
 const loading = ref(false)
 const results = ref([])

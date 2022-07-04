@@ -84,7 +84,7 @@
 import Axios from 'axios'
 import { ref, reactive, onMounted } from 'vue'
 import { Search, Download, View as iconview } from '@element-plus/icons-vue'
-import { getHttp } from '../utils/django-http'
+import { getHttp } from '@/utils/django-http'
 
 const loading = ref(false)
 const filename = ref('')

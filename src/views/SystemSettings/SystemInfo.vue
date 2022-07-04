@@ -8,7 +8,7 @@
 <script lang="ts" setup>
 import Axios from 'axios'
 import { onMounted, reactive } from 'vue'
-import { getHttp } from '../utils/django-http'
+import { getHttp } from '@/utils/django-http'
 const http = getHttp()
 
 const sysinfo = reactive([{ name: 'NFQA', value: 'V1.0' }])

@@ -58,7 +58,7 @@
 <script lang="ts" setup>
 import Axios from 'axios'
 import { ref, reactive, onMounted } from 'vue'
-import { getHttp } from '../utils/django-http'
+import { getHttp } from '@/utils/django-http'
 
 const loading = ref(false)
 const results = ref([])
@@ -101,7 +101,6 @@ onMounted(async () => {
 
 const confirmEvent = () => {
   console.log('confirm!')
-  //   this.students.splice(this.delInfo.index, 1);
 }
 const cancelEvent = () => {
   console.log('cancel!')

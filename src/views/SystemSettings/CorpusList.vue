@@ -59,9 +59,9 @@
 <script lang="ts" setup>
 import Axios from 'axios'
 import { h, ref, reactive, onMounted } from 'vue'
-import { getHttp } from '../utils/django-http'
+import { getHttp } from '@/utils/django-http'
 import { ElNotification } from 'element-plus'
-import MyRobot from './ChatRobot.vue'
+import MyRobot from '@/components/ChatRobot.vue'
 const form = reactive({
   question: '',
   answer: ''

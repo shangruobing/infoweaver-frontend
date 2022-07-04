@@ -6,7 +6,7 @@
           <el-col :span="12" style="text-align: left; height: 53px">
             <el-popover :width="150" popper-style="text-align: center; padding: 10px;">
               <template #reference>
-                <img src="../assets/黑横.svg" width="160" height="60"
+                <img src="@/assets/黑横.svg" width="160" height="60"
               /></template>
               <template #default><p>编织信息 共赢未来🎉</p></template>
             </el-popover>
@@ -66,17 +66,17 @@
 
           <el-col :span="15">
             <a href="https://gitee.com/shangruobing/nfqa-front-end-development" id="fork">
-              <img src="../assets/forkme.svg" alt="Fork me on Gitee" />
+              <img src="@/assets/forkme.svg" alt="Fork me on Gitee" />
             </a>
             <el-carousel indicator-position="outside" style="text-align: center">
               <el-carousel-item>
-                <img src="../assets/模拟用户数据.svg" width="400" height="350" />
+                <img src="@/assets/模拟用户数据.svg" width="400" height="350" />
               </el-carousel-item>
               <el-carousel-item>
-                <img src="../assets/检索站点.svg" width="400" height="350" />
+                <img src="@/assets/检索站点.svg" width="400" height="350" />
               </el-carousel-item>
               <el-carousel-item>
-                <img src="../assets/检测数据.svg" width="400" height="350" />
+                <img src="@/assets/检测数据.svg" width="400" height="350" />
               </el-carousel-item>
             </el-carousel>
           </el-col>
@@ -84,7 +84,7 @@
         <el-divider />
         <el-row :gutter="20">
           <el-col :span="10" style="text-align: right">
-            <img src="../assets/云端管理.svg" width="400" height="250" alt="InfoWeaver" />
+            <img src="@/assets/云端管理.svg" width="400" height="250" alt="InfoWeaver" />
           </el-col>
           <el-col :span="14" style="text-align: left">
             <el-card class="box-card">
@@ -127,7 +127,7 @@
             </el-timeline>
           </el-col>
           <el-col :span="12" style="text-align: left">
-            <img src="../assets/政府工作.svg" width="500" height="400" />
+            <img src="@/assets/政府工作.svg" width="500" height="400" />
           </el-col>
         </el-row>
 
@@ -135,7 +135,7 @@
 
         <el-row :gutter="20">
           <el-col :span="12" style="text-align: right">
-            <img src="../assets/模拟用户数据.svg" width="450" height="250" />
+            <img src="@/assets/模拟用户数据.svg" width="450" height="250" />
           </el-col>
           <el-col :span="12" style="text-align: left">
             <h2>参与开源贡献</h2>
@@ -163,7 +163,7 @@
           style="margin-right: 20px"
           :underline="false"
         >
-          <img src="../assets/beian.png" />
+          <img src="@/assets/beian.png" />
           滇公网安备 53011402000584号
         </el-link>
 
@@ -182,7 +182,7 @@ import { h, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElNotification } from 'element-plus'
 import { Search, Message } from '@element-plus/icons-vue'
-import MyRobot from './ChatRobot.vue'
+import MyRobot from '@/components/ChatRobot.vue'
 import 'element-plus/theme-chalk/display.css'
 const router = useRouter()
 const rate = ref(null)
@@ -215,10 +215,7 @@ const thanks = () => {
   border-bottom: 3px solid #f0f2f4;
   height: 60px;
 }
-// .el-row {
-//     padding: 0;
-//     height: 100%;
-// }
+
 .header-menu-item {
   width: 70px;
   height: 53px;

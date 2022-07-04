@@ -5,17 +5,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: () => import('../components/Home.vue')
-  },
-  {
-    path: '/notice',
-    name: 'notice',
-    component: () => import('../components/NoticeList.vue')
-  },
-  {
-    path: '/corpus',
-    name: 'corpus',
-    component: () => import('../components/CorpusList.vue')
+    component: () => import('../views/Home.vue')
   },
   {
     path: '/word/:id',
@@ -23,89 +13,59 @@ const routes = [
     component: () => import('../components/WordPreview.vue')
   },
   {
-    path: '/neo4j',
-    name: 'neo4j',
-    component: () => import('../components/Neo4j.vue')
-  },
-  {
-    path: '/test',
-    name: 'test',
-    component: () => import('../components/Test.vue')
-  },
-  {
     path: '/register',
     name: 'register',
-    component: () => import('../components/Register.vue')
+    component: () => import('../views/Authentication/Register.vue')
   },
   {
     path: '/login',
     name: 'login',
-    component: () => import('../components/Login.vue')
-  },
-  {
-    path: '/chatRobot',
-    name: 'chatRobot',
-    component: () => import('../components/ChatRobot.vue')
-  },
-  {
-    path: '/upload',
-    name: 'upload',
-    component: () => import('../components/UploadFileForm.vue')
-  },
-  {
-    path: '/echarts',
-    name: 'echarts',
-    component: () => import('../components/Statistics.vue')
-  },
-  {
-    path: '/fileList',
-    name: 'fileList',
-    component: () => import('../components/FileList.vue')
+    component: () => import('../views/Authentication/Login.vue')
   },
   {
     path: '/content',
     name: 'content',
-    component: () => import('../components/Content.vue'),
+    component: () => import('../views/Content/Content.vue'),
     children: [
       {
         path: '',
-        component: () => import('../components/TestChart.vue')
-      },
-      {
-        path: 'notice',
-        component: () => import('../components/NoticeList.vue')
-      },
-      {
-        path: 'neo4j',
-        component: () => import('../components/Neo4j.vue')
-      },
-      {
-        path: 'echarts',
-        component: () => import('../components/Statistics.vue')
-      },
-      {
-        path: 'fileList',
-        component: () => import('../components/FileList.vue')
-      },
-      {
-        path: 'upload',
-        component: () => import('../components/UploadFileForm.vue')
-      },
-      {
-        path: 'systemInfo',
-        component: () => import('../components/SystemInfo.vue')
+        component: () => import('../views/Content/Welcome.vue')
       },
       {
         path: 'chatRobot',
         component: () => import('../components/ChatRobot.vue')
       },
       {
+        path: 'notice',
+        component: () => import('../views/NoticeManagement/NoticeList.vue')
+      },
+      {
+        path: 'neo4j',
+        component: () => import('../views/NoticeManagement/Neo4j.vue')
+      },
+      {
+        path: 'echarts',
+        component: () => import('../views/NoticeManagement/Statistics.vue')
+      },
+      {
+        path: 'fileList',
+        component: () => import('../views/FileManagement/FileList.vue')
+      },
+      {
+        path: 'upload',
+        component: () => import('../views/FileManagement/UploadFileForm.vue')
+      },
+      {
+        path: 'systemInfo',
+        component: () => import('../views/SystemSettings/SystemInfo.vue')
+      },
+      {
         path: 'dbInfo',
-        component: () => import('../components/DBinfo.vue')
+        component: () => import('../views/SystemSettings/DBinfo.vue')
       },
       {
         path: 'corpus',
-        component: () => import('../components/CorpusList.vue')
+        component: () => import('../views/SystemSettings/CorpusList.vue')
       }
     ]
   }

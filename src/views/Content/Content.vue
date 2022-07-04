@@ -3,8 +3,8 @@
     <el-container>
       <el-aside width="200px" id="asideMenu" style="transition: width 0.6s">
         <transition name="logo-fade" mode="out-in">
-          <img src="../assets/白全.svg" width="160" height="70" alt="logo" v-if="!isCollapse" />
-          <img src="../assets/白.svg" width="50" height="70" alt="logo" v-else />
+          <img src="@/assets/白全.svg" width="160" height="70" alt="logo" v-if="!isCollapse" />
+          <img src="@/assets/白.svg" width="50" height="70" alt="logo" v-else />
         </transition>
         <el-menu
           active-text-color="#ffd04b"

@@ -101,9 +101,9 @@ import { reactive, ref, h } from 'vue'
 import { ElNotification } from 'element-plus'
 import { Download, View as iconview, Refresh } from '@element-plus/icons-vue'
 
-import { getHttp } from '../utils/django-http'
-import { isString } from '../utils/type-utils'
-import { colors, participants, titleImageUrl } from '../utils/robot-information'
+import { getHttp } from '@/utils/django-http'
+import { isString } from '@/utils/type-utils'
+import { colors, participants, titleImageUrl } from '@/utils/robot-information'
 import {
   Message,
   Notice,
@@ -111,7 +111,7 @@ import {
   ChatReply,
   AnswerType,
   SearchResult
-} from '../utils/interfaces'
+} from '@/utils/interfaces'
 
 const isNeedPreview = ref<boolean>()
 const isDisableRadio = ref(false)
