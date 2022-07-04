@@ -68,6 +68,11 @@ const routes = [
         component: () => import('../views/SystemSettings/CorpusList.vue')
       }
     ]
+  },
+  {
+    path: '/:catchAll(.*)',
+    name: 'NotFound',
+    component: () => import('../views/Exception/NotFound.vue')
   }
 ]
 const router = createRouter({
