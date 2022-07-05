@@ -128,20 +128,7 @@
                   <el-menu-item index="2" class="header-menu-item">系统设置</el-menu-item>
                   <el-menu-item index="3" class="header-menu-item">个人中心</el-menu-item>
                   <el-menu-item index="4" class="header-menu-item">
-                    <el-dropdown>
-                      <el-avatar
-                        src="https://portrait.gitee.com/uploads/avatars/user/3474/10422230_shangruobing_1644648546.png!avatar200"
-                        alt="avatar"
-                      />
-                      <template #dropdown>
-                        <el-dropdown-menu>
-                          <el-dropdown-item>个人中心</el-dropdown-item>
-                          <el-dropdown-item>设置</el-dropdown-item>
-                          <el-dropdown-item disabled>禁用设置</el-dropdown-item>
-                          <el-dropdown-item divided @click="logout">退出登录</el-dropdown-item>
-                        </el-dropdown-menu>
-                      </template>
-                    </el-dropdown>
+                    <personal-center />
                   </el-menu-item>
                 </el-menu>
               </el-row>
@@ -171,6 +158,8 @@ import { Document, View, UploadFilled } from '@element-plus/icons'
 // eslint-disable-next-line import/no-duplicates
 import { Setting, Cpu, Coin, Help } from '@element-plus/icons'
 import { useRouter } from 'vue-router'
+import PersonalCenter from '@/components/PersonalCenter.vue'
+
 
 const isCollapse = ref(false)
 const submenu = ref('')

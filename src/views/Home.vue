@@ -32,25 +32,7 @@
                 <el-menu-item index="login" class="header-menu-item">登录</el-menu-item>
                 <el-menu-item index="register" class="header-menu-item">注册</el-menu-item>
                 <el-menu-item class="header-menu-item">
-                  <el-dropdown>
-                    <el-avatar
-                      v-if="isLogin"
-                      src="https://portrait.gitee.com/uploads/avatars/user/3474/10422230_shangruobing_1644648546.png!avatar200"
-                    />
-                    <el-avatar v-else> <img src="@/assets/home/头像.svg" /></el-avatar>
-
-                    <template #dropdown>
-                      <el-dropdown-menu>
-                        <el-dropdown-item>个人中心</el-dropdown-item>
-                        <el-dropdown-item @click="router.push('/content/')">
-                          进入管理端
-                        </el-dropdown-item>
-                        <el-dropdown-item>帮助</el-dropdown-item>
-                        <el-dropdown-item disabled>禁用设置</el-dropdown-item>
-                        <el-dropdown-item divided @click="logout">退出登录</el-dropdown-item>
-                      </el-dropdown-menu>
-                    </template>
-                  </el-dropdown>
+                  <personal-center isHome />
                 </el-menu-item>
               </el-menu>
             </el-row>
@@ -182,22 +164,13 @@
 
 <script lang="ts" setup>
 import { h, ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { ElNotification } from 'element-plus'
 import { Search, Message } from '@element-plus/icons-vue'
 import MyRobot from '@/components/ChatRobot.vue'
+import PersonalCenter from '@/components/PersonalCenter.vue'
 import 'element-plus/theme-chalk/display.css'
-import { useStore } from 'vuex'
 
-const router = useRouter()
 const rate = ref(null)
-const store = useStore()
-const isLogin = ref(store.getters.isLogin)
-
-const logout = () => {
-  isLogin.value = false
-  store.commit('logout')
-}
 
 const thanks = () => {
   ElNotification({
