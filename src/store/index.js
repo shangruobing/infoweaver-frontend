@@ -2,8 +2,8 @@ import { createStore } from 'vuex'
 
 const store = createStore({
   state: {
-    username: 'ruobing',
-    isLogin: true
+    username: '',
+    isLogin: false
   },
   getters: {
     username: (state) => {
@@ -14,7 +14,12 @@ const store = createStore({
     }
   },
   mutations: {
-    logOut(state) {
+    loginSuccess(state, payload) {
+      state.isLogin = true
+      state.username = payload
+    },
+    logout(state) {
+      state.isLogin = false
       state.username = ''
     }
   },

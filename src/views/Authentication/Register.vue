@@ -4,9 +4,9 @@
       <el-card class="box-card">
         <el-row align="middle" justify="space-between" style="width: 100%">
           <el-col :span="11" class="left-pan">
-            <img src="@/assets/黑横.svg" width="160" height="60" />
+            <img src="@/assets/infoweaver/黑横.svg" width="160" height="60" />
             <h3>致力于研发简洁、高效的问答机器人</h3>
-            <img src="@/assets/检索站点.svg" width="300" height="300" />
+            <img src="@/assets/material/检索站点.svg" width="300" height="300" />
           </el-col>
 
           <el-col :span="13" class="right-pan">
@@ -37,17 +37,17 @@
                 <el-divider>其他方式登录</el-divider>
                 <el-row align="middle" justify="space-between">
                   <el-icon :size="25">
-                    <img src="@/assets/qq.svg" width="25" height="25" />
+                    <img src="@/assets/icon/qq.svg" width="25" height="25" />
                   </el-icon>
 
                   <el-icon :size="25">
-                    <img src="@/assets/wechat.svg" width="25" height="25" />
+                    <img src="@/assets/icon/wechat.svg" width="25" height="25" />
                   </el-icon>
                   <el-icon :size="25">
-                    <img src="@/assets/github.svg" width="25" height="25" />
+                    <img src="@/assets/icon/github.svg" width="25" height="25" />
                   </el-icon>
                   <el-icon :size="25">
-                    <img src="@/assets/gitee.svg" width="25" height="25" />
+                    <img src="@/assets/icon/gitee.svg" width="25" height="25" />
                   </el-icon>
                 </el-row>
               </div>

@@ -34,8 +34,11 @@
                 <el-menu-item class="header-menu-item">
                   <el-dropdown>
                     <el-avatar
+                      v-if="isLogin"
                       src="https://portrait.gitee.com/uploads/avatars/user/3474/10422230_shangruobing_1644648546.png!avatar200"
                     />
+                    <el-avatar v-else> <img src="@/assets/home/头像.svg" /></el-avatar>
+
                     <template #dropdown>
                       <el-dropdown-menu>
                         <el-dropdown-item>个人中心</el-dropdown-item>
@@ -44,7 +47,7 @@
                         </el-dropdown-item>
                         <el-dropdown-item>帮助</el-dropdown-item>
                         <el-dropdown-item disabled>禁用设置</el-dropdown-item>
-                        <el-dropdown-item divided>退出登录</el-dropdown-item>
+                        <el-dropdown-item divided @click="logout">退出登录</el-dropdown-item>
                       </el-dropdown-menu>
                     </template>
                   </el-dropdown>
@@ -184,8 +187,17 @@ import { ElNotification } from 'element-plus'
 import { Search, Message } from '@element-plus/icons-vue'
 import MyRobot from '@/components/ChatRobot.vue'
 import 'element-plus/theme-chalk/display.css'
+import { useStore } from 'vuex'
+
 const router = useRouter()
 const rate = ref(null)
+const store = useStore()
+const isLogin = ref(store.getters.isLogin)
+
+const logout = () => {
+  isLogin.value = false
+  store.commit('logout')
+}
 
 const thanks = () => {
   ElNotification({

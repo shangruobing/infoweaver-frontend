@@ -4,9 +4,9 @@
       <el-card class="box-card">
         <el-row align="middle" justify="space-between" style="width: 100%">
           <el-col :span="11" class="left-pan">
-            <img src="@/assets/黑横.svg" width="160" height="60" />
+            <img src="@/assets/infoweaver/黑横.svg" width="160" height="60" />
             <h3>致力于研发简洁、高效的问答机器人</h3>
-            <img src="@/assets/检索站点.svg" width="300" height="300" />
+            <img src="@/assets/material/检索站点.svg" width="300" height="300" />
           </el-col>
 
           <el-col :span="13" class="right-pan">
@@ -35,16 +35,16 @@
                 <el-divider>其他方式登录</el-divider>
                 <el-row align="middle" justify="space-between">
                   <el-icon :size="25">
-                    <img src="@/assets/qq.svg" width="25" height="25" />
+                    <img src="@/assets/icon/qq.svg" width="25" height="25" />
                   </el-icon>
                   <el-icon :size="25">
-                    <img src="@/assets/wechat.svg" width="25" height="25" />
+                    <img src="@/assets/icon/wechat.svg" width="25" height="25" />
                   </el-icon>
                   <el-icon :size="25">
-                    <img src="@/assets/github.svg" width="25" height="25" />
+                    <img src="@/assets/icon/github.svg" width="25" height="25" />
                   </el-icon>
                   <el-icon :size="25">
-                    <img src="@/assets/gitee.svg" width="25" height="25" />
+                    <img src="@/assets/icon/gitee.svg" width="25" height="25" />
                   </el-icon>
                 </el-row>
               </div>
@@ -58,31 +58,42 @@
 
 <script lang="ts" setup>
 import { h, reactive } from 'vue'
-import Axios from 'axios'
+// import Axios from 'axios'
 import { useRouter } from 'vue-router'
 import { ElNotification } from 'element-plus'
+import { useStore } from 'vuex'
 
 const router = useRouter()
 const form = reactive({
   username: '',
   password: ''
 })
+const store = useStore()
 const login = async () => {
-  router.push('/content/')
-  ElNotification.success({
-    message: h('i', { style: 'color: teal' }, '登录成功！'),
-    position: 'top-right'
-  })
-
-  // router.push("/content");
-  const api = 'http://127.0.0.1:8000/api/user/'
-  const data = {
-    username: form.username,
-    password: form.password
-  }
+  // const api = 'http://127.0.0.1:8000/api/user/'
+  // const data = {
+  //   username: form.username,
+  //   password: form.password
+  // }
   try {
-    const response = await Axios.post(api, data)
-    console.log(response)
+    // const response = await Axios.post(api, data)
+    if (form.username === '若水' && form.password === '123456') {
+      ElNotification.success({
+        message: h('i', { style: 'color: teal' }, '登录成功！'),
+        position: 'top-right',
+        duration: 1500
+      })
+      store.commit('loginSuccess', form.username)
+
+      router.push('/')
+      // router.push('/content/')
+    } else {
+      ElNotification.error({
+        message: h('i', { style: 'color: teal' }, '用户名或密码错误！'),
+        position: 'top-right',
+        duration: 1500
+      })
+    }
   } catch (error) {
     console.log(error)
   }

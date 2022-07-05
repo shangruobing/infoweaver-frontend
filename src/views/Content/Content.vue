@@ -138,7 +138,7 @@
                           <el-dropdown-item>个人中心</el-dropdown-item>
                           <el-dropdown-item>设置</el-dropdown-item>
                           <el-dropdown-item disabled>禁用设置</el-dropdown-item>
-                          <el-dropdown-item divided>退出登录</el-dropdown-item>
+                          <el-dropdown-item divided @click="logout">退出登录</el-dropdown-item>
                         </el-dropdown-menu>
                       </template>
                     </el-dropdown>
@@ -161,26 +161,22 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-
+import { useStore } from 'vuex'
 import { Fold, Expand, ArrowRight } from '@element-plus/icons-vue'
-import {
-  Setting,
-  Document,
-  Menu as iconMenu,
-  Cpu,
-  Coin,
-  Help,
-  View,
-  UploadFilled,
-  PieChart,
-  Reading,
-  Search
-} from '@element-plus/icons'
+
+// eslint-disable-next-line import/no-duplicates
+import { Menu as iconMenu, Reading, Search, PieChart } from '@element-plus/icons'
+// eslint-disable-next-line import/no-duplicates
+import { Document, View, UploadFilled } from '@element-plus/icons'
+// eslint-disable-next-line import/no-duplicates
+import { Setting, Cpu, Coin, Help } from '@element-plus/icons'
+import { useRouter } from 'vue-router'
 
 const isCollapse = ref(false)
-
 const submenu = ref('')
 const menuItem = ref('')
+const store = useStore()
+const router = useRouter()
 
 const clickMenu = (menu: string, item: string) => {
   submenu.value = menu
@@ -191,6 +187,11 @@ const changeMenuView = () => {
   isCollapse.value = !isCollapse.value
   const asideMenu = document.getElementById('asideMenu')!
   asideMenu.style.width = isCollapse.value ? '70px' : '200px'
+}
+
+const logout = () => {
+  store.commit('logout')
+  router.push('/')
 }
 </script>
 

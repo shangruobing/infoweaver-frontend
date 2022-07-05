@@ -71,7 +71,7 @@ const routes = [
   },
   {
     path: '/:catchAll(.*)',
-    name: 'NotFound',
+    name: 'notFound',
     component: () => import('../views/Exception/NotFound.vue')
   }
 ]
@@ -82,8 +82,8 @@ const router = createRouter({
 
 router.beforeEach((from) => {
   const isLogin = store.getters.isLogin
-
-  if (isLogin || from.name === 'login' || from.name === 'home') {
+  const securityPage = ['home', 'login', 'register', 'notFound']
+  if (isLogin || securityPage.indexOf(from.name) !== -1) {
     return true
   } else {
     return { name: 'login' }
