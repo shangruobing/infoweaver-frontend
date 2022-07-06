@@ -11,6 +11,7 @@ export declare interface Message {
     rate?: boolean
   }
 }
+
 export declare interface Notice {
   id?: string
   name?: string

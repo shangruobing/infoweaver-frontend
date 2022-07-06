@@ -18,6 +18,7 @@
                 placeholder="Search"
                 :prefix-icon="Search"
                 style="width: 30%; padding-right: 10px"
+                class="hidden-sm-and-down"
               />
               <el-menu
                 mode="horizontal"
@@ -30,8 +31,8 @@
                 <el-menu-item class="header-menu-item">指南</el-menu-item>
                 <el-menu-item class="header-menu-item">资源</el-menu-item>
                 <el-menu-item index="login" class="header-menu-item">登录</el-menu-item>
-                <el-menu-item index="register" class="header-menu-item">注册</el-menu-item>
-                <el-menu-item class="header-menu-item">
+                <el-menu-item index="register" class="header-menu-item">注册 </el-menu-item>
+                <el-menu-item index="" class="header-menu-item">
                   <personal-center isHome />
                 </el-menu-item>
               </el-menu>
@@ -78,9 +79,9 @@
               <div class="text item">FAQ问答</div>
               <span class="content">通过简单的QA问答对，精准理解用户意图，快速回复用户问题</span>
               <div class="text item">自然语言处理</div>
-              <span class="content"
-                >运用自然语言处理技术自动回复文档中的知识，低成本构建文档问答体系</span
-              >
+              <span class="content">
+                运用自然语言处理技术自动回复文档中的知识，低成本构建文档问答体系
+              </span>
             </el-card>
           </el-col>
         </el-row>
@@ -88,7 +89,6 @@
 
         <el-row :gutter="20">
           <el-col :span="2"></el-col>
-
           <el-col :span="10" style="text-align: left">
             <el-timeline class="timeline-card">
               <el-timeline-item timestamp="2021/5/1" placement="top" color="#409EFF">
@@ -275,6 +275,7 @@ const thanks = () => {
 :deep(.el-card__body) {
   padding-top: 10px;
 }
+
 .color-ul {
   li {
     color: #409eff;

@@ -23,6 +23,11 @@ const routes = [
     component: () => import('../views/Authentication/Login.vue')
   },
   {
+    path: '/help',
+    name: 'help',
+    component: () => import('../views/Help/Help.vue')
+  },
+  {
     path: '/content',
     name: 'content',
     component: () => import('../views/Content/Content.vue'),
@@ -81,9 +86,14 @@ const router = createRouter({
 })
 
 router.beforeEach((from) => {
-  const isLogin = store.getters.isLogin
-  const securityPage = ['home', 'login', 'register', 'notFound']
-  if (isLogin || securityPage.indexOf(from.name) !== -1) {
+  const username = localStorage.getItem('username')
+  // const token = localStorage.getItem('authorization')
+  if (username) {
+    store.commit('loginSuccess', username)
+  }
+
+  const securityPage = ['home', 'login', 'register', 'notFound', 'help']
+  if (store.getters.isLogin || securityPage.indexOf(from.name) !== -1) {
     return true
   } else {
     return { name: 'login' }

@@ -4,8 +4,15 @@
       <el-card class="box-card">
         <el-row align="middle" justify="space-between" style="width: 100%">
           <el-col :span="11" class="left-pan">
-            <img src="@/assets/infoweaver/黑横.svg" width="160" height="60" />
-            <h3>致力于研发简洁、高效的问答机器人</h3>
+            <div style="display: flex; align-items: center">
+              <img
+                src="@/assets/infoweaver/logo.svg"
+                width="60"
+                height="60"
+                style="margin-right: 20px"
+              />
+              <span style="font-size: large; font-weight: bold">欢迎回来 我一直在等你</span>
+            </div>
             <img src="@/assets/material/检索站点.svg" width="300" height="300" />
           </el-col>
 
@@ -71,9 +78,11 @@ const login = async () => {
         duration: 1500
       })
       store.commit('loginSuccess', form.username)
+      // let authorization = response.data["token"]
+      localStorage.setItem('username', form.username)
+      localStorage.setItem('authorization', form.password)
 
-      router.push('/')
-      // router.push('/content/')
+      router.push('/content/')
     } else {
       ElNotification.error({
         message: h('i', { style: 'color: teal' }, '用户名或密码错误！'),

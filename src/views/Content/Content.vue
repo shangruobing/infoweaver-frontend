@@ -148,24 +148,18 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useStore } from 'vuex'
 import { Fold, Expand, ArrowRight } from '@element-plus/icons-vue'
-
 // eslint-disable-next-line import/no-duplicates
 import { Menu as iconMenu, Reading, Search, PieChart } from '@element-plus/icons'
 // eslint-disable-next-line import/no-duplicates
 import { Document, View, UploadFilled } from '@element-plus/icons'
 // eslint-disable-next-line import/no-duplicates
 import { Setting, Cpu, Coin, Help } from '@element-plus/icons'
-import { useRouter } from 'vue-router'
 import PersonalCenter from '@/components/PersonalCenter.vue'
-
 
 const isCollapse = ref(false)
 const submenu = ref('')
 const menuItem = ref('')
-const store = useStore()
-const router = useRouter()
 
 const clickMenu = (menu: string, item: string) => {
   submenu.value = menu
@@ -176,11 +170,6 @@ const changeMenuView = () => {
   isCollapse.value = !isCollapse.value
   const asideMenu = document.getElementById('asideMenu')!
   asideMenu.style.width = isCollapse.value ? '70px' : '200px'
-}
-
-const logout = () => {
-  store.commit('logout')
-  router.push('/')
 }
 </script>
 

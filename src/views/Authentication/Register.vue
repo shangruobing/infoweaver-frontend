@@ -4,9 +4,16 @@
       <el-card class="box-card">
         <el-row align="middle" justify="space-between" style="width: 100%">
           <el-col :span="11" class="left-pan">
-            <img src="@/assets/infoweaver/黑横.svg" width="160" height="60" />
-            <h3>致力于研发简洁、高效的问答机器人</h3>
-            <img src="@/assets/material/检索站点.svg" width="300" height="300" />
+            <div style="display: flex; align-items: center">
+              <img
+                src="@/assets/infoweaver/logo.svg"
+                width="60"
+                height="60"
+                style="margin-right: 20px"
+              />
+              <span style="font-size: large; font-weight: bold">终于等到你 欢迎加入</span>
+            </div>
+            <img src="@/assets/material/欢迎加入.svg" width="300" height="300" />
           </el-col>
 
           <el-col :span="13" class="right-pan">
@@ -38,14 +45,15 @@
               </div>
             </el-form>
           </el-col>
-        </el-row> </el-card
-    ></el-main>
+        </el-row>
+      </el-card>
+    </el-main>
   </el-container>
 </template>
 
 <script lang="ts" setup>
 import { h, reactive } from 'vue'
-import Axios from 'axios'
+// import Axios from 'axios'
 import { useRouter } from 'vue-router'
 import { ElNotification } from 'element-plus'
 import MultiWayLogin from './MultiWayLogin.vue'
@@ -62,15 +70,15 @@ const register = async () => {
   })
   router.push('/login')
 
-  const api = 'http://127.0.0.1:8000/api/user/'
-  const data = {
-    username: form.username,
-    password: form.password
-  }
+  // const api = 'http://127.0.0.1:8000/api/user/'
+  // const data = {
+  //   username: form.username,
+  //   password: form.password
+  // }
 
   try {
-    const response = await Axios.post(api, data)
-    console.log(response)
+    // const response = await Axios.post(api, data)
+    // console.log(response)
   } catch (error) {
     console.log(error)
   }
