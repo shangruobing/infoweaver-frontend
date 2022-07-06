@@ -73,6 +73,8 @@ import { onMounted } from 'vue'
 import { Bell, PartlyCloudy, Star, Location } from '@element-plus/icons-vue'
 onMounted(() => {
   type EChartsOption = echarts.EChartsOption
+  // 在初始化echarts前清空instance可以确保使用Vue-Router切换页面时echarts二次渲染成功
+  document.getElementById('chart')!.setAttribute('_echarts_instance_', '')
   const chartDom = document.getElementById('chart')!
   const myChart = echarts.init(chartDom)
   const option: EChartsOption = {
