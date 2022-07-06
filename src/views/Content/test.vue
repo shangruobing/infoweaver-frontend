@@ -1,7 +1,7 @@
 <template>
   <el-row class="main-pan" justify="space-between">
     <el-col :span="12" class="left-pan">
-      <div id="chart" :style="{ width: '100%', height: '110%', textAlign: 'center' }"></div>
+      <div id="chart" :style="{ width: '100%', height: '100%', textAlign: 'center' }"></div>
     </el-col>
 
     <el-col :span="12" class="right-pan">
@@ -58,13 +58,7 @@
     </el-col>
   </el-row>
 
-  <el-row class="extend-pan">
-    <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
-      <el-table-column prop="date" label="Date" width="180" />
-      <el-table-column prop="name" label="Name" width="180" />
-      <el-table-column prop="address" label="Address" />
-    </el-table>
-  </el-row>
+  <el-row class="extend-pan"></el-row>
 </template>
 
 <script lang="ts" setup>
@@ -123,65 +117,12 @@ onMounted(() => {
   myChart.setOption<echarts.EChartsOption>(option)
   option && myChart.setOption(option)
 })
-
-interface User {
-  date: string
-  name: string
-  address: string
-}
-
-const tableRowClassName = ({ row, rowIndex }: { row: User; rowIndex: number }) => {
-  if (rowIndex === 1) {
-    return 'warning-row'
-  } else if (rowIndex === 3) {
-    return 'success-row'
-  }
-  return ''
-}
-
-const tableData: User[] = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  }
-]
 </script>
 
 <style lang="scss" scoped>
 .main-pan {
   background-color: #f0f2f4;
-  height: 50%;
+  height: 45%;
   text-align: center;
 }
 
@@ -212,7 +153,7 @@ $card-margin: 5%;
 .card2,
 .card3,
 .card4 {
-  height: 90%;
+  height: 95%;
   width: 95%;
   background-color: white;
 }
@@ -253,8 +194,8 @@ $card-margin: 5%;
 }
 
 .extend-pan {
+  background-color: red;
   height: 50%;
-  margin-left: 2%;
-  margin-right: 2%;
+  margin-top: 5%;
 }
 </style>

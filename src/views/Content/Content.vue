@@ -106,7 +106,7 @@
                   <el-icon :size="20" v-else><expand /></el-icon>
                 </el-button>
                 <el-breadcrumb :separator-icon="ArrowRight">
-                  <el-breadcrumb-item :to="{ path: '/' }">
+                  <el-breadcrumb-item :to="{ path: '/content/' }">
                     <span style="cursor: pointer; color: #222222">首页</span>
                   </el-breadcrumb-item>
                   <el-breadcrumb-item v-if="submenu.length > 0">{{ submenu }}</el-breadcrumb-item>
