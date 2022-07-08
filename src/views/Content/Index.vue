@@ -1,8 +1,8 @@
 <template>
   <el-container>
-    <side-bar :isCollapse="true" @clickMenu="clickEven" />
+    <side-bar :isCollapse="true" />
     <el-container>
-      <el-header> <header-bar :sub-menu="bread.subMenu" :menu-item="bread.menuItem" /></el-header>
+      <el-header> <header-bar /></el-header>
       <el-main>
         <transition> <router-view> </router-view></transition>
       </el-main>
@@ -14,18 +14,6 @@
 <script lang="ts" setup>
 import SideBar from './SideBar.vue'
 import HeaderBar from './Header.vue'
-
-import { reactive } from 'vue'
-
-const bread = reactive({
-  subMenu: '',
-  menuItem: ''
-})
-
-const clickEven = (value: any) => {
-  bread.subMenu = value.subMenu
-  bread.menuItem = value.menuItem
-}
 </script>
 
 <style lang="scss" scoped>

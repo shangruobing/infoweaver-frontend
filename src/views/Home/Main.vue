@@ -109,6 +109,7 @@
 <script lang="ts" setup>
 import { h, ref } from 'vue'
 import { ElNotification } from 'element-plus'
+import { Message } from '@element-plus/icons'
 import MyRobot from '@/components/ChatRobot.vue'
 import 'element-plus/theme-chalk/display.css'
 import FooterPan from './Footer.vue'
@@ -127,6 +128,7 @@ const thanks = () => {
 <style lang="scss" scoped>
 .main-pan {
   background-color: #f2f4f5;
+  padding-top: 15px;
   padding-bottom: 5px;
   padding-right: 20px;
 }

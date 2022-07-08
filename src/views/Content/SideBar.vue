@@ -28,7 +28,7 @@
             <span>通知管理</span>
           </template>
 
-          <el-menu-item index="notice" @click="clickMenu('通知管理', '查看文件')">
+          <el-menu-item index="notice">
             <template #title>
               <el-icon>
                 <Reading />
@@ -36,7 +36,7 @@
               <span>查看文件</span>
             </template>
           </el-menu-item>
-          <el-menu-item index="neo4j" @click="clickMenu('通知管理', '文件查询')">
+          <el-menu-item index="neo4j">
             <template #title>
               <el-icon>
                 <Search />
@@ -44,7 +44,7 @@
               <span>文件查询</span>
             </template>
           </el-menu-item>
-          <el-menu-item index="echarts" @click="clickMenu('通知管理', '信息统计')">
+          <el-menu-item index="echarts">
             <template #title>
               <el-icon>
                 <PieChart />
@@ -62,7 +62,7 @@
             <span>文件管理</span>
           </template>
 
-          <el-menu-item index="fileList" @click="clickMenu('文件管理', '文件预览')">
+          <el-menu-item index="fileList">
             <template #title>
               <el-icon>
                 <View />
@@ -70,7 +70,7 @@
               <span>文件预览</span>
             </template>
           </el-menu-item>
-          <el-menu-item index="upload" @click="clickMenu('文件管理', '文件上传')">
+          <el-menu-item index="upload">
             <template #title>
               <el-icon>
                 <UploadFilled />
@@ -88,7 +88,7 @@
             <span>系统设置</span>
           </template>
 
-          <el-menu-item index="systemInfo" @click="clickMenu('系统设置', '运行状况')">
+          <el-menu-item index="systemInfo">
             <template #title>
               <el-icon>
                 <Cpu />
@@ -97,7 +97,7 @@
             </template>
           </el-menu-item>
 
-          <el-menu-item index="dbInfo" @click="clickMenu('系统设置', '数据库监控')">
+          <el-menu-item index="dbInfo">
             <template #title>
               <el-icon>
                 <Coin />
@@ -105,7 +105,7 @@
               <span>数据库监控</span>
             </template>
           </el-menu-item>
-          <el-menu-item index="corpus" @click="clickMenu('系统设置', '问答语料')">
+          <el-menu-item index="corpus">
             <template #title>
               <el-icon>
                 <Help />
@@ -140,15 +140,6 @@ import { useStore } from 'vuex'
 const windowWidth = window.innerWidth
 const isCollapse = ref(windowWidth < 700)
 const store = useStore()
-const emit = defineEmits(['clickMenu'])
-
-const clickMenu = (subMenu: string, menuItem: string) => {
-  const param = {
-    subMenu: subMenu,
-    menuItem: menuItem
-  }
-  emit('clickMenu', param)
-}
 
 onMounted(() => {
   if (isCollapse.value) {

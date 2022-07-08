@@ -7,12 +7,18 @@
             <el-icon :size="20" v-if="!store.getters.isCollapse"><fold /></el-icon>
             <el-icon :size="20" v-else><expand /></el-icon>
           </el-button>
+
           <el-breadcrumb :separator-icon="ArrowRight">
             <el-breadcrumb-item :to="{ path: '/content/' }">
               <span style="cursor: pointer; color: #222222">首页</span>
             </el-breadcrumb-item>
-            <el-breadcrumb-item v-if="subMenu!.length > 0">{{ subMenu }}</el-breadcrumb-item>
-            <el-breadcrumb-item v-if="menuItem!.length > 0">{{ menuItem }}</el-breadcrumb-item>
+
+            <el-breadcrumb-item v-if="routeInfo.subMenu">
+              {{ routeInfo.subMenu }}
+            </el-breadcrumb-item>
+            <el-breadcrumb-item v-if="routeInfo.menuItem">
+              {{ routeInfo.menuItem }}
+            </el-breadcrumb-item>
           </el-breadcrumb>
         </el-row>
       </el-col>
@@ -43,19 +49,27 @@ import { Fold, Expand, ArrowRight } from '@element-plus/icons-vue'
 import PersonalCenter from '@/components/PersonalCenter.vue'
 import 'element-plus/theme-chalk/display.css'
 import { useStore } from 'vuex'
+import { reactive, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
 const store = useStore()
-
-defineProps({
-  subMenu: String,
-  menuItem: String
-})
 
 const changeMenuView = () => {
   store.commit('changeCollapseState')
   const asideMenu = document.getElementById('asideMenu')!
   asideMenu.style.width = store.getters.isCollapse ? '55px' : '200px'
 }
+
+const route = useRoute()
+const routeInfo = reactive({
+  subMenu: route.matched[1].meta.subMenu,
+  menuItem: route.matched[1].meta.menuItem
+})
+
+watch(route, (to) => {
+  routeInfo.subMenu = to.matched[1].meta.subMenu as string
+  routeInfo.menuItem = to.matched[1].meta.menuItem as string
+})
 </script>
 
 <style lang="scss" scoped>
