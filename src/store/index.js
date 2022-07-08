@@ -3,7 +3,8 @@ import { createStore } from 'vuex'
 const store = createStore({
   state: {
     username: '',
-    isLogin: false
+    isLogin: false,
+    isCollapse: false
   },
   getters: {
     username: (state) => {
@@ -11,6 +12,9 @@ const store = createStore({
     },
     isLogin: (state) => {
       return state.isLogin
+    },
+    isCollapse: (state) => {
+      return state.isCollapse
     }
   },
   mutations: {
@@ -21,6 +25,9 @@ const store = createStore({
     logout(state) {
       state.isLogin = false
       state.username = ''
+    },
+    changeCollapseState(state) {
+      state.isCollapse = !state.isCollapse
     }
   },
   actions: {},

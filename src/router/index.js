@@ -27,15 +27,22 @@ const routes = [
     name: 'help',
     component: () => import('../views/Help/Help.vue')
   },
-  {
-    path: '/test',
-    name: 'test',
-    component: () => import('../views/Content/test.vue')
-  },
+  // {
+  //   path: '/header',
+  //   component: () => import('../views/Content/Header.vue')
+  // },
+  // {
+  //   path: '/sidebar',
+  //   component: () => import('../views/Content/SideBar.vue')
+  // },
+  // {
+  //   path: '/index',
+  //   component: () => import('../views/Content/Index.vue')
+  // },
   {
     path: '/content',
     name: 'content',
-    component: () => import('../views/Content/Content.vue'),
+    component: () => import('../views/Content/Index.vue'),
     children: [
       {
         path: '',
