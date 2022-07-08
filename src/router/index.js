@@ -5,7 +5,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: () => import('../views/Home.vue')
+    component: () => import('../views/Home/Index.vue')
   },
   {
     path: '/word/:id',
@@ -27,18 +27,6 @@ const routes = [
     name: 'help',
     component: () => import('../views/Help/Help.vue')
   },
-  // {
-  //   path: '/header',
-  //   component: () => import('../views/Content/Header.vue')
-  // },
-  // {
-  //   path: '/sidebar',
-  //   component: () => import('../views/Content/SideBar.vue')
-  // },
-  // {
-  //   path: '/index',
-  //   component: () => import('../views/Content/Index.vue')
-  // },
   {
     path: '/content',
     name: 'content',
