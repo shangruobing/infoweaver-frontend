@@ -2,7 +2,7 @@
   <el-scrollbar>
     <div class="main-pan">
       <el-row>
-        <el-col :span="9" class="hidden-xs-only">
+        <el-col :span="9">
           <h1 style="font-size: 30px">欢迎来到织信科技问答系统</h1>
           <h2>自研智能问答系统</h2>
           <h3>致力于研发简洁、高效的问答机器人</h3>
@@ -72,7 +72,7 @@
           </el-timeline>
         </el-col>
         <el-col :span="12" style="text-align: left">
-          <img src="@/assets/material/政府工作.svg" width="500" height="400" />
+          <img src="@/assets/material/政府工作.svg" width="400" height="400" />
         </el-col>
       </el-row>
 
@@ -99,7 +99,7 @@
           </ul>
         </el-col>
       </el-row>
-      <my-robot />
+      <chat-robot />
       <el-divider style="margin-bottom: 10px" />
       <footer-pan />
     </div>
@@ -110,7 +110,7 @@
 import { h, ref } from 'vue'
 import { ElNotification } from 'element-plus'
 import { Message } from '@element-plus/icons'
-import MyRobot from '@/components/ChatRobot.vue'
+import ChatRobot from '@/components/ChatRobot.vue'
 import 'element-plus/theme-chalk/display.css'
 import FooterPan from './Footer.vue'
 
@@ -130,7 +130,7 @@ const thanks = () => {
   background-color: #f2f4f5;
   padding-top: 15px;
   padding-bottom: 5px;
-  padding-right: 20px;
+  padding-right: 10px;
 }
 
 .el-carousel__item h3 {
@@ -158,9 +158,8 @@ const thanks = () => {
 }
 
 .box-card {
-  width: 600px;
+  width: 85%;
   padding-left: 20px;
-  margin-left: 50px;
   .card-title {
     font-size: 18px;
     font-weight: bold;

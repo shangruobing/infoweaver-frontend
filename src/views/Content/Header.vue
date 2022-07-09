@@ -67,8 +67,10 @@ const routeInfo = reactive({
 })
 
 watch(route, (to) => {
-  routeInfo.subMenu = to.matched[1].meta.subMenu as string
-  routeInfo.menuItem = to.matched[1].meta.menuItem as string
+  if (to.matched[1]) {
+    routeInfo.subMenu = to.matched[1].meta.subMenu as string
+    routeInfo.menuItem = to.matched[1].meta.menuItem as string
+  }
 })
 </script>
 

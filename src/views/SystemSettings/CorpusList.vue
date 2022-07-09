@@ -101,7 +101,6 @@ const search = async () => {
   try {
     loading.value = false
     results.value = response.data.results
-    console.log(results.value)
     pagination.count = response.data.count
     pagination.perPageCount = results.value.length
     pagination.pageNum = Math.ceil(pagination.count / pagination.perPageCount)

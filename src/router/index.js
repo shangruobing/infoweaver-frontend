@@ -5,26 +5,31 @@ const routes = [
   {
     path: '/',
     name: 'home',
+    meta: { title: '家' },
     component: () => import('../views/Home/Index.vue')
   },
   {
     path: '/word/:id',
     name: 'word',
+    meta: { title: '文件预览' },
     component: () => import('../components/WordPreview.vue')
   },
   {
     path: '/register',
     name: 'register',
+    meta: { title: '注册' },
     component: () => import('../views/Authentication/Register.vue')
   },
   {
     path: '/login',
     name: 'login',
+    meta: { title: '登录' },
     component: () => import('../views/Authentication/Login.vue')
   },
   {
     path: '/help',
     name: 'help',
+    meta: { title: '帮助' },
     component: () => import('../views/Help/Help.vue')
   },
   {

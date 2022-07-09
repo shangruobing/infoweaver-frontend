@@ -190,7 +190,7 @@ const tableData: User[] = [
 .left-pan,
 .right-pan {
   height: 85%;
-  flex: 0 0 47%;
+  flex: 0 0 46%;
   align-self: center;
 }
 
@@ -209,13 +209,15 @@ const tableData: User[] = [
   height: 50%;
 }
 
+// $card-margin: 5px;
 $card-margin: 5%;
 .card1,
 .card2,
 .card3,
 .card4 {
   height: 90%;
-  width: 95%;
+  width: 90%;
+  // width: 200px;
   background-color: white;
 }
 

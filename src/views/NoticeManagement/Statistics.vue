@@ -36,13 +36,12 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       option: {}
     }
   },
-  mounted () {
-    console.log(this.echarts)
+  mounted() {
     let myChart = this.$echarts.init(document.getElementById('myChart'))
     // 绘制图表
     myChart.setOption({

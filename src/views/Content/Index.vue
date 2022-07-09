@@ -4,9 +4,9 @@
     <el-container>
       <el-header> <header-bar /></el-header>
       <el-main>
-        <transition> <router-view> </router-view></transition>
+        <transition> <router-view> </router-view> </transition>
       </el-main>
-      <!-- <el-footer>Footer {{ bread }}</el-footer> -->
+      <!-- <el-footer>Footer</el-footer> -->
     </el-container>
   </el-container>
 </template>

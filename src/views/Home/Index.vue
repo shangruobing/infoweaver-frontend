@@ -1,10 +1,8 @@
 <template>
-  <el-scrollbar>
-    <el-container>
-      <el-header> <nav-bar /></el-header>
-      <el-main> <main-pan /></el-main>
-    </el-container>
-  </el-scrollbar>
+  <el-container>
+    <el-header> <nav-bar /></el-header>
+    <el-main> <main-pan /></el-main>
+  </el-container>
 </template>
 
 <script lang="ts" setup>

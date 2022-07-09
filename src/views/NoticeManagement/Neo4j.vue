@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive } from 'vue'
 import Axios from 'axios'
 import { Download, Search } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
@@ -124,10 +124,6 @@ const handleCurrentChange = async (currentPage: number) => {
     console.log(error)
   }
 }
-
-onMounted(() => {
-  console.log('欢迎来到Neo4j查询页面')
-})
 </script>
 
 <style scoped>
