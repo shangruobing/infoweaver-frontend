@@ -1,23 +1,18 @@
 <template>
   <div class="header-bar">
     <el-row align="middle" justify="space-between" style="width: 100%">
-      <el-col :span="6" style="text-align: left; height: 60px">
-        <el-popover :width="150" popper-style="text-align: center; padding: 10px;">
+      <el-col :span="12">
+        <el-popover :width="160" popper-style="text-align: center; padding: 10px;">
           <template #reference>
-            <img src="@/assets/infoweaver/黑横.svg" width="160" height="60"
-          /></template>
-          <template #default><p>编织信息 共赢未来🎉</p></template>
+            <img src="@/assets/infoweaver/黑横.svg" width="160" height="60" />
+          </template>
+          <template #default>编织信息 共赢未来🎉</template>
         </el-popover>
       </el-col>
 
-      <el-col :span="18" style="text-align: right; height: 60px">
+      <el-col :span="12">
         <el-row align="middle" justify="end" style="width: 100%">
-          <el-input
-            placeholder="Search"
-            :prefix-icon="Search"
-            style="width: 20%; padding-right: 10px"
-            class="hidden-sm-and-down"
-          />
+          <el-input placeholder="Search" :prefix-icon="Search" class="hidden-sm-and-down" />
           <el-menu
             mode="horizontal"
             active-text-color="#000000"
@@ -49,10 +44,9 @@ import 'element-plus/theme-chalk/display.css'
 
 <style lang="scss" scoped>
 .header-bar {
-  position: fixed;
+  position: sticky;
   width: 100vw;
-  padding-left: 15px;
-  padding-right: 0;
+  padding-left: 1em;
   z-index: 1000;
   background-color: #fff;
   box-shadow: 0 7px 5px -5px #f2f4f5;
@@ -61,6 +55,7 @@ import 'element-plus/theme-chalk/display.css'
 
 .header-menu-item {
   min-width: 70px;
+  width: 70px;
   height: 60px;
   border: none;
 }
@@ -72,6 +67,15 @@ import 'element-plus/theme-chalk/display.css'
 
 .el-menu--horizontal {
   border: none;
-  margin-right: 20px;
+}
+
+.el-col {
+  text-align: left;
+  height: 60px;
+}
+
+.el-input {
+  width: 30%;
+  margin-right: 1em;
 }
 </style>

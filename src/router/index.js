@@ -33,6 +33,12 @@ const routes = [
     component: () => import('../views/Help/Help.vue')
   },
   {
+    path: '/test',
+    name: 'test',
+    meta: { title: '测试' },
+    component: () => import('../views/Home/Index.vue')
+  },
+  {
     path: '/content',
     name: 'content',
     component: () => import('../views/Content/Index.vue'),
@@ -107,7 +113,7 @@ router.beforeEach((from) => {
     store.commit('loginSuccess', username)
   }
 
-  const securityPage = ['home', 'login', 'register', 'notFound', 'help']
+  const securityPage = ['home', 'login', 'register', 'notFound', 'help', 'test']
   if (store.getters.isLogin || securityPage.indexOf(from.name) !== -1) {
     return true
   } else {

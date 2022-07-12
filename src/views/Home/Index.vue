@@ -1,7 +1,11 @@
 <template>
   <el-container>
-    <el-header> <nav-bar /></el-header>
-    <el-main> <main-pan /></el-main>
+    <el-header>
+      <nav-bar />
+    </el-header>
+    <el-main>
+      <main-pan />
+    </el-main>
   </el-container>
 </template>
 
@@ -15,9 +19,13 @@ import MainPan from './Main.vue'
   padding: 0px !important;
   margin: 0px !important;
   height: 100vh;
+  width: 100vw;
+  background-color: #f2f4f5;
 }
+
 .el-header,
 .el-main {
   padding: 0;
 }
+
 </style>

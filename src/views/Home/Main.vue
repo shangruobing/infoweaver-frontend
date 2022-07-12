@@ -1,20 +1,23 @@
 <template>
   <el-scrollbar>
     <div class="main-pan">
-      <el-row>
-        <el-col :span="9">
-          <h1 style="font-size: 30px">欢迎来到织信科技问答系统</h1>
+      <el-row class="two-pan">
+        <el-col class="left-pan">
+          <h1 style="font-size: 1.5em">欢迎来到织信科技问答系统</h1>
           <h2>自研智能问答系统</h2>
           <h3>致力于研发简洁、高效的问答机器人</h3>
           <h4>点击右下角体验机器人</h4>
-          <h4>为我们打分！<el-rate v-model="rate" @click="thanks" /></h4>
+          <h4>
+            为我们打分！
+            <el-rate v-model="rate" @click="thanks" />
+          </h4>
         </el-col>
 
-        <el-col :span="15">
-          <a href="https://gitee.com/shangruobing/nfqa-front-end-development" id="fork">
-            <img src="@/assets/home/forkme.svg" alt="Fork me on Gitee" />
-          </a>
+        <el-col class="right-pan">
           <el-carousel indicator-position="outside" style="text-align: center">
+            <a href="https://gitee.com/shangruobing/nfqa-front-end-development" id="fork">
+              <img src="@/assets/home/forkme.svg" alt="Fork me on Gitee" />
+            </a>
             <el-carousel-item>
               <img src="@/assets/material/模拟用户数据.svg" width="400" height="350" />
             </el-carousel-item>
@@ -29,11 +32,11 @@
       </el-row>
       <el-divider />
 
-      <el-row :gutter="20">
-        <el-col :span="10" style="text-align: right">
-          <img src="@/assets/material/云端管理.svg" width="400" height="250" />
+      <el-row class="two-pan">
+        <el-col class="left-pan">
+          <img src="@/assets/material/云端管理.svg" width="300" height="250" />
         </el-col>
-        <el-col :span="14" style="text-align: left">
+        <el-col style="text-align: left" class="right-pan">
           <el-card class="box-card">
             <div class="card-title">高可靠</div>
             <span class="content">使用了数万条人工语料与常规语料进行训练</span>
@@ -48,8 +51,8 @@
       </el-row>
       <el-divider />
 
-      <el-row :gutter="20">
-        <el-col :span="10" style="text-align: left" :offset="2">
+      <el-row class="two-pan">
+        <el-col class="left-pan">
           <el-timeline class="timeline-card">
             <el-timeline-item timestamp="2021/5/1" placement="top" color="#409EFF">
               <el-card>
@@ -71,18 +74,18 @@
             </el-timeline-item>
           </el-timeline>
         </el-col>
-        <el-col :span="12" style="text-align: left">
-          <img src="@/assets/material/政府工作.svg" width="400" height="400" />
+        <el-col class="right-pan">
+          <img src="@/assets/material/政府工作.svg" width="400" height="350" class="hidden" />
         </el-col>
       </el-row>
 
       <el-divider />
 
-      <el-row :gutter="20">
-        <el-col :span="12" style="text-align: right">
-          <img src="@/assets/material/模拟用户数据.svg" width="450" height="250" />
+      <el-row class="two-pan">
+        <el-col class="left-pan">
+          <img src="@/assets/material/模拟用户数据.svg" width="300" height="250" />
         </el-col>
-        <el-col :span="12" style="text-align: left">
+        <el-col class="right-pan">
           <h2>参与开源贡献</h2>
           <ul class="color-ul">
             <li><span>体验产品，反馈问题，帮助改进</span></li>
@@ -92,7 +95,9 @@
               <span>
                 联系我们
                 <el-link href="mailto:shangruobing29@163.com">
-                  <el-icon><message /></el-icon>
+                  <el-icon>
+                    <message />
+                  </el-icon>
                 </el-link>
               </span>
             </li>
@@ -128,9 +133,10 @@ const thanks = () => {
 <style lang="scss" scoped>
 .main-pan {
   background-color: #f2f4f5;
-  padding-top: 15px;
-  padding-bottom: 5px;
-  padding-right: 10px;
+  margin: 0;
+  text-align: center;
+  margin-top: 1em;
+  padding-bottom: 1em;
 }
 
 .el-carousel__item h3 {
@@ -159,12 +165,15 @@ const thanks = () => {
 
 .box-card {
   width: 85%;
+  margin: auto;
   padding-left: 20px;
+
   .card-title {
     font-size: 18px;
     font-weight: bold;
     padding: 18px 0;
   }
+
   .content {
     padding-left: 20px;
   }
@@ -172,16 +181,22 @@ const thanks = () => {
 
 .timeline-card {
   width: 70%;
+  padding: 0;
+  margin-left: 4em;
   height: 50%;
+  text-align: left;
+
   :deep(.el-card__body) {
     padding: 10px;
   }
+
   h4 {
     margin-top: 9px;
     margin-bottom: 9px;
     margin-left: 9px;
     font-size: medium;
   }
+
   p {
     margin-top: 9px;
     margin-left: 18px;
@@ -189,12 +204,55 @@ const thanks = () => {
 }
 
 .color-ul {
+  text-align: left;
+  margin-left: 3em;
+
   li {
     color: #409eff;
     padding-bottom: 20px;
+
     span {
       color: #303131;
     }
   }
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (min-width: 400px) {
+  .el-carousel {
+    margin-right: 2em;
+  }
+
+  .hidden {
+    display: inline;
+  }
+
+  .two-pan {
+    .right-pan {
+      flex: 1;
+      text-align: left;
+    }
+
+    .left-pan {
+      flex: 1;
+    }
+  }
+
+  .timeline-card {
+    width: 60%;
+  }
+}
+
+.el-row {
+  justify-content: space-between;
+  align-items: center;
 }
 </style>

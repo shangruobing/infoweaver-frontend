@@ -13,8 +13,18 @@
   padding: -8px -8px auto;
   height: 100%;
 }
-html,
+
 body {
-  height: 100%;
+  margin-bottom: 0;
+}
+
+:root {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
 }
 </style>
