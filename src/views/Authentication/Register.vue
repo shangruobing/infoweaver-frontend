@@ -2,7 +2,7 @@
   <div class="register">
     <el-card class="box-card">
       <el-row align="middle" justify="space-between" style="width: 100%" :gutter="20">
-        <el-col :span="12" class="left-pan">
+        <el-col class="left-pan">
           <div style="display: flex; align-items: center">
             <img
               src="@/assets/infoweaver/logo.svg"
@@ -15,7 +15,7 @@
           <img src="@/assets/material/欢迎加入.svg" width="300" height="300" />
         </el-col>
 
-        <el-col :span="12" class="right-pan">
+        <el-col class="right-pan">
           <el-form label-position="right">
             <el-row align="bottom" justify="space-between">
               <h1>注册</h1>
@@ -84,29 +84,43 @@ const goLogin = () => {
 <style lang="scss" scoped>
 .register {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
 }
+
 .box-card {
   margin: auto;
-  width: 700px;
-  height: 400px;
+  max-height: 100%;
 }
+
 .left-pan {
-  width: 350px;
-  // margin-left: 10px;
+  flex: 1;
+  width: 100%;
   text-align: left;
   border-right: 3px solid #f0f2f4;
 }
+
 .right-pan {
-  width: 350px;
+  flex: 1;
+  width: 100%;
   text-align: right;
 }
+
 .el-form {
   width: 100%;
 }
 
-.right-footer {
-  margin-top: 40px;
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+@media (max-width: 500px) {
+  .left-pan {
+    display: none;
+  }
+  .box-card {
+    width: 100%;
+  }
 }
 </style>

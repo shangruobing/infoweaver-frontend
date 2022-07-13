@@ -34,7 +34,7 @@
 
       <el-row class="two-pan">
         <el-col class="left-pan">
-          <img src="@/assets/material/云端管理.svg" width="300" height="250" />
+          <img src="@/assets/material/云端管理.svg" width="400" height="300" />
         </el-col>
         <el-col style="text-align: left" class="right-pan">
           <el-card class="box-card">
@@ -83,7 +83,7 @@
 
       <el-row class="two-pan">
         <el-col class="left-pan">
-          <img src="@/assets/material/模拟用户数据.svg" width="300" height="250" />
+          <img src="@/assets/material/模拟用户数据.svg" width="300" height="270" />
         </el-col>
         <el-col class="right-pan">
           <h2>参与开源贡献</h2>
@@ -164,18 +164,18 @@ const thanks = () => {
 }
 
 .box-card {
-  width: 85%;
+  width: 90%;
   margin: auto;
-  padding-left: 20px;
+  // padding-left: 20px;
 
   .card-title {
-    font-size: 18px;
+    font-size: 1.1em;
     font-weight: bold;
-    padding: 18px 0;
+    padding: 1em 0;
   }
 
   .content {
-    padding-left: 20px;
+    padding-left: 1.2em;
   }
 }
 
@@ -205,11 +205,11 @@ const thanks = () => {
 
 .color-ul {
   text-align: left;
-  margin-left: 3em;
+  // margin-left: 3em;
 
   li {
     color: #409eff;
-    padding-bottom: 20px;
+    padding-bottom: 1em;
 
     span {
       color: #303131;
@@ -247,7 +247,8 @@ img {
   }
 
   .timeline-card {
-    width: 60%;
+    width: 50%;
+    margin-left: 3em;
   }
 }
 
