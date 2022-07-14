@@ -28,4 +28,13 @@ onMounted(async () => {
 })
 </script>
 
-<style></style>
+<style>
+.docx-wrapper {
+  padding: 2em !important;
+}
+
+.docx-wrapper > section {
+  width: 95vw !important;
+  padding: 1em !important;
+}
+</style>
