@@ -20,12 +20,10 @@
             :ellipsis="false"
             router
           >
-            <el-menu-item class="header-menu-item hidden-xs-only">指南</el-menu-item>
-            <el-menu-item class="header-menu-item hidden-xs-only">资源</el-menu-item>
+            <el-menu-item index="docs" class="header-menu-item hidden-xs-only" >指南</el-menu-item>
+            <el-menu-item index="" class="header-menu-item hidden-xs-only">资源</el-menu-item>
             <el-menu-item index="login" class="header-menu-item hidden-xs-only">登录</el-menu-item>
-            <el-menu-item index="register" class="header-menu-item hidden-xs-only">
-              注册
-            </el-menu-item>
+            <el-menu-item index="register" class="header-menu-item hidden-xs-only">注册</el-menu-item>
             <el-menu-item index="" class="header-menu-item">
               <personal-center isHome />
             </el-menu-item>

@@ -47,13 +47,17 @@
 </template>
 
 <script lang="ts" setup>
-import { h, reactive } from 'vue'
-// import Axios from 'axios'
+import { h, onMounted, reactive } from 'vue'
+import Axios from 'axios'
 import { useRouter } from 'vue-router'
 import { ElNotification } from 'element-plus'
 import { useStore } from 'vuex'
 import MultiWayLogin from './MultiWayLogin.vue'
 import 'element-plus/theme-chalk/display.css'
+import { getHttp } from '@/utils/django-http'
+
+const http = getHttp()
+
 const router = useRouter()
 const form = reactive({
   username: '',
@@ -61,33 +65,33 @@ const form = reactive({
 })
 const store = useStore()
 const login = async () => {
-  // const api = 'http://127.0.0.1:8000/api/user/'
-  // const data = {
-  //   username: form.username,
-  //   password: form.password
-  // }
+  const api = http + 'login/'
+  const data = {
+    username: form.username,
+    password: form.password
+  }
   try {
-    // const response = await Axios.post(api, data)
-    if (form.username === '若水' && form.password === '123456') {
-      ElNotification.success({
-        message: h('i', { style: 'color: teal' }, '登录成功！'),
-        position: 'top-right',
-        duration: 1500
-      })
-      store.commit('loginSuccess', form.username)
-      // let authorization = response.data["token"]
-      localStorage.setItem('username', form.username)
-      localStorage.setItem('authorization', form.password)
+    const response = await Axios.post(api, data)
+    console.log(response)
+    const authorization = response.data.token
+    const username = response.data.username
 
-      router.push('/content/')
-    } else {
-      ElNotification.error({
-        message: h('i', { style: 'color: teal' }, '用户名或密码错误！'),
-        position: 'top-right',
-        duration: 1500
-      })
-    }
+    ElNotification.success({
+      message: h('i', { style: 'color: teal' }, '登录成功！'),
+      position: 'top-right',
+      duration: 1500
+    })
+    store.commit('loginSuccess', username)
+    localStorage.setItem('username', username)
+    localStorage.setItem('authorization', authorization)
+
+    router.push('/content/')
   } catch (error) {
+    ElNotification.error({
+      message: h('i', { style: 'color: teal' }, '用户名或密码错误！'),
+      position: 'top-right',
+      duration: 1500
+    })
     console.log(error)
   }
 }
@@ -95,6 +99,15 @@ const login = async () => {
 const goRegister = () => {
   router.push('/register')
 }
+
+onMounted(() => {
+  ElNotification({
+    message: h('i', { style: 'color: teal' }, '测试用户名：若水，密码：010209'),
+    position: 'top-right',
+    type: 'warning',
+    duration: 10000
+  })
+})
 </script>
 
 <style lang="scss" scoped>

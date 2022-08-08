@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts" setup>
-import { h, reactive } from 'vue'
+import { h, reactive, onMounted } from 'vue'
 // import Axios from 'axios'
 import { useRouter } from 'vue-router'
 import { ElNotification } from 'element-plus'
@@ -56,6 +56,7 @@ const form = reactive({
   password: '',
   repeat: ''
 })
+
 const register = async () => {
   ElNotification.success({
     message: h('i', { style: 'color: teal' }, '注册成功！'),
@@ -79,6 +80,15 @@ const register = async () => {
 const goLogin = () => {
   router.push('/login')
 }
+
+onMounted(() => {
+  ElNotification({
+    message: h('i', { style: 'color: teal' }, '注册功能正在维护，暂时无法使用'),
+    position: 'top-right',
+    type: 'warning',
+    duration: 10000
+  })
+})
 </script>
 
 <style lang="scss" scoped>

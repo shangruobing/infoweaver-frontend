@@ -32,3 +32,20 @@ if (isDevelopmentMode) {
 }
 
 app.config.globalProperties.$http = http
+
+Axios.interceptors.request.use(function (config) {
+  const token = localStorage.getItem('authorization')
+  // const username = localStorage.getItem('username')
+  if (config.headers.authorization) {
+    // console.log('请求头含有auth')
+    // console.log('这个auth是' + config.headers.authorization)
+    return config
+  }
+  if (token) {
+    config.headers.authorization = token
+    // console.log('请求头没有auth 为请求头添加auth成功')
+    // console.log('你的token是' + token)
+    // console.log('你的username是' + username)
+  }
+  return config
+})

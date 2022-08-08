@@ -39,6 +39,14 @@ const routes = [
     component: () => import('../views/Home/Index.vue')
   },
   {
+    path: '/docs',
+    name: 'docs',
+    meta: { title: '文档' },
+    beforeEnter() {
+      location.href = 'https://www.infoweaver.cloud/api/docs/'
+    }
+  },
+  {
     path: '/content',
     name: 'content',
     component: () => import('../views/Content/Index.vue'),
@@ -113,7 +121,7 @@ router.beforeEach((from) => {
     store.commit('loginSuccess', username)
   }
 
-  const securityPage = ['home', 'login', 'register', 'notFound', 'help', 'test']
+  const securityPage = ['home', 'login', 'register', 'notFound', 'help', 'test', 'word', 'docs']
   if (store.getters.isLogin || securityPage.indexOf(from.name) !== -1) {
     return true
   } else {
