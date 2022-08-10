@@ -47,12 +47,12 @@
     <el-row justify="center">
       <el-pagination
         layout="prev, pager, next, jumper"
-        :page-count="pagination.pageNum"
+        :page-count="pagination.count"
         background
         :current-page="pagination.currentPage"
         :hide-on-single-page="true"
         @current-change="handleCurrentChange"
-      ></el-pagination>
+      />
     </el-row>
     <my-robot />
   </div>
@@ -61,6 +61,7 @@
 <script lang="ts" setup>
 import { h, ref, reactive, onMounted } from 'vue'
 import service from '@/utils/request'
+import calculatePageNum from '@/utils/pagination'
 
 import { ElNotification } from 'element-plus'
 import MyRobot from '@/components/ChatRobot.vue'
@@ -73,8 +74,6 @@ const loading = ref(false)
 const results = ref([])
 const pagination = reactive({
   count: 0,
-  perPageCount: 0,
-  pageNum: 0,
   currentPage: 1
 })
 
@@ -101,9 +100,7 @@ const search = async () => {
   try {
     loading.value = false
     results.value = response.data.results
-    pagination.count = response.data.count
-    pagination.perPageCount = results.value.length
-    pagination.pageNum = Math.ceil(pagination.count / pagination.perPageCount)
+    pagination.count = calculatePageNum(response.data.count, response.data.results.length)
   } catch (error) {
     console.log(error)
   }

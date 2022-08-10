@@ -225,6 +225,9 @@ $card-margin: 5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  .el-icon:hover {
+    color: red;
+  }
 }
 
 .card1 {

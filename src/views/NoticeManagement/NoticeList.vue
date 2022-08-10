@@ -72,12 +72,12 @@
     <el-row justify="center">
       <el-pagination
         layout="prev, pager, next, jumper"
-        :page-count="pagination.pageNum"
+        :page-count="pagination.count"
         background
         :current-page="pagination.currentPage"
         :hide-on-single-page="true"
         @current-change="handleCurrentChange"
-      ></el-pagination>
+      />
     </el-row>
   </div>
 </template>
@@ -86,21 +86,20 @@
 import { ref, reactive, onMounted } from 'vue'
 import { Search, Download, View as iconview } from '@element-plus/icons-vue'
 import service from '@/utils/request'
+import calculatePageNum from '@/utils/pagination'
 
 const loading = ref(false)
 const filename = ref('')
 const results = ref([])
 const pagination = reactive({
   count: 0,
-  perPageCount: 0,
-  pageNum: 0,
   currentPage: 1
 })
 
 const search = async () => {
   try {
-    let startDate = ''
-    let endDate = ''
+    let startDate = ' '
+    let endDate = ' '
     let name = ''
     if (date.value[0] !== undefined) {
       startDate = date.value[0].replace(/-/g, '')
@@ -118,15 +117,8 @@ const search = async () => {
     const response = await service.get(api)
     loading.value = false
     results.value = response.data.results
-    if (results.value.length !== 0) {
-      pagination.count = response.data.count
-      pagination.perPageCount = results.value.length
-      pagination.pageNum = Math.ceil(pagination.count / pagination.perPageCount)
-    } else {
-      pagination.count = 0
-      pagination.perPageCount = 0
-      pagination.pageNum = 0
-    }
+
+    pagination.count = calculatePageNum(response.data.count, response.data.results.length)
   } catch (error) {
     console.log(error)
   }
@@ -151,9 +143,8 @@ onMounted(async () => {
   try {
     loading.value = false
     results.value = response.data.results
-    pagination.count = response.data.count
-    pagination.perPageCount = results.value.length
-    pagination.pageNum = Math.ceil(pagination.count / pagination.perPageCount)
+
+    pagination.count = calculatePageNum(response.data.count, response.data.results.length)
   } catch (error) {
     console.log(error)
   }

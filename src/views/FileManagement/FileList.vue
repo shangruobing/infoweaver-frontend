@@ -47,7 +47,7 @@
     <el-row justify="center">
       <el-pagination
         layout="prev, pager, next, jumper"
-        :page-count="pagination.pageNum"
+        :page-count="pagination.count"
         background
         :current-page="pagination.currentPage"
         :hide-on-single-page="true"
@@ -61,19 +61,18 @@
 import { ref, reactive, onMounted } from 'vue'
 
 import service from '@/utils/request'
+import calculatePageNum from '@/utils/pagination'
 
 const loading = ref(false)
 const results = ref([])
 const pagination = reactive({
   count: 0,
-  perPageCount: 0,
-  pageNum: 0,
   currentPage: 1
 })
 
 const handleCurrentChange = async (currentPage: number) => {
   pagination.currentPage = currentPage
-  const api = 'word/?page=' + pagination.currentPage
+  const api = 'upload/?page=' + pagination.currentPage
 
   const response = await service.get(api)
   try {
@@ -87,16 +86,12 @@ const handleCurrentChange = async (currentPage: number) => {
 onMounted(async () => {
   const api = 'upload/'
   const response = await service.get(api)
+
   try {
     loading.value = false
     results.value = response.data.results
-    pagination.count = response.data.count
-    pagination.perPageCount = results.value.length
-    if (pagination.count === 0) {
-      pagination.pageNum = 0
-    } else {
-      pagination.pageNum = Math.ceil(pagination.count / pagination.perPageCount)
-    }
+
+    pagination.count = calculatePageNum(response.data.count, response.data.results.length)
   } catch (error) {
     console.log(error)
   }
