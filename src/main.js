@@ -31,3 +31,5 @@ if (isDevelopmentMode) {
 }
 
 app.config.globalProperties.$http = http
+
+// TODO Pagination Algorithm

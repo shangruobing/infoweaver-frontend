@@ -42,7 +42,7 @@
       </el-table-column>
     </el-table>
 
-    <el-empty description="好像什么也没有诶" v-else></el-empty>
+    <el-empty description="好像什么也没有诶" :image-size="300" v-else></el-empty>
 
     <el-row justify="center">
       <el-pagination
@@ -52,7 +52,7 @@
         :current-page="pagination.currentPage"
         :hide-on-single-page="true"
         @current-change="handleCurrentChange"
-      ></el-pagination>
+      />
     </el-row>
   </div>
 </template>
@@ -92,7 +92,11 @@ onMounted(async () => {
     results.value = response.data.results
     pagination.count = response.data.count
     pagination.perPageCount = results.value.length
-    pagination.pageNum = Math.ceil(pagination.count / pagination.perPageCount)
+    if (pagination.count === 0) {
+      pagination.pageNum = 0
+    } else {
+      pagination.pageNum = Math.ceil(pagination.count / pagination.perPageCount)
+    }
   } catch (error) {
     console.log(error)
   }

@@ -48,7 +48,7 @@
       </el-table-column>
     </el-table>
 
-    <el-empty description="好像什么也没有诶 快输入一些信息啦" v-else></el-empty>
+    <el-empty description="好像什么也没有诶 快输入一些信息啦" :image-size="300" v-else />
 
     <el-row justify="center">
       <el-pagination
