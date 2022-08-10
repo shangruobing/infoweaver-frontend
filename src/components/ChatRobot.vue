@@ -96,12 +96,11 @@
 </template>
 
 <script lang="ts" setup>
-import Axios from 'axios'
 import { reactive, ref, h } from 'vue'
 import { ElNotification } from 'element-plus'
 import { Download, View as iconview, Refresh } from '@element-plus/icons-vue'
 
-import { getHttp } from '@/utils/django-http'
+import service from '@/utils/request'
 import { isString } from '@/utils/type-utils'
 import { colors, participants, titleImageUrl } from '@/utils/robot-information'
 import {
@@ -164,8 +163,6 @@ const showTypingIndicator = ref('')
 const alwaysScrollToBottom = ref(true)
 const messageStyling = ref(true)
 
-const http = getHttp()
-
 const isSelectedFile = ref(false)
 const displayPreview = ref(false)
 
@@ -189,15 +186,15 @@ const changeBatch = async () => {
   messageList.splice(-5, 5)
   searchPage.value += 1
   chatCount.value -= 1
-  const api = http + 'neo4j/?page=' + searchPage.value
+  const api = 'neo4j/?page=' + searchPage.value
 
-  const response = await Axios.post(api, { question: chatRecord.question })
+  const response = await service.post(api, { question: chatRecord.question })
   const search = saveHistory(response)
   processSearchResult(search)
 }
 
 const search = async (question: string) => {
-  const api = http + 'neo4j/'
+  const api = 'neo4j/'
 
   try {
     chatRecord.question = question
@@ -205,7 +202,7 @@ const search = async (question: string) => {
     if (!isSelectedFile.value) {
       chatRecord.has_history = false
     }
-    const response = await Axios.post(api, chatRecord)
+    const response = await service.post(api, chatRecord)
 
     return saveHistory(response)
   } catch (error) {

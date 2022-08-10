@@ -4,7 +4,9 @@
     <el-container>
       <el-header> <header-bar /></el-header>
       <el-main>
-        <transition> <router-view> </router-view> </transition>
+        <transition name="fade" mode="out-in">
+          <router-view> </router-view>
+        </transition>
       </el-main>
       <!-- <el-footer>Footer</el-footer> -->
     </el-container>
@@ -34,5 +36,17 @@ $main-color: #f0f2f4;
 
 .el-header {
   padding: 0;
+}
+
+.fade-enter-active {
+  transition: opacity 0.3s ease 0.3s;
+}
+.fade-leave-active {
+  transition: opacity 0.3s ease 0s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

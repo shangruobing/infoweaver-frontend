@@ -47,16 +47,14 @@
 </template>
 
 <script lang="ts" setup>
-import { h, onMounted, reactive } from 'vue'
-import Axios from 'axios'
-import { useRouter } from 'vue-router'
-import { ElNotification } from 'element-plus'
 import { useStore } from 'vuex'
-import MultiWayLogin from './MultiWayLogin.vue'
+import { useRouter } from 'vue-router'
+import { h, onMounted, reactive } from 'vue'
+import { ElNotification } from 'element-plus'
 import 'element-plus/theme-chalk/display.css'
-import { getHttp } from '@/utils/django-http'
 
-const http = getHttp()
+import service from '@/utils/request'
+import MultiWayLogin from './MultiWayLogin.vue'
 
 const router = useRouter()
 const form = reactive({
@@ -65,13 +63,13 @@ const form = reactive({
 })
 const store = useStore()
 const login = async () => {
-  const api = http + 'login/'
+  const api = 'login/'
   const data = {
     username: form.username,
     password: form.password
   }
   try {
-    const response = await Axios.post(api, data)
+    const response = await service.post(api, data)
     console.log(response)
     const authorization = response.data.token
     const username = response.data.username

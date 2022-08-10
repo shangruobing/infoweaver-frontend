@@ -1,5 +1,6 @@
 import { getCurrentInstance } from 'vue'
 
+// This Function can be replaced by utils/request.ts axios.baseURL.
 export const getHttp = (): string => {
   let http: string = 'http://127.0.0.1:8000/api/'
   const instance = getCurrentInstance()

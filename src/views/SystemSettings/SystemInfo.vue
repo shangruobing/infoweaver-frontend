@@ -6,16 +6,14 @@
 </template>
 
 <script lang="ts" setup>
-import Axios from 'axios'
 import { onMounted, reactive } from 'vue'
-import { getHttp } from '@/utils/django-http'
-const http = getHttp()
+import service from '@/utils/request'
 
-const sysinfo = reactive([{ name: 'NFQA', value: 'V1.0' }])
+const sysinfo = reactive([{ name: 'InfoWeaver', value: 'V2.1.0' }])
 
 onMounted(async () => {
-  const api = http + 'sysinfo/'
-  const response = await Axios.get(api)
+  const response = await service.get('sysinfo')
+
   try {
     const results = response.data
     for (const i in results) {

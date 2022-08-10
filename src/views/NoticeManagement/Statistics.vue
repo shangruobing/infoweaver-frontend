@@ -1,37 +1,39 @@
 <template>
-  <el-row :gutter="24">
-    <el-col :span="8">
-      <div class="grid-content bg-purple">
-        <div id="myChart" :style="{ width: '300px', height: '300px' }"></div></div
-    ></el-col>
+  <div>
+    <el-row :gutter="24">
+      <el-col :span="8">
+        <div class="grid-content bg-purple">
+          <div id="myChart" :style="{ width: '300px', height: '300px' }"></div></div
+      ></el-col>
 
-    <el-col :span="8">
-      <div class="grid-content bg-purple">
-        <div id="myChart1" :style="{ width: '300px', height: '300px' }"></div></div
-    ></el-col>
-    <el-col :span="8">
-      <div class="grid-content bg-purple">
-        <div id="myChart2" :style="{ width: '300px', height: '300px' }"></div></div
-    ></el-col>
-  </el-row>
+      <el-col :span="8">
+        <div class="grid-content bg-purple">
+          <div id="myChart1" :style="{ width: '300px', height: '300px' }"></div></div
+      ></el-col>
+      <el-col :span="8">
+        <div class="grid-content bg-purple">
+          <div id="myChart2" :style="{ width: '300px', height: '300px' }"></div></div
+      ></el-col>
+    </el-row>
 
-  <el-divider border-style="double"></el-divider>
+    <el-divider border-style="double"></el-divider>
 
-  <el-row :gutter="24">
-    <el-col :span="8">
-      <div class="grid-content bg-purple">
-        <div id="myChart3" :style="{ width: '300px', height: '300px' }"></div></div
-    ></el-col>
+    <el-row :gutter="24">
+      <el-col :span="8">
+        <div class="grid-content bg-purple">
+          <div id="myChart3" :style="{ width: '300px', height: '300px' }"></div></div
+      ></el-col>
 
-    <el-col :span="8">
-      <div class="grid-content bg-purple">
-        <div id="myChart4" :style="{ width: '300px', height: '300px' }"></div></div
-    ></el-col>
-    <el-col :span="8">
-      <div class="grid-content bg-purple">
-        <div id="myChart5" :style="{ width: '300px', height: '300px' }"></div></div
-    ></el-col>
-  </el-row>
+      <el-col :span="8">
+        <div class="grid-content bg-purple">
+          <div id="myChart4" :style="{ width: '300px', height: '300px' }"></div></div
+      ></el-col>
+      <el-col :span="8">
+        <div class="grid-content bg-purple">
+          <div id="myChart5" :style="{ width: '300px', height: '300px' }"></div></div
+      ></el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>

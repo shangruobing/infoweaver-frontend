@@ -100,8 +100,21 @@ const routes = [
         path: 'corpus',
         meta: { subMenu: '系统设置', menuItem: '问答语料' },
         component: () => import('../views/SystemSettings/CorpusList.vue')
+      },
+      {
+        path: 'forbidden',
+        component: () => import('../views/Exception/Forbidden.vue')
+      },
+      {
+        path: 'notFound',
+        component: () => import('../views/Exception/NotFound.vue')
       }
     ]
+  },
+  {
+    path: '/forbidden',
+    name: 'forbidden',
+    component: () => import('../views/Exception/Forbidden.vue')
   },
   {
     path: '/:catchAll(.*)',
@@ -116,13 +129,22 @@ const router = createRouter({
 
 router.beforeEach((from) => {
   const username = localStorage.getItem('username')
-  // const token = localStorage.getItem('authorization')
   if (username) {
     store.commit('loginSuccess', username)
   }
 
-  const securityPage = ['home', 'login', 'register', 'notFound', 'help', 'test', 'word', 'docs']
-  if (store.getters.isLogin || securityPage.indexOf(from.name) !== -1) {
+  const safePage = [
+    'home',
+    'login',
+    'register',
+    'notFound',
+    'help',
+    'test',
+    'word',
+    'docs',
+    'forbidden'
+  ]
+  if (store.getters.isLogin || safePage.indexOf(from.name) !== -1) {
     return true
   } else {
     return { name: 'login' }

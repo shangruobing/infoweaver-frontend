@@ -3,23 +3,21 @@
 </template>
 
 <script lang="ts" setup>
-import axios from 'axios'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { renderAsync } from 'docx-preview'
-import { getHttp } from '@/utils/django-http'
+import service from '@/utils/request'
 
 const route = useRoute()
 const file = ref()
 
 onMounted(async () => {
   const id = route.params.id
-  const http = getHttp()
   try {
-    const response = await axios({
+    const response = await service({
       method: 'GET',
       responseType: 'blob',
-      url: http + 'word/' + id
+      url: 'word/' + id
     })
     renderAsync(response.data, file.value)
   } catch (error) {
