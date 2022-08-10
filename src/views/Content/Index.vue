@@ -3,6 +3,7 @@
     <side-bar :isCollapse="true" />
     <el-container>
       <el-header> <header-bar /></el-header>
+
       <el-main>
         <transition name="fade" mode="out-in">
           <router-view> </router-view>
@@ -25,6 +26,7 @@ $main-color: #f0f2f4;
   padding: 0px !important;
   margin: 0px !important;
   height: 100vh;
+  flex-basis: 0;
 }
 
 .el-main {

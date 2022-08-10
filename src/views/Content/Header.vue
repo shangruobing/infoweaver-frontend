@@ -110,8 +110,20 @@ $header-color: #fff;
 .header-button {
   padding-right: 10px;
   padding-left: 10px;
-  margin-right: 10px;
   background-color: $header-color;
   border: none;
+}
+
+// .el-breadcrumb {
+//   min-width: 220px;
+// }
+
+@media (max-width: 400px) {
+  .header-button {
+    display: none;
+  }
+  .el-breadcrumb {
+    margin-left: 1em;
+  }
 }
 </style>

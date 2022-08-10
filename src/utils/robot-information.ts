@@ -23,13 +23,11 @@ export const colors = {
   }
 }
 
-const imageUrl = '/robot.svg'
-
 export const participants = [
   {
     id: 'robot',
     name: 'Robot',
-    imageUrl: imageUrl
+    imageUrl: '/robot.svg'
   }
 ]
 

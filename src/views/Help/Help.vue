@@ -13,7 +13,6 @@
       </span>
     </template>
 
-    <router-link to="/"> <el-button type="primary">点我回到首页吧!</el-button></router-link>
   </el-empty>
 </template>
 

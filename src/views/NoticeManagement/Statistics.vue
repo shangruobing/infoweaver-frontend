@@ -1,16 +1,16 @@
 <template>
   <div class="containter">
     <el-row :gutter="24" class="row">
-      <el-col :span="8">
+      <el-col>
         <div class="grid-content bg-purple">
           <div id="myChart" :style="{ width: '90%', height: '300px' }"></div></div
       ></el-col>
 
-      <el-col :span="8">
+      <el-col>
         <div class="grid-content bg-purple">
           <div id="myChart1" :style="{ width: '90%', height: '300px' }"></div></div
       ></el-col>
-      <el-col :span="8">
+      <el-col>
         <div class="grid-content bg-purple">
           <div id="myChart2" :style="{ width: '90%', height: '300px' }"></div></div
       ></el-col>
@@ -19,16 +19,16 @@
     <el-divider border-style="double"></el-divider>
 
     <el-row :gutter="24" class="row">
-      <el-col :span="8">
+      <el-col>
         <div class="grid-content bg-purple">
           <div id="myChart3" :style="{ width: '90%', height: '300px' }"></div></div
       ></el-col>
 
-      <el-col :span="8">
+      <el-col>
         <div class="grid-content bg-purple">
           <div id="myChart4" :style="{ width: '90%', height: '300px' }"></div></div
       ></el-col>
-      <el-col :span="8">
+      <el-col>
         <div class="grid-content bg-purple">
           <div id="myChart5" :style="{ width: '90%', height: '300px' }"></div></div
       ></el-col>
@@ -398,9 +398,18 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .containter,
 .row {
   max-width: 100%;
+  div {
+    flex: 1;
+  }
+}
+
+@media (max-width: 400px) {
+  .row {
+    flex-direction: column;
+  }
 }
 </style>

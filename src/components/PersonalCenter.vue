@@ -14,7 +14,7 @@
         <el-dropdown-item v-if="store.getters.isLogin && isHome" @click="router.push('/content/')">
           进入管理端
         </el-dropdown-item>
-        <el-dropdown-item @click="router.push('/help/')">帮助</el-dropdown-item>
+        <el-dropdown-item @click="router.push('/content/help/')">帮助</el-dropdown-item>
 
         <el-dropdown-item v-if="store.getters.isLogin" divided @click="logout">
           退出登录

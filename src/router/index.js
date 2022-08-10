@@ -106,7 +106,11 @@ const routes = [
         component: () => import('../views/Exception/Forbidden.vue')
       },
       {
-        path: 'notFound',
+        path: 'help',
+        component: () => import('../views/Help/Help.vue')
+      },
+      {
+        path: '/:catchAll(.*)',
         component: () => import('../views/Exception/NotFound.vue')
       }
     ]
@@ -144,6 +148,7 @@ router.beforeEach((from) => {
     'docs',
     'forbidden'
   ]
+
   if (store.getters.isLogin || safePage.indexOf(from.name) !== -1) {
     return true
   } else {

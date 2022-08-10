@@ -14,7 +14,7 @@ const calculatePageNum = (count: number, perPageCount = 10): number => {
     throw new RangeError('Pagination Algorithm Parameter Range Error')
   }
 
-  if (count !== 0) {
+  if (count !== 0 && perPageCount !== 0) {
     pageNum = Math.ceil(count / perPageCount)
   }
 

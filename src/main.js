@@ -32,4 +32,4 @@ if (isDevelopmentMode) {
 
 app.config.globalProperties.$http = http
 
-// TODO Pagination Algorithm
+// TODO add Tabs in Main Page

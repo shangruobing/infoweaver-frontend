@@ -36,6 +36,7 @@
               <span>查看文件</span>
             </template>
           </el-menu-item>
+
           <el-menu-item index="neo4j">
             <template #title>
               <el-icon>
@@ -70,6 +71,7 @@
               <span>文件预览</span>
             </template>
           </el-menu-item>
+
           <el-menu-item index="upload">
             <template #title>
               <el-icon>
@@ -105,6 +107,7 @@
               <span>数据库监控</span>
             </template>
           </el-menu-item>
+
           <el-menu-item index="corpus">
             <template #title>
               <el-icon>

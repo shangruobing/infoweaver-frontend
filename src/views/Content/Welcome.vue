@@ -1,70 +1,72 @@
 <template>
-  <el-row class="main-pan" justify="space-between">
-    <el-col :span="12" class="left-pan">
-      <div id="chart" :style="{ width: '100%', height: '110%', textAlign: 'center' }"></div>
-    </el-col>
+  <div class="containter">
+    <el-row class="main-pan">
+      <el-col class="left-pan">
+        <div id="chart" :style="{ width: '100%', height: '110%', textAlign: 'center' }"></div>
+      </el-col>
 
-    <el-col :span="12" class="right-pan">
-      <el-row class="card-group">
-        <el-col :span="12">
-          <el-card shadow="always" class="card1">
-            <template #header>
-              <div class="card-header">
-                <span class="title">消息</span>
-                <el-icon :size="20"><Bell /></el-icon>
-              </div>
-            </template>
-            <span class="text">今天有收到消息吗</span>
-          </el-card>
-        </el-col>
+      <el-col class="right-pan">
+        <el-row class="card-group">
+          <el-col :span="12">
+            <el-card shadow="always" class="card1">
+              <template #header>
+                <div class="card-header">
+                  <span class="title">消息</span>
+                  <el-icon :size="20"><Bell /></el-icon>
+                </div>
+              </template>
+              <span class="text">今天有消息吗</span>
+            </el-card>
+          </el-col>
 
-        <el-col :span="12">
-          <el-card shadow="always" class="card2">
-            <template #header>
-              <div class="card-header">
-                <span class="title">天气</span>
-                <el-icon :size="20"><PartlyCloudy /></el-icon>
-              </div>
-            </template>
-            <span class="text">今天天气怎么样</span>
-          </el-card>
-        </el-col>
-      </el-row>
+          <el-col :span="12">
+            <el-card shadow="always" class="card2">
+              <template #header>
+                <div class="card-header">
+                  <span class="title">天气</span>
+                  <el-icon :size="20"><PartlyCloudy /></el-icon>
+                </div>
+              </template>
+              <span class="text">今天天气如何</span>
+            </el-card>
+          </el-col>
+        </el-row>
 
-      <el-row class="card-group">
-        <el-col :span="12">
-          <el-card shadow="always" class="card3">
-            <template #header>
-              <div class="card-header">
-                <span class="title">收藏</span>
-                <el-icon :size="20"><Star /></el-icon>
-              </div>
-            </template>
-            <span class="text">今天有多少收藏呀</span>
-          </el-card>
-        </el-col>
-        <el-col :span="12">
-          <el-card shadow="always" class="card4">
-            <template #header>
-              <div class="card-header">
-                <span class="title">位置</span>
-                <el-icon :size="20"><Location /></el-icon>
-              </div>
-            </template>
-            <span class="text">今天你在哪呀</span>
-          </el-card>
-        </el-col>
-      </el-row>
-    </el-col>
-  </el-row>
+        <el-row class="card-group">
+          <el-col :span="12">
+            <el-card shadow="always" class="card3">
+              <template #header>
+                <div class="card-header">
+                  <span class="title">收藏</span>
+                  <el-icon :size="20"><Star /></el-icon>
+                </div>
+              </template>
+              <span class="text">今天有收藏吗</span>
+            </el-card>
+          </el-col>
+          <el-col :span="12">
+            <el-card shadow="always" class="card4">
+              <template #header>
+                <div class="card-header">
+                  <span class="title">位置</span>
+                  <el-icon :size="20"><Location /></el-icon>
+                </div>
+              </template>
+              <span class="text">今天你在哪呀</span>
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-col>
+    </el-row>
 
-  <el-row class="extend-pan">
-    <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
-      <el-table-column prop="date" label="Date" width="180" />
-      <el-table-column prop="name" label="Name" width="180" />
-      <el-table-column prop="address" label="Address" />
-    </el-table>
-  </el-row>
+    <el-row class="extend-pan">
+      <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
+        <el-table-column prop="date" label="Date" width="180" />
+        <el-table-column prop="name" label="Name" width="180" />
+        <el-table-column prop="address" label="Address" />
+      </el-table>
+    </el-row>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -124,6 +126,9 @@ onMounted(() => {
 
   myChart.setOption<echarts.EChartsOption>(option)
   option && myChart.setOption(option)
+  window.onresize = () => {
+    myChart.resize()
+  }
 })
 
 interface User {
@@ -181,17 +186,22 @@ const tableData: User[] = [
 </script>
 
 <style lang="scss" scoped>
+.containter {
+  width: 100%;
+  height: 100%;
+}
+
 .main-pan {
   background-color: #f0f2f4;
   height: 50%;
   text-align: center;
+  min-height: 300px;
 }
 
 .left-pan,
 .right-pan {
   height: 85%;
-  flex: 0 0 46%;
-  align-self: center;
+  flex: 1;
 }
 
 .left-pan {
@@ -205,11 +215,34 @@ const tableData: User[] = [
   margin-left: 1%;
 }
 
-.card-group {
-  height: 50%;
+@media (max-width: 550px) {
+  .containter {
+    height: initial;
+  }
+  .main-pan {
+    height: 50%;
+    margin-bottom: 2em;
+
+    .left-pan {
+      flex: initial;
+      height: 270px;
+      width: 100%;
+      margin-bottom: 1em;
+    }
+    .right-pan {
+      flex: initial;
+      height: 100%;
+      width: 100%;
+    }
+  }
 }
 
-// $card-margin: 5px;
+.card-group {
+  height: 50%;
+  .el-col {
+    height: 100%;
+  }
+}
 $card-margin: 5%;
 .card1,
 .card2,
@@ -217,7 +250,7 @@ $card-margin: 5%;
 .card4 {
   height: 90%;
   width: 90%;
-  // width: 200px;
+  max-height: 100%;
   background-color: white;
 }
 

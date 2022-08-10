@@ -4,12 +4,14 @@ import Router from '@/router/index.js'
 Axios.defaults.baseURL = 'https://www.infoweaver.cloud/api/'
 
 Axios.interceptors.request.use((config) => {
-  const token = localStorage.getItem('authorization')
+  // const token = localStorage.getItem('authorization')
   // const username = localStorage.getItem('username')
   if (config.headers?.authorization) {
     // console.log('Header has auth')
     return config
   }
+
+  const token = localStorage.getItem('authorization')
   if (token) {
     config.headers!.authorization = token
     // console.log('Successfully Add auth in Header', username)

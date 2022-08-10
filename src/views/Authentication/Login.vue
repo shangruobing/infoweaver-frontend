@@ -70,7 +70,6 @@ const login = async () => {
   }
   try {
     const response = await service.post(api, data)
-    console.log(response)
     const authorization = response.data.token
     const username = response.data.username
 
