@@ -112,19 +112,19 @@
 </template>
 
 <script lang="ts" setup>
-import { h, ref } from 'vue'
-import { ElNotification } from 'element-plus'
+import { ref } from 'vue'
 import { Message } from '@element-plus/icons'
 import ChatRobot from '@/components/ChatRobot.vue'
 import 'element-plus/theme-chalk/display.css'
 import FooterPan from './Footer.vue'
+import Notification from '@/utils/notification'
 
 const rate = ref(null)
 
 const thanks = () => {
-  ElNotification({
+  Notification({
     title: '谢谢评分😜',
-    message: h('i', { style: 'color: teal' }, '我们会继续努力的！'),
+    text: '我们会继续努力的',
     position: 'top-left'
   })
 }

@@ -93,8 +93,9 @@
 </template>
 
 <script lang="ts" setup>
-import { h, ref, reactive } from 'vue'
-import { ElNotification } from 'element-plus'
+import { ref, reactive } from 'vue'
+import Notification from '@/utils/notification'
+
 import { Upload } from '@element-plus/icons-vue'
 
 const form = reactive({
@@ -117,10 +118,7 @@ const onSubmit = () => {
 const uploadRef = ref()
 
 const uploadSuccess = () => {
-  ElNotification.success({
-    message: h('i', { style: 'color: teal' }, '文件已成功上传！'),
-    position: 'top-right'
-  })
+  Notification({ text: '文件已成功上传！' })
 }
 </script>
 

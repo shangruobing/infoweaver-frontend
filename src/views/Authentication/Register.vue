@@ -16,19 +16,25 @@
         </el-col>
 
         <el-col class="right-pan">
-          <el-form label-position="right">
+          <el-form
+            ref="ruleFormRef"
+            :model="form"
+            :rules="rules"
+            label-position="right"
+            status-icon
+          >
             <el-row align="bottom" justify="space-between">
               <h1>注册</h1>
-              <el-button @click="goLogin" type="text">已有账号？去登录</el-button>
+              <el-button @click="router.push('/login')" type="text">已有账号？去登录</el-button>
             </el-row>
 
-            <el-form-item label="用户名称">
+            <el-form-item label="用户名称" prop="username">
               <el-input v-model="form.username" type="text" placeholder="请输入用户名" />
             </el-form-item>
-            <el-form-item label="输入密码">
+            <el-form-item label="输入密码" prop="password">
               <el-input v-model="form.password" type="password" placeholder="请输入密码" />
             </el-form-item>
-            <el-form-item label="再次输入">
+            <el-form-item label="再次输入" prop="repeat">
               <el-input v-model="form.repeat" type="password" placeholder="请再次输入密码" />
             </el-form-item>
             <el-form-item>
@@ -36,7 +42,9 @@
             </el-form-item>
 
             <el-form-item>
-              <el-button @click="register" type="primary" style="width: 100%">立即注册</el-button>
+              <el-button @click="submitForm(ruleFormRef)" type="primary" style="width: 100%">
+                立即注册
+              </el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -46,48 +54,108 @@
 </template>
 
 <script lang="ts" setup>
-import { h, reactive, onMounted } from 'vue'
-// import Axios from 'axios'
+import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElNotification } from 'element-plus'
+import type { FormRules, FormInstance } from 'element-plus'
+
+import Notification from '@/utils/notification'
+import service from '@/utils/request'
+
 const router = useRouter()
+const ruleFormRef = ref<FormInstance>()
 const form = reactive({
   username: '',
   password: '',
   repeat: ''
 })
 
-const register = async () => {
-  ElNotification.success({
-    message: h('i', { style: 'color: teal' }, '注册成功！'),
-    position: 'top-right'
+onMounted(() => {
+  Notification({
+    text: '注册功能已开放，欢迎加入',
+    type: 'success',
+    duration: 10000
   })
-  router.push('/login')
+})
 
-  // const api = 'http://127.0.0.1:8000/api/user/'
-  // const data = {
-  //   username: form.username,
-  //   password: form.password
-  // }
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      console.log('submit!')
+      register()
+    } else {
+      console.log('error submit!', fields)
+    }
+  })
+}
 
+const register = async () => {
+  const api = 'user/'
+  const data = {
+    username: form.username,
+    password: form.password
+  }
   try {
-    // const response = await Axios.post(api, data)
-    // console.log(response)
-  } catch (error) {
+    console.log(data)
+    const response = await service.post(api, data)
+    console.log(response)
+    Notification({
+      text: '注册成功！欢迎您' + form.username,
+      duration: 5000
+    })
+    router.push('/login')
+  } catch (error: any) {
+    if (error.response.data.username[0] === '用户 with this 用户名 already exists.') {
+      Notification({
+        text: '糟糕用户名已经存在了，换一个吧',
+        duration: 3000
+      })
+      form.username = ''
+    }
     console.log(error)
   }
 }
-const goLogin = () => {
-  router.push('/login')
+
+const validatePassword = (rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('Please input the password'))
+  } else {
+    if (form.repeat !== '') {
+      if (!ruleFormRef.value) return
+      ruleFormRef.value.validateField('repate', () => null)
+    }
+    callback()
+  }
 }
 
-onMounted(() => {
-  ElNotification({
-    message: h('i', { style: 'color: teal' }, '注册功能正在维护，暂时无法使用'),
-    position: 'top-right',
-    type: 'warning',
-    duration: 10000
-  })
+const validateRepeat = (rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('Please input the password again'))
+  } else if (value !== form.password) {
+    callback(new Error("Two inputs don't match!"))
+  } else {
+    callback()
+  }
+}
+
+const rules = reactive<FormRules>({
+  username: [{ required: true, message: 'Please input username', trigger: 'blur' }],
+  password: [
+    {
+      required: true,
+      trigger: 'change',
+      validator: validatePassword
+    },
+    { min: 6, max: 20, message: 'Length should be 6 to 20', trigger: 'blur' }
+  ],
+  repeat: [
+    {
+      required: true,
+      trigger: 'change',
+      validator: validateRepeat
+    },
+    { min: 6, max: 20, message: 'Length should be 6 to 20', trigger: 'blur' }
+  ]
 })
 </script>
 

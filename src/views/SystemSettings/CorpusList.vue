@@ -59,11 +59,11 @@
 </template>
 
 <script lang="ts" setup>
-import { h, ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import service from '@/utils/request'
 import calculatePageNum from '@/utils/pagination'
 
-import { ElNotification } from 'element-plus'
+import Notification from '@/utils/notification'
 import MyRobot from '@/components/ChatRobot.vue'
 const form = reactive({
   question: '',
@@ -109,10 +109,7 @@ const addCorpus = async () => {
   const api = 'corpus/'
   const data = { question: form.question, answer: form.answer }
   const response = await service.post(api, data)
-  ElNotification.success({
-    message: h('i', { style: 'color: teal' }, '添加成功！'),
-    position: 'top-right'
-  })
+  Notification({ text: '添加成功！' })
   console.log(response)
 }
 
