@@ -33,11 +33,6 @@ const routes = [
     component: () => import('../views/Help/Help.vue')
   },
   {
-    path: '/personalSettings',
-    name: 'personalSettings',
-    component: () => import('../components/PersonalSettings.vue')
-  },
-  {
     path: '/docs',
     name: 'docs',
     meta: { title: '文档' },
