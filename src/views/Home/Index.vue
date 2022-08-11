@@ -21,11 +21,11 @@ import MainPan from './Main.vue'
   height: 100vh;
   width: 100vw;
   background-color: #f2f4f5;
+  min-width: 300px;
 }
 
 .el-header,
 .el-main {
   padding: 0;
 }
-
 </style>

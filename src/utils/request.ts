@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import Router from '@/router/index.js'
+import Notification from '@/utils/notification'
 
 Axios.defaults.baseURL = 'https://www.infoweaver.cloud/api/'
 
@@ -31,6 +32,11 @@ Axios.interceptors.response.use(
     if (status === 403) {
       // console.log('Forbidden')
       Router.push('/content/forbidden')
+
+      if (error.response.data.detail === 'Expired token') {
+        Notification('登陆状态过期 请重新登陆')
+        Router.push('/login')
+      }
     }
     if (status === 404) {
       // console.log('Not Found')

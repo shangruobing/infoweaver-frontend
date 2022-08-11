@@ -1,7 +1,8 @@
 <template>
   <div class="header-nav-bar">
     <el-row justify="space-between" align="middle">
-      <el-col :span="12">
+      <!-- <el-row justify="space-between" align="middle" style="min-width: 500px"> -->
+      <el-col :span="12" class="left-pan">
         <el-row align="middle" style="min-width: 100px">
           <el-button size="large" text class="header-button" @click="changeMenuView">
             <el-icon :size="20" v-if="!store.getters.isCollapse"><fold /></el-icon>
@@ -23,7 +24,7 @@
         </el-row>
       </el-col>
 
-      <el-col :span="12">
+      <el-col :span="12" class="right-pan">
         <el-row align="right" justify="end" style="width: 100%">
           <el-menu
             mode="horizontal"
@@ -34,7 +35,7 @@
             <el-menu-item index="1" class="header-menu-item hidden-xs-only">消息通知</el-menu-item>
             <el-menu-item index="2" class="header-menu-item hidden-xs-only">系统设置</el-menu-item>
             <el-menu-item index="3" class="header-menu-item hidden-xs-only">个人中心</el-menu-item>
-            <el-menu-item index="4" class="header-menu-item">
+            <el-menu-item index="4" class="header-menu-item personal-center">
               <personal-center />
             </el-menu-item>
           </el-menu>
@@ -114,16 +115,20 @@ $header-color: #fff;
   border: none;
 }
 
-// .el-breadcrumb {
-//   min-width: 220px;
-// }
-
 @media (max-width: 400px) {
   .header-button {
     display: none;
   }
   .el-breadcrumb {
     margin-left: 1em;
+  }
+  .left-pan,
+  .right-pan {
+    flex: initial;
+    max-width: initial;
+  }
+  .personal-center {
+    width: 100%;
   }
 }
 </style>

@@ -52,7 +52,7 @@
       <el-divider />
 
       <el-row class="two-pan">
-        <el-col class="left-pan">
+        <el-col class="left-pan timeline">
           <el-timeline class="timeline-card">
             <el-timeline-item timestamp="2021/5/1" placement="top" color="#409EFF">
               <el-card>
@@ -85,7 +85,7 @@
         <el-col class="left-pan">
           <img src="@/assets/material/模拟用户数据.svg" width="300" height="270" />
         </el-col>
-        <el-col class="right-pan">
+        <el-col class="right-pan feature-list">
           <h2>参与开源贡献</h2>
           <ul class="color-ul">
             <li><span>体验产品，反馈问题，帮助改进</span></li>
@@ -166,7 +166,7 @@ const thanks = () => {
 .box-card {
   width: 90%;
   margin: auto;
-  // padding-left: 20px;
+  // margin-left: 3em;
 
   .card-title {
     font-size: 1.1em;
@@ -181,8 +181,9 @@ const thanks = () => {
 
 .timeline-card {
   width: 70%;
+  min-width: 200px;
   padding: 0;
-  margin-left: 4em;
+  // margin-left: 4em;
   height: 50%;
   text-align: left;
 
@@ -203,9 +204,13 @@ const thanks = () => {
   }
 }
 
+.feature-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .color-ul {
   text-align: left;
-  // margin-left: 3em;
 
   li {
     color: #409eff;
@@ -226,7 +231,12 @@ img {
   display: none;
 }
 
-@media (min-width: 400px) {
+.timeline {
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 450px) {
   .el-carousel {
     margin-right: 2em;
   }
@@ -248,7 +258,25 @@ img {
 
   .timeline-card {
     width: 50%;
-    margin-left: 3em;
+    margin-left: 1em;
+  }
+
+  .feature-list {
+    display: initial;
+    .color-ul {
+      text-align: left;
+      // margin-left: 3em;
+      margin-left: 0;
+
+      li {
+        color: #409eff;
+        padding-bottom: 1em;
+
+        span {
+          color: #303131;
+        }
+      }
+    }
   }
 }
 

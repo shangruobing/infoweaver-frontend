@@ -1,7 +1,7 @@
 <template>
   <div class="header-bar">
     <el-row align="middle" justify="space-between" style="width: 100%">
-      <el-col :span="12">
+      <el-col :span="4">
         <el-popover :width="160" popper-style="text-align: center; padding: 10px;">
           <template #reference>
             <img src="@/assets/infoweaver/黑横.svg" width="160" height="60" />
@@ -10,9 +10,9 @@
         </el-popover>
       </el-col>
 
-      <el-col :span="12">
+      <el-col :span="20">
         <el-row align="middle" justify="end" style="width: 100%">
-          <el-input placeholder="Search" :prefix-icon="Search" class="hidden-sm-and-down" />
+          <el-input placeholder="Search" :prefix-icon="Search" />
           <el-menu
             mode="horizontal"
             active-text-color="#000000"
@@ -20,10 +20,12 @@
             :ellipsis="false"
             router
           >
-            <el-menu-item index="docs" class="header-menu-item hidden-xs-only" >指南</el-menu-item>
+            <el-menu-item index="docs" class="header-menu-item hidden-xs-only">指南</el-menu-item>
             <el-menu-item index="" class="header-menu-item hidden-xs-only">资源</el-menu-item>
             <el-menu-item index="login" class="header-menu-item hidden-xs-only">登录</el-menu-item>
-            <el-menu-item index="register" class="header-menu-item hidden-xs-only">注册</el-menu-item>
+            <el-menu-item index="register" class="header-menu-item hidden-xs-only"
+              >注册</el-menu-item
+            >
             <el-menu-item index="" class="header-menu-item">
               <personal-center isHome />
             </el-menu-item>
@@ -73,7 +75,13 @@ import 'element-plus/theme-chalk/display.css'
 }
 
 .el-input {
-  width: 30%;
+  width: 20%;
   margin-right: 1em;
+  min-width: 120px;
+}
+@media (max-width: 400px) {
+  .el-input {
+    display: none;
+  }
 }
 </style>
