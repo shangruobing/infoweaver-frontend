@@ -33,3 +33,4 @@ if (isDevelopmentMode) {
 app.config.globalProperties.$http = http
 
 // TODO add Tabs in Main Page
+// TODO 用户头像

@@ -33,10 +33,9 @@ const routes = [
     component: () => import('../views/Help/Help.vue')
   },
   {
-    path: '/test',
-    name: 'test',
-    meta: { title: '测试' },
-    component: () => import('../views/Home/Index.vue')
+    path: '/personalSettings',
+    name: 'personalSettings',
+    component: () => import('../components/PersonalSettings.vue')
   },
   {
     path: '/docs',
