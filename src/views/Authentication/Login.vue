@@ -100,7 +100,7 @@ const login = async () => {
     const authorization = response.data.token
     const username = response.data.username
 
-    Notification({ text: '登陆成功', type: 'success' })
+    Notification({ text: '登录成功', type: 'success' })
     store.commit('loginSuccess', username)
     localStorage.setItem('username', username)
     localStorage.setItem('authorization', authorization)

@@ -32,9 +32,15 @@
             background-color="f0f2f4"
             :ellipsis="false"
           >
-            <el-menu-item index="1" class="header-menu-item hidden-xs-only">消息通知</el-menu-item>
-            <el-menu-item index="2" class="header-menu-item hidden-xs-only">系统设置</el-menu-item>
-            <el-menu-item index="3" class="header-menu-item hidden-xs-only">个人中心</el-menu-item>
+            <el-menu-item index="1" class="header-menu-item hidden-xs-only" @click="unfinished">
+              消息通知
+            </el-menu-item>
+            <el-menu-item index="2" class="header-menu-item hidden-xs-only" @click="unfinished">
+              系统设置
+            </el-menu-item>
+            <el-menu-item index="3" class="header-menu-item hidden-xs-only" @click="unfinished">
+              个人中心
+            </el-menu-item>
             <el-menu-item index="4" class="header-menu-item personal-center">
               <personal-center />
             </el-menu-item>
@@ -52,6 +58,7 @@ import 'element-plus/theme-chalk/display.css'
 import { useStore } from 'vuex'
 import { reactive, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import Notification from '@/utils/notification'
 
 const store = useStore()
 
@@ -73,6 +80,10 @@ watch(route, (to) => {
     routeInfo.menuItem = to.matched[1].meta.menuItem as string
   }
 })
+
+const unfinished = () => {
+  Notification({ text: '敬请期待', type: 'info', duration: 1000 })
+}
 </script>
 
 <style lang="scss" scoped>
