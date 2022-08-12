@@ -8,17 +8,35 @@
       <el-dropdown-menu>
         <template v-if="store.getters.isLogin">
           <el-dropdown-item v-if="isHome" @click="router.push('/content/')">
-            进入系统
+            <el-icon><House /></el-icon> 进入系统
           </el-dropdown-item>
-          <el-dropdown-item v-else @click="dialogVisible = true"> 个人中心 </el-dropdown-item>
-          <el-dropdown-item @click="router.push('/content/help')">帮助</el-dropdown-item>
-          <el-dropdown-item divided @click="logout"> 退出登录 </el-dropdown-item>
+
+          <el-dropdown-item v-else @click="dialogVisible = true">
+            <el-icon><User /></el-icon>个人中心
+          </el-dropdown-item>
+
+          <el-dropdown-item @click="router.push('/content/help')">
+            <el-icon><Service /></el-icon>帮助
+          </el-dropdown-item>
+
+          <el-dropdown-item divided @click="logout">
+            <el-icon><SwitchButton /></el-icon>退出登录
+          </el-dropdown-item>
         </template>
 
         <template v-else>
-          <el-dropdown-item @click="router.push('/login/')">登录</el-dropdown-item>
-          <el-dropdown-item @click="router.push('/register/')">注册</el-dropdown-item>
-          <el-dropdown-item divided @click="router.push('/help/')">帮助</el-dropdown-item>
+          <el-dropdown-item @click="router.push('/login/')">
+            <el-icon><User /></el-icon>登录
+          </el-dropdown-item>
+
+          <el-dropdown-item @click="router.push('/register/')">
+            <el-icon><EditPen /></el-icon>
+            注册
+          </el-dropdown-item>
+
+          <el-dropdown-item divided @click="router.push('/help/')">
+            <el-icon><Service /></el-icon>帮助
+          </el-dropdown-item>
         </template>
       </el-dropdown-menu>
     </template>
@@ -92,7 +110,7 @@ import { useStore } from 'vuex'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
+import { Plus, House, Service, SwitchButton, User, EditPen } from '@element-plus/icons-vue'
 import type { UploadProps } from 'element-plus'
 
 import service from '@/utils/request'
