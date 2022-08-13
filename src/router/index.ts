@@ -3,7 +3,7 @@ import store from '../store/index'
 
 type RouteRecord = RouteRecordRaw | any
 
-const routes: RouteRecord[] = [
+const routes: Array<RouteRecord> = [
   {
     path: '/',
     name: 'home',

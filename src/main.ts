@@ -10,6 +10,7 @@ import * as echarts from 'echarts'
 
 import store from './store/index'
 import router from './router/index'
+import '@/styles/scrollbar.scss'
 
 const app = createApp(App)
 

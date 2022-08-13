@@ -5,9 +5,6 @@
       <el-header> <header-bar /></el-header>
 
       <el-main>
-        <!-- <transition name="fade" mode="out-in">
-          <router-view> </router-view>
-        </transition> -->
         <router-view v-slot="{ Component }">
           <transition name="fade" mode="out-in">
             <component :is="Component" />
@@ -32,11 +29,13 @@ $main-color: #f0f2f4;
   margin: 0px !important;
   height: 100vh;
   flex-basis: 0;
+  background-color: $main-color;
 }
 
 .el-main {
   background-color: $main-color;
 }
+
 .el-footer {
   background-color: green;
 }

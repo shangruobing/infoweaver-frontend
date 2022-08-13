@@ -46,7 +46,7 @@ import 'element-plus/theme-chalk/display.css'
 .header-bar {
   position: sticky;
   width: 100vw;
-  padding-left: 1em;
+  padding-left: 0.5em;
   z-index: 1000;
   background-color: #fff;
   box-shadow: 0 7px 5px -5px #f2f4f5;
@@ -79,6 +79,7 @@ import 'element-plus/theme-chalk/display.css'
   margin-right: 1em;
   min-width: 120px;
 }
+
 @media (max-width: 400px) {
   .el-input {
     display: none;

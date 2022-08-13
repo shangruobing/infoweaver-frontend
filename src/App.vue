@@ -2,24 +2,31 @@
   <router-view></router-view>
 </template>
 
-<style>
+<style import>
 #app {
   font-family: Microsoft YaHei, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin: -8px -8px auto;
-  padding: -8px -8px auto;
   height: 100%;
 }
 
 body {
-  margin-bottom: 0;
+  margin: 0;
 }
 
 :root {
   box-sizing: border-box;
+
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 400;
+  color-scheme: light dark;
+  font-synthesis: none;
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
 }
 
 *,
