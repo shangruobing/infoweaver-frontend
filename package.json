@@ -1,5 +1,6 @@
 {
   "name": "infoweaver-system",
+  "private": true,
   "version": "2.1.0",
   "main": "main.js",
   "license": "MIT",
@@ -18,7 +19,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -48,6 +49,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.2.4",
     "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-vue": "^9.2.0"
+    "eslint-plugin-vue": "^9.2.0",
+    "vue-tsc": "^0.39.5"
   }
 }

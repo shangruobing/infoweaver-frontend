@@ -4,7 +4,7 @@
       <el-col :span="4">
         <el-popover :width="160" popper-style="text-align: center; padding: 10px;">
           <template #reference>
-            <img src="@/assets/infoweaver/黑横.svg" width="160" height="60" />
+            <img src="@/assets/infoweaver/黑横.svg" width="160" height="60" title="logo" />
           </template>
           <template #default>编织信息 共赢未来🎉</template>
         </el-popover>

@@ -25,7 +25,9 @@
           >
             <el-row align="bottom" justify="space-between">
               <h1>注册</h1>
-              <el-button @click="router.push('/login')" type="text">已有账号？去登录</el-button>
+              <el-button @click="router.push('/login')" type="primary" link>
+                已有账号？去登录
+              </el-button>
             </el-row>
 
             <el-form-item label="用户名称" prop="username">

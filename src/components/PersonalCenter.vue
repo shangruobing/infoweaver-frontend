@@ -164,6 +164,7 @@ const avatarError = () => {
 
 const logout = () => {
   store.commit('logout')
+  showAvatar.value = false
   localStorage.clear()
   router.push('/')
 }

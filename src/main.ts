@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
-import Axios from 'axios'
 import App from './App.vue'
+
 import 'default-passive-events'
 import 'element-plus/dist/index.css'
 import ElementPlus from 'element-plus'
@@ -8,17 +8,16 @@ import Chat from 'vue3-beautiful-chat'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import * as echarts from 'echarts'
 
-import store from './store/index.js'
-import Router from './router/index.js'
+import store from './store/index'
+import router from './router/index'
 
 const app = createApp(App)
 
 app.use(ElementPlus, { locale: zhCn })
-app.use(store)
-app.use(Router)
 app.use(Chat)
+app.use(store)
+app.use(router)
 app.mount('#app')
-app.config.globalProperties.$axios = Axios
 app.config.globalProperties.$echarts = echarts
 
 const isDevelopmentMode = false
@@ -31,6 +30,3 @@ if (isDevelopmentMode) {
 }
 
 app.config.globalProperties.$http = http
-
-// TODO add Tabs in Main Page
-// TODO 用户头像

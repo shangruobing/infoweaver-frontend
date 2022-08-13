@@ -94,7 +94,7 @@
             <li>
               <span>
                 联系我们
-                <el-link href="mailto:shangruobing29@163.com">
+                <el-link href="mailto:shangruobing29@163.com" title="author-email">
                   <el-icon>
                     <message />
                   </el-icon>

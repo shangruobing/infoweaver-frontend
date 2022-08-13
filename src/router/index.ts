@@ -1,7 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import store from '../store/index'
 
-const routes = [
+type RouteRecord = RouteRecordRaw | any
+
+const routes: RouteRecord[] = [
   {
     path: '/',
     name: 'home',
@@ -47,6 +49,7 @@ const routes = [
     children: [
       {
         path: '',
+        name: 'welcome',
         meta: { title: '首页' },
         component: () => import('../views/Content/Welcome.vue')
       },
@@ -120,6 +123,7 @@ const routes = [
     component: () => import('../views/Exception/NotFound.vue')
   }
 ]
+
 const router = createRouter({
   history: createWebHistory(),
   routes
@@ -142,8 +146,7 @@ router.beforeEach((from) => {
     'docs',
     'forbidden'
   ]
-
-  if (store.getters.isLogin || safePage.indexOf(from.name) !== -1) {
+  if (store.getters.isLogin || safePage.indexOf(from.name as string) !== -1) {
     return true
   } else {
     return { name: 'login' }

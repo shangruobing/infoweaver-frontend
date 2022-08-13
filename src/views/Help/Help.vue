@@ -7,12 +7,11 @@
     <template #description>
       <span class="row">
         <p>出现问题了? 别急, 联系我们</p>
-        <el-link href="mailto:shangruobing29@163.com" :underline="false">
+        <el-link href="mailto:shangruobing29@163.com" title="author-email" :underline="false">
           <el-icon :size="20"><message /></el-icon>
         </el-link>
       </span>
     </template>
-
   </el-empty>
 </template>
 

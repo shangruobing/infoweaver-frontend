@@ -16,7 +16,6 @@
     <span class="text" style="font-size: 14px; color: #606266; margin: 0; display: block">
       All Rights Reserved Ruobing Shang 版权所有
     </span>
-    <my-robot />
   </div>
 </template>
 

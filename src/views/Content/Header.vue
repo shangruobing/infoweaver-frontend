@@ -25,7 +25,7 @@
       </el-col>
 
       <el-col :span="12" class="right-pan">
-        <el-row align="right" justify="end" style="width: 100%">
+        <el-row align="middle" justify="end" style="width: 100%">
           <el-menu
             mode="horizontal"
             active-text-color="#000000"

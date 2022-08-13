@@ -53,7 +53,7 @@
     <el-row justify="center">
       <el-pagination
         layout="prev, pager, next"
-        :page-count="pagination.pageNum"
+        :page-count="pagination.count"
         background
         :current-page="pagination.currentPage"
         :hide-on-single-page="true"
@@ -65,17 +65,16 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
-import { Download, Search } from '@element-plus/icons-vue'
+import { Download, Search, View as IconView } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import service from '@/utils/request'
+import calculatePageNum from '@/utils/pagination'
 
 const question = ref('')
 const loading = ref(false)
 const results = ref([])
 const pagination = reactive({
   count: 0,
-  perPageCount: 0,
-  pageNum: 0,
   currentPage: 1
 })
 
@@ -88,17 +87,11 @@ const search = async () => {
   const api = 'neo4j/'
   try {
     const response = await service.post(api, data)
-    console.log(response)
     results.value = response.data.results
-
-    pagination.count = response.data.count
-    pagination.perPageCount = results.value.length
-    pagination.pageNum = Math.ceil(pagination.count / pagination.perPageCount)
+    pagination.count = calculatePageNum(response.data.count, response.data.results.length)
     loading.value = false
 
     if (pagination.count === 0) {
-      pagination.pageNum = 0
-
       ElMessage({
         showClose: true,
         message: '什么也没有找到',

@@ -12,9 +12,8 @@ import service from '@/utils/request'
 const sysinfo = reactive([{ name: 'InfoWeaver', value: 'V2.1.0' }])
 
 onMounted(async () => {
-  const response = await service.get('sysinfo')
-
   try {
+    const response = await service.get('sysinfo')
     const results = response.data
     for (const i in results) {
       sysinfo.push({ name: i.toUpperCase(), value: results[i] })

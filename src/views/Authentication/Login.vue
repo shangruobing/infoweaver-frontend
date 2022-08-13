@@ -24,7 +24,9 @@
           >
             <el-row align="bottom" justify="space-between">
               <h1>登录</h1>
-              <el-button @click="router.push('/register')" type="text">没有账号？去注册</el-button>
+              <el-button @click="router.push('/register')" type="primary" link>
+                没有账号？去注册
+              </el-button>
             </el-row>
 
             <el-form-item label="用户名称" prop="username">
@@ -37,7 +39,7 @@
             <el-row align="bottom" justify="space-between" style="margin-bottom: 10px">
               <el-checkbox>记住我</el-checkbox>
 
-              <el-button type="text">短信验证码登录</el-button>
+              <el-button type="primary" link>短信验证码登录</el-button>
             </el-row>
 
             <el-button @click="submitForm(ruleFormRef)" type="primary" style="width: 100%">

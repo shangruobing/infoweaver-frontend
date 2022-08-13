@@ -54,7 +54,7 @@
         @current-change="handleCurrentChange"
       />
     </el-row>
-    <my-robot />
+    <chat-robot />
   </div>
 </template>
 
@@ -64,7 +64,7 @@ import service from '@/utils/request'
 import calculatePageNum from '@/utils/pagination'
 
 import Notification from '@/utils/notification'
-import MyRobot from '@/components/ChatRobot.vue'
+import ChatRobot from '@/components/ChatRobot.vue'
 const form = reactive({
   question: '',
   answer: ''

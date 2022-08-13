@@ -78,7 +78,7 @@
             :show-file-list="false"
             :on-change="uploadSuccess"
           >
-            <el-button type="text" class="upload">
+            <el-button link class="upload">
               上传附件<el-icon class="el-icon--right"><upload /> </el-icon>
             </el-button>
           </el-upload>

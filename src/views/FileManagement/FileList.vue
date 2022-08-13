@@ -74,8 +74,8 @@ const handleCurrentChange = async (currentPage: number) => {
   pagination.currentPage = currentPage
   const api = 'upload/?page=' + pagination.currentPage
 
-  const response = await service.get(api)
   try {
+    const response = await service.get(api)
     loading.value = false
     results.value = response.data.results
   } catch (error) {
@@ -84,10 +84,8 @@ const handleCurrentChange = async (currentPage: number) => {
 }
 
 onMounted(async () => {
-  const api = 'upload/'
-  const response = await service.get(api)
-
   try {
+    const response = await service.get('upload')
     loading.value = false
     results.value = response.data.results
 

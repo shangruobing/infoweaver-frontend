@@ -195,49 +195,43 @@ export default {
           minAngle: 5, // 最小的扇区角度（0 ~ 360），用于防止某个值过小导致扇区太小影响交互
           avoidLabelOverlap: true,
           label: {
-            normal: {
-              show: true,
-              formatter: '{b|{b}}\n{hr|}\n{b|{c}份|{d}%}',
-              textStyle: {
-                fontSize: this.standSize / 150,
-                color: 'black'
+            show: true,
+            formatter: '{b|{b}}\n{hr|}\n{b|{c}份|{d}%}',
+            fontSize: this.standSize / 150,
+            color: 'black',
+            rich: {
+              b: {
+                color: 'black',
+                lineHeight: 20
               },
-              rich: {
-                b: {
-                  color: 'black',
-                  lineHeight: 20
-                },
-                hr: {
-                  borderColor: '#A5B5F9',
-                  width: '100%',
-                  borderWidth: 1,
-                  height: 0
-                }
+              hr: {
+                borderColor: '#A5B5F9',
+                width: '100%',
+                borderWidth: 1,
+                height: 0
               }
             }
           },
           itemStyle: {
-            normal: {
-              borderWidth: 3,
-              borderColor: '#EFEFF4',
-              color: function (params) {
-                // 自定义颜色
-                const colorList = [
-                  '#444349',
-                  '#F7A35B',
-                  '#7CB5EC',
-                  ' #F25C00 ',
-                  '#9090E0',
-                  '#4AC2A1',
-                  '#06cfbf',
-                  '#017717',
-                  '#ff467a',
-                  '#1c61fe',
-                  '#fec61c',
-                  '#e61cfe'
-                ]
-                return colorList[params.dataIndex]
-              }
+            borderWidth: 3,
+            borderColor: '#EFEFF4',
+            color: function (params) {
+              // 自定义颜色
+              const colorList = [
+                '#444349',
+                '#F7A35B',
+                '#7CB5EC',
+                ' #F25C00 ',
+                '#9090E0',
+                '#4AC2A1',
+                '#06cfbf',
+                '#017717',
+                '#ff467a',
+                '#1c61fe',
+                '#fec61c',
+                '#e61cfe'
+              ]
+              return colorList[params.dataIndex]
             }
           },
           emphasis: {
@@ -248,13 +242,11 @@ export default {
             }
           },
           labelLine: {
-            normal: {
-              lineStyle: {
-                type: 'solid'
-              },
-              length: 10,
-              length2: 25
-            }
+            lineStyle: {
+              type: 'solid'
+            },
+            length: 10,
+            length2: 25
           },
           data: [
             // { value: 100, name: "学院文件" },

@@ -5,9 +5,14 @@
       <el-header> <header-bar /></el-header>
 
       <el-main>
-        <transition name="fade" mode="out-in">
+        <!-- <transition name="fade" mode="out-in">
           <router-view> </router-view>
-        </transition>
+        </transition> -->
+        <router-view v-slot="{ Component }">
+          <transition name="fade" mode="out-in">
+            <component :is="Component" />
+          </transition>
+        </router-view>
       </el-main>
       <!-- <el-footer>Footer</el-footer> -->
     </el-container>
