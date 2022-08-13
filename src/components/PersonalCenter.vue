@@ -30,8 +30,7 @@
           </el-dropdown-item>
 
           <el-dropdown-item @click="router.push('/register/')">
-            <el-icon><EditPen /></el-icon>
-            注册
+            <el-icon><EditPen /></el-icon>注册
           </el-dropdown-item>
 
           <el-dropdown-item divided @click="router.push('/help/')">
@@ -110,8 +109,8 @@ import { useStore } from 'vuex'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { Plus, House, Service, SwitchButton, User, EditPen } from '@element-plus/icons-vue'
 import type { UploadProps } from 'element-plus'
+import { Plus, House, Service, SwitchButton, User, EditPen } from '@element-plus/icons-vue'
 
 import service from '@/utils/request'
 import Notification from '@/utils/notification'

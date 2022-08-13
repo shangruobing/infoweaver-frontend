@@ -34,7 +34,7 @@ Axios.interceptors.response.use(
       Router.push('/content/forbidden')
 
       if (error.response.data.detail === 'Expired token') {
-        Notification('登陆状态过期 请重新登陆')
+        Notification({ text: '登录状态过期 请重新登陆' })
         Router.push('/login')
       }
     }
