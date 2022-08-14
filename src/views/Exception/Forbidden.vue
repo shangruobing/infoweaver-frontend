@@ -5,3 +5,10 @@
     </template>
   </el-empty>
 </template>
+
+<style>
+.el-empty__image {
+  max-width: 100%;
+  max-height: 100%;
+}
+</style>

@@ -1,7 +1,6 @@
 <template>
   <div class="header-nav-bar">
     <el-row justify="space-between" align="middle">
-      <!-- <el-row justify="space-between" align="middle" style="min-width: 500px"> -->
       <el-col :span="12" class="left-pan">
         <el-row align="middle" style="min-width: 100px">
           <el-button size="large" text class="header-button" @click="changeMenuView">
@@ -122,7 +121,7 @@ $header-color: #fff;
 .header-button {
   padding-right: 10px;
   padding-left: 10px;
-  background-color: $header-color;
+  background-color: $header-color !important;
   border: none;
 }
 

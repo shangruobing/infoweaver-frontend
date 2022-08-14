@@ -1,6 +1,7 @@
 {
   "name": "infoweaver-system",
   "private": true,
+  "type": "module",
   "version": "2.1.0",
   "main": "main.js",
   "license": "MIT",

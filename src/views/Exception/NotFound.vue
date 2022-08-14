@@ -7,8 +7,13 @@
   </el-empty>
 </template>
 
-<style lang="scss" scoped>
+<style>
 a {
   text-decoration: none;
+}
+
+.el-empty__image {
+  max-width: 100%;
+  max-height: 100%;
 }
 </style>

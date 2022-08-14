@@ -9,12 +9,17 @@
 import { onMounted, reactive } from 'vue'
 import service from '@/utils/request'
 
-const sysinfo = reactive([{ name: 'InfoWeaver', value: 'V2.1.0' }])
+interface Info {
+  name: string
+  value: string
+}
+const sysinfo = reactive<Info[]>([])
 
 onMounted(async () => {
   try {
     const response = await service.get('sysinfo')
     const results = response.data
+    sysinfo.push({ name: 'InfoWeaver', value: 'V2.1.0' })
     for (const i in results) {
       sysinfo.push({ name: i.toUpperCase(), value: results[i] })
     }

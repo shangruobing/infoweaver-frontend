@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <side-bar :isCollapse="true" />
+    <side-bar />
     <el-container>
       <el-header> <header-bar /></el-header>
 

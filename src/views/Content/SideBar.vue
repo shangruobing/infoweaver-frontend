@@ -1,6 +1,7 @@
 <template>
   <el-scrollbar>
-    <div id="asideMenu" class="aside-bar">
+    <!-- <div id="asideMenu" class="aside-bar"> -->
+    <div id="asideMenu" class="aside-bar" :style="{ width: windowWidth }">
       <transition name="logo-fade" mode="out-in">
         <img
           src="@/assets/infoweaver/白全.svg"
@@ -139,18 +140,54 @@ import {
 } from '@element-plus/icons'
 
 import { useStore } from 'vuex'
-
-const windowWidth = window.innerWidth
-const isCollapse = ref(windowWidth < 700)
 const store = useStore()
 
+const windowWidth = ref('200px')
+
 onMounted(() => {
-  if (isCollapse.value) {
-    const asideMenu = document.getElementById('asideMenu')!
-    asideMenu.style.width = '55px'
+  if (window.innerWidth < 700) {
+    windowWidth.value = '55px'
     store.commit('changeCollapseState')
   }
 })
+
+window.addEventListener('resize', () => {
+  if (window.innerWidth < 700) {
+    if (!store.getters.isCollapse) {
+      store.commit('changeCollapseState')
+      windowWidth.value = '55px'
+    }
+  } else {
+    if (store.getters.isCollapse) {
+      store.commit('changeCollapseState')
+      windowWidth.value = '200px'
+    }
+  }
+})
+
+// onMounted(() => {
+//   if (window.innerWidth < 700) {
+//     const asideMenu = document.getElementById('asideMenu')!
+//     asideMenu.style.width = '55px'
+//     store.commit('changeCollapseState')
+//   }
+// })
+
+// window.addEventListener('resize', () => {
+//   if (window.innerWidth < 700) {
+//     if (!store.getters.isCollapse) {
+//       const asideMenu = document.getElementById('asideMenu')!
+//       store.commit('changeCollapseState')
+//       asideMenu.style.width = '55px'
+//     }
+//   } else {
+//     if (store.getters.isCollapse) {
+//       store.commit('changeCollapseState')
+//       const asideMenu = document.getElementById('asideMenu')!
+//       asideMenu.style.width = '200px'
+//     }
+//   }
+// })
 </script>
 
 <style lang="scss" scoped>
