@@ -2,7 +2,7 @@
   <div class="containter">
     <el-row class="main-pan">
       <el-col class="left-pan">
-        <div id="chart" :style="{ width: '100%', height: '110%', textAlign: 'center' }"></div>
+        <stacked-line-chart />
       </el-col>
 
       <el-col class="right-pan">
@@ -70,66 +70,8 @@
 </template>
 
 <script lang="ts" setup>
-import * as echarts from 'echarts'
-import { onMounted } from 'vue'
+import StackedLineChart from '@/components/charts/StackedLineChart.vue'
 import { Bell, PartlyCloudy, Star, Location } from '@element-plus/icons-vue'
-onMounted(() => {
-  type EChartsOption = echarts.EChartsOption
-  // 在初始化echarts前清空instance可以确保使用Vue-Router切换页面时echarts二次渲染成功
-  document.getElementById('chart')!.setAttribute('_echarts_instance_', '')
-  const chartDom = document.getElementById('chart')!
-  const myChart = echarts.init(chartDom)
-  const option: EChartsOption = {
-    legend: {},
-    tooltip: {
-      trigger: 'axis',
-      showContent: false
-    },
-    dataset: {
-      source: [
-        ['product', '2017', '2018', '2019', '2020', '2021', '2022'],
-        ['文体活动', 56.5, 82.1, 88.7, 70.1, 53.4, 85.1],
-        ['志愿公益', 51.1, 51.4, 55.1, 53.3, 73.8, 68.7],
-        ['学科竞赛', 40.1, 62.2, 69.5, 36.4, 45.2, 32.5],
-        ['思想成长', 25.2, 37.1, 41.2, 18, 33.9, 49.1]
-      ]
-    },
-    xAxis: { type: 'category' },
-    yAxis: { gridIndex: 0 },
-    series: [
-      {
-        type: 'line',
-        smooth: true,
-        seriesLayoutBy: 'row',
-        emphasis: { focus: 'series' }
-      },
-      {
-        type: 'line',
-        smooth: true,
-        seriesLayoutBy: 'row',
-        emphasis: { focus: 'series' }
-      },
-      {
-        type: 'line',
-        smooth: true,
-        seriesLayoutBy: 'row',
-        emphasis: { focus: 'series' }
-      },
-      {
-        type: 'line',
-        smooth: true,
-        seriesLayoutBy: 'row',
-        emphasis: { focus: 'series' }
-      }
-    ]
-  }
-
-  myChart.setOption<echarts.EChartsOption>(option)
-  option && myChart.setOption(option)
-  window.onresize = () => {
-    myChart.resize()
-  }
-})
 
 interface User {
   date: string

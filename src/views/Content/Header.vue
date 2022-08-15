@@ -141,7 +141,7 @@ $header-color: #fff;
   margin: 0px !important;
   background-color: $header-color;
   height: 60px;
-  min-width: 200px;
+  min-width: 250px;
 }
 
 .right-pan {
