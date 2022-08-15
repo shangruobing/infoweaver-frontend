@@ -1,5 +1,5 @@
 <template>
-  <div :id="chartId" :style="{ width: '100%', height: '100%', textAlign: 'center' }"></div>
+  <div :id="chartId" class="chart"></div>
 </template>
 <script setup lang="ts">
 import { onMounted } from 'vue'
@@ -24,3 +24,20 @@ onMounted(() => {
   }
 })
 </script>
+
+<style lang="scss">
+.chart {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  min-width: 200px;
+  min-height: 200px;
+  div,
+  canvas {
+    max-width: 100% !important;
+    max-height: 100% !important;
+  }
+}
+</style>

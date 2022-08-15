@@ -1,6 +1,6 @@
 <template>
   <div class="containter">
-    <el-row :gutter="24">
+    <el-row>
       <el-col :span="8">
         <line-chart />
       </el-col>
@@ -14,7 +14,7 @@
 
     <el-divider border-style="double"></el-divider>
 
-    <el-row :gutter="24">
+    <el-row>
       <el-col :span="8">
         <pie-chart />
       </el-col>
@@ -38,22 +38,26 @@ import NegativeBar from '@/components/charts/NegativeBar.vue'
 </script>
 
 <style lang="scss" scoped>
-// .containter,
-// .row {
-//   max-width: 100%;
-//   div {
-//     flex: 1;
-//   }
-// }
-.el-col {
-  height: 300px;
-  // width: 300px;
+.containter {
+  width: 100%;
   max-width: 100%;
 }
+.el-col {
+  height: 300px;
+  width: 100%;
+  max-width: 100%;
+}
+.el-row {
+  margin: 0;
+  max-width: 100%;
+  width: 100%;
+  flex-wrap: nowrap;
+}
 
-// @media (max-width: 400px) {
-//   .row {
-//     flex-direction: column;
-//   }
-// }
+@media (max-width: 900px) {
+  .el-row {
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+  }
+}
 </style>
