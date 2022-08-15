@@ -42,6 +42,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/Help/Help.vue')
   },
   {
+    path: '/markdown',
+    name: 'markdown',
+    meta: { requireAuth: false, title: '资源' },
+    component: () => import('../components/MarkdownPreview.vue')
+  },
+  {
     path: '/docs',
     name: 'docs',
     meta: { requireAuth: false, title: '文档' },

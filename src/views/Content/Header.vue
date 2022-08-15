@@ -32,16 +32,25 @@
             :ellipsis="false"
             style="max-width: 100%"
           >
-            <el-menu-item index="1" class="header-menu-item" @click="unfinished">
-              <el-icon><Message /></el-icon> <span class="header-menu-label">消息通知</span>
-            </el-menu-item>
-            <el-menu-item index="2" class="header-menu-item" @click="unfinished">
-              <el-icon><Setting /></el-icon> <span class="header-menu-label">系统设置</span>
-            </el-menu-item>
-            <el-menu-item index="3" class="header-menu-item" @click="handleFullScreen">
-              <el-icon><FullScreen /></el-icon>
-              <span class="header-menu-label">{{ isFullScreen ? '退出全屏' : '全屏模式' }}</span>
-            </el-menu-item>
+            <el-tooltip effect="dark" content="消息通知" placement="bottom" :hide-after="100">
+              <el-menu-item index="1" class="header-menu-item" @click="unfinished">
+                <el-icon><Message /></el-icon>
+                <span class="header-menu-label">消息通知</span>
+              </el-menu-item>
+            </el-tooltip>
+
+            <el-tooltip effect="dark" content="系统设置" placement="bottom" :hide-after="100">
+              <el-menu-item index="2" class="header-menu-item" @click="unfinished">
+                <el-icon><Setting /></el-icon> <span class="header-menu-label">系统设置</span>
+              </el-menu-item>
+            </el-tooltip>
+
+            <el-tooltip effect="dark" content="全屏缩放" placement="bottom" :hide-after="100">
+              <el-menu-item index="3" class="header-menu-item" @click="handleFullScreen">
+                <el-icon><FullScreen /></el-icon>
+                <span class="header-menu-label">{{ isFullScreen ? '退出全屏' : '全屏模式' }}</span>
+              </el-menu-item>
+            </el-tooltip>
             <el-menu-item index="4" class="header-menu-item personal-center">
               <personal-center />
             </el-menu-item>

@@ -12,7 +12,18 @@
 
       <el-col :span="20">
         <el-row align="middle" justify="end" style="width: 100%">
-          <el-input placeholder="Search" :prefix-icon="Search" />
+          <el-select v-model="value" filterable placeholder="Search" @change="handleChange(value)">
+            <template #prefix>
+              <el-icon><Search /></el-icon>
+            </template>
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+
           <el-menu
             mode="horizontal"
             active-text-color="#000000"
@@ -21,7 +32,7 @@
             router
           >
             <el-menu-item index="docs" class="header-menu-item">指南</el-menu-item>
-            <el-menu-item index="" class="header-menu-item">资源</el-menu-item>
+            <el-menu-item index="markdown" class="header-menu-item">资源</el-menu-item>
             <el-menu-item index="login" class="header-menu-item">登录</el-menu-item>
             <el-menu-item index="register" class="header-menu-item">注册</el-menu-item>
             <el-menu-item index="" class="header-menu-item">
@@ -37,6 +48,42 @@
 <script lang="ts" setup>
 import { Search } from '@element-plus/icons-vue'
 import PersonalCenter from '@/components/PersonalCenter.vue'
+
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const value = ref('')
+const options = [
+  {
+    value: 'login',
+    label: '登录'
+  },
+  {
+    value: 'register',
+    label: '注册'
+  },
+  {
+    value: 'content',
+    label: '进入系统'
+  },
+  {
+    value: 'docs',
+    label: '指南'
+  },
+  {
+    value: 'markdown',
+    label: '资源'
+  },
+  {
+    value: 'help',
+    label: '帮助'
+  }
+]
+
+const handleChange = (value: string) => {
+  router.push(value)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -72,7 +119,7 @@ import PersonalCenter from '@/components/PersonalCenter.vue'
   height: 60px;
 }
 
-.el-input {
+.el-select {
   width: 20%;
   margin-right: 1em;
   min-width: 120px;
@@ -85,7 +132,7 @@ import PersonalCenter from '@/components/PersonalCenter.vue'
 }
 
 @media (max-width: 400px) {
-  .el-input {
+  .el-select {
     display: none;
   }
 }
