@@ -20,12 +20,10 @@
             :ellipsis="false"
             router
           >
-            <el-menu-item index="docs" class="header-menu-item hidden-xs-only">指南</el-menu-item>
-            <el-menu-item index="" class="header-menu-item hidden-xs-only">资源</el-menu-item>
-            <el-menu-item index="login" class="header-menu-item hidden-xs-only">登录</el-menu-item>
-            <el-menu-item index="register" class="header-menu-item hidden-xs-only"
-              >注册</el-menu-item
-            >
+            <el-menu-item index="docs" class="header-menu-item">指南</el-menu-item>
+            <el-menu-item index="" class="header-menu-item">资源</el-menu-item>
+            <el-menu-item index="login" class="header-menu-item">登录</el-menu-item>
+            <el-menu-item index="register" class="header-menu-item">注册</el-menu-item>
             <el-menu-item index="" class="header-menu-item">
               <personal-center isHome />
             </el-menu-item>
@@ -39,7 +37,6 @@
 <script lang="ts" setup>
 import { Search } from '@element-plus/icons-vue'
 import PersonalCenter from '@/components/PersonalCenter.vue'
-import 'element-plus/theme-chalk/display.css'
 </script>
 
 <style lang="scss" scoped>
@@ -51,6 +48,7 @@ import 'element-plus/theme-chalk/display.css'
   background-color: #fff;
   box-shadow: 0 7px 5px -5px #f2f4f5;
   height: 60px;
+  min-width: 300px;
 }
 
 .header-menu-item {
@@ -78,6 +76,12 @@ import 'element-plus/theme-chalk/display.css'
   width: 20%;
   margin-right: 1em;
   min-width: 120px;
+}
+
+@media (max-width: 660px) {
+  .header-menu-item:not(:last-child) {
+    display: none;
+  }
 }
 
 @media (max-width: 400px) {

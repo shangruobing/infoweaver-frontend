@@ -9,14 +9,17 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import * as echarts from 'echarts'
 
 import store from './store/index'
+import { createPinia } from 'pinia'
 import router from './router/index'
-import '@/styles/scrollbar.scss'
+import '@/styles/index.scss'
 
 const app = createApp(App)
 
+const pinia = createPinia()
 app.use(ElementPlus, { locale: zhCn })
 app.use(Chat)
 app.use(store)
+app.use(pinia)
 app.use(router)
 app.mount('#app')
 app.config.globalProperties.$echarts = echarts

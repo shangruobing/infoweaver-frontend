@@ -132,6 +132,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/Exception/Forbidden.vue')
   },
   {
+    path: '/pinia',
+    name: 'pinia',
+    meta: { requireAuth: false, title: 'pinia' },
+    component: () => import('../views/Test/UsePinia.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'notFound',
     meta: { requireAuth: false, title: '未找到' },

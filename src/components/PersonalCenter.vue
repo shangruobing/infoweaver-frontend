@@ -25,15 +25,15 @@
         </template>
 
         <template v-else>
-          <el-dropdown-item @click="router.push('/login/')">
+          <el-dropdown-item @click="router.push('/login')">
             <el-icon><User /></el-icon>登录
           </el-dropdown-item>
 
-          <el-dropdown-item @click="router.push('/register/')">
+          <el-dropdown-item @click="router.push('/register')">
             <el-icon><EditPen /></el-icon>注册
           </el-dropdown-item>
 
-          <el-dropdown-item divided @click="router.push('/help/')">
+          <el-dropdown-item divided @click="router.push('/help')">
             <el-icon><Service /></el-icon>帮助
           </el-dropdown-item>
         </template>
