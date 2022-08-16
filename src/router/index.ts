@@ -52,7 +52,9 @@ const routes: Array<RouteRecordRaw> = [
     name: 'docs',
     meta: { requireAuth: false, title: '文档' },
     beforeEnter: () => {
-      location.href = 'https://www.infoweaver.cloud/api/docs/'
+      // href will leave a history, replace will not.
+      location.replace('https://www.infoweaver.cloud/api/docs/')
+      // location.href = 'https://www.infoweaver.cloud/api/docs/'
     },
     // TypeScript Type Check Error: beforeEnter and redirect are not compatible.
     redirect: ''
@@ -62,7 +64,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'guide',
     meta: { requireAuth: false, title: '指南' },
     beforeEnter: () => {
-      location.href = 'https://www.infoweaver.cloud/guide/'
+      location.replace('https://www.infoweaver.cloud/guide/')
     },
     // TypeScript Type Check Error: beforeEnter and redirect are not compatible.
     redirect: ''
