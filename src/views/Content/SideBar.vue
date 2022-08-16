@@ -80,6 +80,15 @@
               <span>文件上传</span>
             </template>
           </el-menu-item>
+
+          <el-menu-item index="markdown">
+            <template #title>
+              <el-icon>
+                <Edit />
+              </el-icon>
+              <span>Markdown</span>
+            </template>
+          </el-menu-item>
         </el-sub-menu>
 
         <el-sub-menu index="3">
@@ -132,6 +141,7 @@ import {
   Document,
   View,
   UploadFilled,
+  Edit,
   Setting,
   Cpu,
   Coin,

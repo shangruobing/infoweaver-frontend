@@ -31,8 +31,8 @@
             :ellipsis="false"
             router
           >
-            <el-menu-item index="docs" class="header-menu-item">指南</el-menu-item>
-            <el-menu-item index="markdown" class="header-menu-item">资源</el-menu-item>
+            <el-menu-item index="guide" class="header-menu-item">指南</el-menu-item>
+            <el-menu-item index="docs" class="header-menu-item">资源</el-menu-item>
             <el-menu-item index="login" class="header-menu-item">登录</el-menu-item>
             <el-menu-item index="register" class="header-menu-item">注册</el-menu-item>
             <el-menu-item index="" class="header-menu-item">
@@ -64,7 +64,7 @@ const options = [
     label: '注册'
   },
   {
-    value: 'content',
+    value: 'content/',
     label: '进入系统'
   },
   {

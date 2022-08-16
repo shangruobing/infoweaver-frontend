@@ -58,6 +58,16 @@ const routes: Array<RouteRecordRaw> = [
     redirect: ''
   },
   {
+    path: '/guide',
+    name: 'guide',
+    meta: { requireAuth: false, title: '指南' },
+    beforeEnter: () => {
+      location.href = 'https://www.infoweaver.cloud/guide/'
+    },
+    // TypeScript Type Check Error: beforeEnter and redirect are not compatible.
+    redirect: ''
+  },
+  {
     path: '/content/',
     name: 'content',
     meta: { requireAuth: true, title: '后台' },
@@ -98,6 +108,11 @@ const routes: Array<RouteRecordRaw> = [
         path: 'upload',
         meta: { requireAuth: true, subMenu: '文件管理', menuItem: '文件上传' },
         component: () => import('../views/FileManagement/UploadFileForm.vue')
+      },
+      {
+        path: 'markdown',
+        meta: { requireAuth: true, subMenu: '文件管理', menuItem: 'Markdown' },
+        component: () => import('../components/MarkdownPreview.vue')
       },
       {
         path: 'systemInfo',

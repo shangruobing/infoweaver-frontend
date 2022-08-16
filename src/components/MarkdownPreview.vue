@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Markdown Editor</h1>
+    <!-- <h1>Markdown Editor</h1> -->
     <el-row :gutter="20">
       <el-col :span="12">
         <el-input v-model="markdown" type="textarea" placeholder="Please input" resize="none" />
@@ -52,6 +52,7 @@ $column-height: 95%;
   margin: auto;
   text-align: center;
   min-width: 350px;
+  max-height: 100%;
   .el-row {
     height: 90%;
   }
