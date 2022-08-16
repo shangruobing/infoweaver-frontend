@@ -1,1 +1,6 @@
 @import 'scrollbar.scss';
+
+// 修改自带input样式input:-internal-autofill-selected为透明色
+input:-internal-autofill-selected {
+  box-shadow: 0 0 0 1000px white inset !important;
+}

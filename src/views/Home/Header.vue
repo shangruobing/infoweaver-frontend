@@ -68,11 +68,11 @@ const options = [
     label: '进入系统'
   },
   {
-    value: 'docs',
+    value: 'guide',
     label: '指南'
   },
   {
-    value: 'markdown',
+    value: 'docs',
     label: '资源'
   },
   {

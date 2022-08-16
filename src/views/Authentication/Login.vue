@@ -125,6 +125,7 @@ const rules = reactive<FormRules>({
   width: 100%;
   height: 100vh;
   display: flex;
+  min-width: 300px;
 }
 
 .box-card {
@@ -149,6 +150,10 @@ const rules = reactive<FormRules>({
   width: 100%;
 }
 
+.el-input {
+  width: 200px;
+}
+
 .right-footer {
   margin-top: 2em;
 }
@@ -163,6 +168,9 @@ img {
     display: none;
   }
   .box-card {
+    width: 100%;
+  }
+  .el-input {
     width: 100%;
   }
 }
