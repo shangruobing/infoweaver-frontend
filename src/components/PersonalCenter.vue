@@ -1,12 +1,12 @@
 <template>
   <el-dropdown>
     <el-avatar>
-      <img v-if="showAvatar" :src="avatarURL" @error="avatarError()" />
+      <img v-if="store.showAvatar" :src="store.avatarURL" @error="avatarError()" />
       <img v-else src="@/assets/home/头像.svg" />
     </el-avatar>
     <template #dropdown>
       <el-dropdown-menu>
-        <template v-if="store.getters.isLogin">
+        <template v-if="store.isLogin">
           <el-dropdown-item v-if="isHome" @click="router.push('/content/')">
             <el-icon><House /></el-icon> 进入系统
           </el-dropdown-item>
@@ -59,17 +59,19 @@
         >
           <el-badge value="new" :hidden="hiddenBadge">
             <el-avatar @click="clickAvatar">
-              <img v-if="showAvatar" :src="avatarURL" @error="avatarError()" />
+              <img v-if="store.showAvatar" :src="store.avatarURL" @error="avatarError()" />
               <img v-else src="@/assets/home/头像.svg" />
             </el-avatar>
           </el-badge>
         </el-tooltip>
       </el-descriptions-item>
-      <el-descriptions-item label="Username" align="center">{{ username }}</el-descriptions-item>
+      <el-descriptions-item label="Username" align="center">{{
+        store.username
+      }}</el-descriptions-item>
       <el-descriptions-item label="Telephone" align="center">13500000000</el-descriptions-item>
       <el-descriptions-item label="Place" :span="2" align="center">云南</el-descriptions-item>
       <el-descriptions-item label="Remarks" align="center">
-        <el-tag size="small">User</el-tag>
+        <el-tag size="small"> {{ store.type === 0 ? 'Admin' : 'User' }}</el-tag>
       </el-descriptions-item>
       <el-descriptions-item label="Address" align="center">
         云南省昆明市呈贡区昆明理工大学
@@ -95,7 +97,7 @@
         @closed="dialogVisible = false"
         :show-file-list="false"
       >
-        <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+        <img v-if="store.showAvatar" :src="store.avatarURL" class="avatar" />
         <el-icon v-else class="avatar-uploader-icon">
           <Plus />
         </el-icon>
@@ -105,7 +107,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useStore } from 'vuex'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
@@ -114,26 +115,22 @@ import { Plus, House, Service, SwitchButton, User, EditPen } from '@element-plus
 
 import service from '@/utils/request'
 import Notification from '@/utils/notification'
+import { useAuthStore } from '@/stores/authentication'
 
 defineProps({
   isHome: Boolean
 })
 
 const router = useRouter()
-const store = useStore()
-
-const showAvatar = ref(store.getters.isLogin)
-const username = ref(localStorage.getItem('username'))
-const avatarURL = ref('')
+const store = useAuthStore()
 
 onMounted(() => {
   const username = localStorage.getItem('username')
   if (username) {
-    store.commit('loginSuccess', username)
-
+    store.username = username
     const avatar = localStorage.getItem('avatar')
     if (avatar) {
-      avatarURL.value = avatar
+      store.avatarURL = avatar
     } else {
       requestAvatar()
     }
@@ -147,11 +144,9 @@ const requestAvatar = async () => {
     const domain = response.config.baseURL?.split('/api/')[0]
     const avatar = response.data
     if (avatar) {
-      avatarURL.value = domain + avatar
-      localStorage.setItem('avatar', avatarURL.value)
-      showAvatar.value = true
-    } else {
-      showAvatar.value = false
+      const avatarURL = domain + avatar
+      localStorage.setItem('avatar', avatarURL)
+      store.avatarURL = avatarURL
     }
   } catch (error) {
     console.log(error)
@@ -159,12 +154,11 @@ const requestAvatar = async () => {
 }
 
 const avatarError = () => {
-  showAvatar.value = false
+  console.log('Avatar Error')
 }
 
 const logout = () => {
-  store.commit('logout')
-  showAvatar.value = false
+  store.logout()
   localStorage.clear()
   router.push('/')
 }
@@ -172,18 +166,14 @@ const logout = () => {
 const dialogVisible = ref(false)
 
 // Avatar validator and callback()
-const imageUrl = ref('')
 const headers = { Authorization: localStorage.getItem('authorization') }
 
 const hiddenBadge = ref(false)
-const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
-  // imageUrl blob avatarURL string
-  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
-  avatarURL.value = 'https://www.infoweaver.cloud' + response.image
+const handleAvatarSuccess: UploadProps['onSuccess'] = (response) => {
   localStorage.removeItem('avatar')
   localStorage.setItem('avatar', 'https://www.infoweaver.cloud' + response.image)
+  store.avatarURL = 'https://www.infoweaver.cloud' + response.image
   Notification({ text: '上传成功', type: 'success' })
-
   innerVisible.value = false
   hiddenBadge.value = true
 }

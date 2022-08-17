@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import store from '../store/index'
+import { useAuthStore } from '@/stores/authentication'
 
 declare module 'vue-router' {
   export interface RouteMeta {
@@ -155,12 +155,6 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/Exception/Forbidden.vue')
   },
   {
-    path: '/pinia',
-    name: 'pinia',
-    meta: { requireAuth: false, title: 'pinia' },
-    component: () => import('../views/Test/UsePinia.vue')
-  },
-  {
     path: '/:pathMatch(.*)*',
     name: 'notFound',
     meta: { requireAuth: false, title: '未找到' },
@@ -175,13 +169,15 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
+  const store = useAuthStore()
+
   const username = localStorage.getItem('username')
   if (username) {
-    store.commit('loginSuccess', username)
+    store.username = username
   }
 
   // Auth required and not logged in.
-  if (to.meta.requiresAuth && !store.getters.isLogin) {
+  if (to.meta.requiresAuth && !store.isLogin) {
     return { name: 'login', query: { redirect: to.fullPath } }
   }
 

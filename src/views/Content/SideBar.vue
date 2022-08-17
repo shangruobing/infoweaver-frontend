@@ -7,7 +7,7 @@
           width="160"
           height="70"
           alt="logo"
-          v-if="!store.getters.isCollapse"
+          v-if="!store.isCollapse"
         />
         <img src="@/assets/infoweaver/白.svg" width="50" height="70" alt="logo" v-else />
       </transition>
@@ -15,7 +15,7 @@
         active-text-color="#ffd04b"
         background-color=" #40485B"
         text-color="#fff"
-        :collapse="store.getters.isCollapse"
+        :collapse="store.isCollapse"
         :collapse-transition="false"
         router
         :unique-opened="true"
@@ -148,13 +148,12 @@ import {
   Help
 } from '@element-plus/icons'
 
-import { useStore } from 'vuex'
-const store = useStore()
-
+import { useMainStore } from '@/stores/index'
+const store = useMainStore()
 const windowWidth = ref('200px')
 
 watch(
-  () => store.getters.isCollapse,
+  () => store.isCollapse,
   (width) => {
     windowWidth.value = width ? '55px' : '200px'
   }
@@ -163,19 +162,19 @@ watch(
 onMounted(() => {
   if (window.innerWidth < 700) {
     windowWidth.value = '55px'
-    store.commit('changeCollapseState')
+    store.changeCollapseState()
   }
 })
 
 window.addEventListener('resize', () => {
   if (window.innerWidth < 700) {
-    if (!store.getters.isCollapse) {
-      store.commit('changeCollapseState')
+    if (!store.isCollapse) {
+      store.changeCollapseState()
       windowWidth.value = '55px'
     }
   } else {
-    if (store.getters.isCollapse) {
-      store.commit('changeCollapseState')
+    if (store.isCollapse) {
+      store.changeCollapseState()
       windowWidth.value = '200px'
     }
   }

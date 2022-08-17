@@ -57,18 +57,18 @@
 </template>
 
 <script lang="ts" setup>
-import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import { ref, onMounted, reactive } from 'vue'
-import 'element-plus/theme-chalk/display.css'
 import type { FormRules, FormInstance } from 'element-plus'
 
 import service from '@/utils/request'
 import Notification from '@/utils/notification'
 import MultiWayLogin from './MultiWayLogin.vue'
+import { useAuthStore } from '@/stores/authentication'
 
-const store = useStore()
 const router = useRouter()
+const store = useAuthStore()
+
 const ruleFormRef = ref<FormInstance>()
 const form = reactive({
   username: '',
@@ -103,7 +103,8 @@ const login = async () => {
     const username = response.data.username
 
     Notification({ text: '登录成功', type: 'success' })
-    store.commit('loginSuccess', username)
+    store.$patch({ username: username, auth: authorization })
+
     localStorage.setItem('username', username)
     localStorage.setItem('authorization', authorization)
 

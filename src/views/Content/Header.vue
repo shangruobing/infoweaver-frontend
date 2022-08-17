@@ -4,7 +4,7 @@
       <el-col :span="12" class="left-pan">
         <el-row align="middle">
           <el-button size="large" text class="header-button" @click="changeMenuView">
-            <el-icon :size="20" v-if="!store.getters.isCollapse"><fold /></el-icon>
+            <el-icon :size="20" v-if="!store.isCollapse"><fold /></el-icon>
             <el-icon :size="20" v-else><expand /></el-icon>
           </el-button>
 
@@ -65,15 +65,15 @@
 <script lang="ts" setup>
 import { Fold, Expand, ArrowRight, FullScreen, Setting, Message } from '@element-plus/icons-vue'
 import PersonalCenter from '@/components/PersonalCenter.vue'
-import { useStore } from 'vuex'
 import { reactive, watch, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import Notification from '@/utils/notification'
+import { useMainStore } from '@/stores/index'
 
-const store = useStore()
+const store = useMainStore()
 
 const changeMenuView = () => {
-  store.commit('changeCollapseState')
+  store.changeCollapseState()
 }
 
 const route = useRoute()

@@ -7,7 +7,6 @@ import ElementPlus from 'element-plus'
 import Chat from 'vue3-beautiful-chat'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
-import store from './store/index'
 import { createPinia } from 'pinia'
 import router from './router/index'
 import '@/styles/index.scss'
@@ -17,9 +16,8 @@ const app = createApp(App)
 const pinia = createPinia()
 app.use(ElementPlus, { locale: zhCn })
 app.use(Chat)
-app.use(store)
-app.use(pinia)
 app.use(router)
+app.use(pinia)
 app.mount('#app')
 
 // let http = 'http://43.138.43.128:8000/api/'

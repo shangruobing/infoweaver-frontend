@@ -98,7 +98,6 @@ const register = async () => {
     password: form.password
   }
   try {
-    console.log(data)
     const response = await service.post(api, data)
     console.log(response)
     Notification({
