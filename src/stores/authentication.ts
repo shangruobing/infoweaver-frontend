@@ -26,6 +26,7 @@ export const useAuthStore = defineStore('authentication', {
     showAvatar(state) {
       return state.avatarURL !== ''
     },
+    // 暂时未用
     getUserInfo(state) {
       return {
         userID: state.userID,
@@ -36,6 +37,7 @@ export const useAuthStore = defineStore('authentication', {
     }
   },
   actions: {
+    // 暂时未用
     setUserInfo(userInfo: UserInfo) {
       this.userID = userInfo.userID
       this.username = userInfo.username
@@ -46,6 +48,7 @@ export const useAuthStore = defineStore('authentication', {
 
     logout() {
       this.$reset()
+      localStorage.clear()
     }
   }
 })

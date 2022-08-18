@@ -159,7 +159,6 @@ const avatarError = () => {
 
 const logout = () => {
   store.logout()
-  localStorage.clear()
   router.push('/')
 }
 

@@ -11,118 +11,34 @@
         />
         <img src="@/assets/infoweaver/白.svg" width="50" height="70" alt="logo" v-else />
       </transition>
+
       <el-menu
         active-text-color="#ffd04b"
         background-color=" #40485B"
         text-color="#fff"
         :collapse="store.isCollapse"
         :collapse-transition="false"
-        router
         :unique-opened="true"
+        router
       >
-        <el-sub-menu index="1">
+        <el-sub-menu :index="subMenu.index" v-for="subMenu in menu" :key="subMenu.index">
           <template #title>
             <el-icon>
-              <icon-menu />
+              <component :is="subMenu.icon"></component>
             </el-icon>
-            <span>通知管理</span>
+            <span>{{ subMenu.item }}</span>
           </template>
 
-          <el-menu-item index="notice">
+          <el-menu-item
+            :index="menuItem.index"
+            v-for="menuItem in subMenu.subMenu"
+            :key="menuItem.index"
+          >
             <template #title>
               <el-icon>
-                <Reading />
+                <component :is="menuItem.icon"></component>
               </el-icon>
-              <span>查看文件</span>
-            </template>
-          </el-menu-item>
-
-          <el-menu-item index="neo4j">
-            <template #title>
-              <el-icon>
-                <Search />
-              </el-icon>
-              <span>文件查询</span>
-            </template>
-          </el-menu-item>
-          <el-menu-item index="echarts">
-            <template #title>
-              <el-icon>
-                <PieChart />
-              </el-icon>
-              <span>信息统计</span>
-            </template>
-          </el-menu-item>
-        </el-sub-menu>
-
-        <el-sub-menu index="2">
-          <template #title>
-            <el-icon>
-              <document />
-            </el-icon>
-            <span>文件管理</span>
-          </template>
-
-          <el-menu-item index="fileList">
-            <template #title>
-              <el-icon>
-                <View />
-              </el-icon>
-              <span>文件预览</span>
-            </template>
-          </el-menu-item>
-
-          <el-menu-item index="upload">
-            <template #title>
-              <el-icon>
-                <UploadFilled />
-              </el-icon>
-              <span>文件上传</span>
-            </template>
-          </el-menu-item>
-
-          <el-menu-item index="markdown">
-            <template #title>
-              <el-icon>
-                <Edit />
-              </el-icon>
-              <span>Markdown</span>
-            </template>
-          </el-menu-item>
-        </el-sub-menu>
-
-        <el-sub-menu index="3">
-          <template #title>
-            <el-icon>
-              <setting />
-            </el-icon>
-            <span>系统设置</span>
-          </template>
-
-          <el-menu-item index="systemInfo">
-            <template #title>
-              <el-icon>
-                <Cpu />
-              </el-icon>
-              <span>运行状况</span>
-            </template>
-          </el-menu-item>
-
-          <el-menu-item index="dbInfo">
-            <template #title>
-              <el-icon>
-                <Coin />
-              </el-icon>
-              <span>数据库监控</span>
-            </template>
-          </el-menu-item>
-
-          <el-menu-item index="corpus">
-            <template #title>
-              <el-icon>
-                <Help />
-              </el-icon>
-              <span>问答语料</span>
+              <span>{{ menuItem.item }}</span>
             </template>
           </el-menu-item>
         </el-sub-menu>
@@ -131,24 +47,58 @@
   </el-scrollbar>
 </template>
 
+<!-- eslint-disable import/no-duplicates -->
 <script lang="ts" setup>
+import type { Component } from 'vue'
 import { onMounted, ref, watch } from 'vue'
-import {
-  Menu as iconMenu,
-  Reading,
-  Search,
-  PieChart,
-  Document,
-  View,
-  UploadFilled,
-  Edit,
-  Setting,
-  Cpu,
-  Coin,
-  Help
-} from '@element-plus/icons'
+import { Menu as MenuIcon, Reading, Search, PieChart, Document } from '@element-plus/icons'
+import { View, UploadFilled, Edit, Setting, Cpu, Coin, Help } from '@element-plus/icons'
 
 import { useMainStore } from '@/stores/index'
+
+declare interface MenuItem {
+  index: string
+  item: string
+  icon: Component
+}
+
+declare interface Menu extends MenuItem {
+  subMenu: Array<MenuItem>
+}
+
+const menu: Array<Menu> = [
+  {
+    index: '1',
+    item: '通知管理',
+    icon: MenuIcon,
+    subMenu: [
+      { index: 'notice', item: '查看文件', icon: Reading },
+      { index: 'neo4j', item: '文件查询', icon: Search },
+      { index: 'echarts', item: '信息统计', icon: PieChart }
+    ]
+  },
+  {
+    index: '2',
+    item: '文件管理',
+    icon: Document,
+    subMenu: [
+      { index: 'fileList', item: '文件预览', icon: View },
+      { index: 'upload', item: '文件上传', icon: UploadFilled },
+      { index: 'markdown', item: 'Markdown', icon: Edit }
+    ]
+  },
+  {
+    index: '3',
+    item: '系统设置',
+    icon: Setting,
+    subMenu: [
+      { index: 'systemInfo', item: '运行状况', icon: Cpu },
+      { index: 'dbInfo', item: '数据库监控', icon: Coin },
+      { index: 'corpus', item: '问答语料', icon: Help }
+    ]
+  }
+]
+
 const store = useMainStore()
 const windowWidth = ref('200px')
 
@@ -164,6 +114,8 @@ onMounted(() => {
     windowWidth.value = '55px'
     store.changeCollapseState()
   }
+
+  console.log('MenuIcon', MenuIcon)
 })
 
 window.addEventListener('resize', () => {

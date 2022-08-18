@@ -149,6 +149,12 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
+    path: '/test',
+    name: 'test',
+    meta: { requireAuth: false, title: '测试' },
+    component: () => import('../components/test.vue')
+  },
+  {
     path: '/forbidden',
     name: 'forbidden',
     meta: { requireAuth: false, title: '未授权' },
