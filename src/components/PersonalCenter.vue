@@ -143,6 +143,8 @@ const requestAvatar = async () => {
     // https://www.infoweaver.cloud + /media/avatar/XXX.jpeg
     const domain = response.config.baseURL?.split('/api/')[0]
     const avatar = response.data
+    console.log(response.data)
+
     if (avatar) {
       const avatarURL = domain + avatar
       localStorage.setItem('avatar', avatarURL)

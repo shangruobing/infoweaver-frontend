@@ -32,7 +32,7 @@ export default defineConfig({
   },
   esbuild: {
     // build Model Drop all console.*
-    drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : []
+    // drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : []
   },
   css: {
     postcss: {

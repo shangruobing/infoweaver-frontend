@@ -56,13 +56,13 @@ import { View, UploadFilled, Edit, Setting, Cpu, Coin, Help } from '@element-plu
 
 import { useMainStore } from '@/stores/index'
 
-declare interface MenuItem {
+interface MenuItem {
   index: string
   item: string
   icon: Component
 }
 
-declare interface Menu extends MenuItem {
+interface Menu extends MenuItem {
   subMenu: Array<MenuItem>
 }
 
@@ -114,8 +114,6 @@ onMounted(() => {
     windowWidth.value = '55px'
     store.changeCollapseState()
   }
-
-  console.log('MenuIcon', MenuIcon)
 })
 
 window.addEventListener('resize', () => {

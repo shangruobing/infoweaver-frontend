@@ -22,13 +22,10 @@ Axios.interceptors.request.use((config) => {
 
 Axios.interceptors.response.use(
   (response) => {
-    // console.log('success', response)
     return response
   },
   (error) => {
-    // console.log('error', error)
     const status = error.response.status
-    // console.log('Error Code', status)
     if (status === 403) {
       // console.log('Forbidden')
       Router.push('/content/forbidden')
@@ -40,6 +37,9 @@ Axios.interceptors.response.use(
     }
     if (status === 404) {
       // console.log('Not Found')
+      if (error.request.responseURL === 'https://www.infoweaver.cloud/api/avatar/') {
+        throw new Error("User don't have avatar.")
+      }
       Router.push('/content/notFound')
     }
 
