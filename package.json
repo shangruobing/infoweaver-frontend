@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "version": "2.1.0",
-  "main": "main.js",
+  "main": "main.ts",
   "license": "MIT",
   "author": {
     "name": "Ruobing Shang",
@@ -24,7 +24,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@element-plus/icons": "^0.0.11",
     "@element-plus/icons-vue": "^2.0.6",
     "axios": "^0.27.2",
     "default-passive-events": "^2.0.0",

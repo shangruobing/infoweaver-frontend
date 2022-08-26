@@ -19,26 +19,27 @@ export const useAuthStore = defineStore('authentication', {
     }
   },
   getters: {
-    isLogin(state) {
+    isAuthenticated(state): boolean {
       return state.username !== ''
       // return state.phone.toString().replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2')
     },
-    showAvatar(state) {
+    showAvatar(state): boolean {
       return state.avatarURL !== ''
     },
     // 暂时未用
-    getUserInfo(state) {
+    getUserInfo(state): UserInfo {
       return {
         userID: state.userID,
         username: state.username,
         type: state.type,
-        avatar: state.avatarURL
+        auth: state.auth,
+        avatarURL: state.avatarURL
       }
     }
   },
   actions: {
     // 暂时未用
-    setUserInfo(userInfo: UserInfo) {
+    setUserInfo(userInfo: UserInfo): void {
       this.userID = userInfo.userID
       this.username = userInfo.username
       this.type = userInfo.type
@@ -46,7 +47,7 @@ export const useAuthStore = defineStore('authentication', {
       this.avatarURL = userInfo.avatarURL
     },
 
-    logout() {
+    logout(): void {
       this.$reset()
       localStorage.clear()
     }

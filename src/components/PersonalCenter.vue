@@ -6,7 +6,7 @@
     </el-avatar>
     <template #dropdown>
       <el-dropdown-menu>
-        <template v-if="store.isLogin">
+        <template v-if="store.isAuthenticated">
           <el-dropdown-item v-if="isHome" @click="router.push('/content/')">
             <el-icon><House /></el-icon> 进入系统
           </el-dropdown-item>

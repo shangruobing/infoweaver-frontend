@@ -183,7 +183,7 @@ router.beforeEach((to) => {
   }
 
   // Auth required and not logged in.
-  if (to.meta.requiresAuth && !store.isLogin) {
+  if (to.meta.requiresAuth && !store.isAuthenticated) {
     return { name: 'login', query: { redirect: to.fullPath } }
   }
 
