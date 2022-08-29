@@ -134,10 +134,10 @@ const tableData: User[] = [
 }
 
 .main-pan {
-  background-color: #f0f2f4;
   height: 50%;
-  text-align: center;
   min-height: 300px;
+  text-align: center;
+  background-color: #f0f2f4;
 }
 
 .left-pan,
@@ -147,51 +147,57 @@ const tableData: User[] = [
 }
 
 .left-pan {
-  background-color: white;
-  margin-left: 2%;
   margin-right: 1%;
+  margin-left: 2%;
+  background-color: white;
 }
+
 .right-pan {
-  background-color: #f0f2f4;
   margin-right: 2%;
   margin-left: 1%;
+  background-color: #f0f2f4;
 }
 
 @media (max-width: 550px) {
   .containter {
     height: initial;
   }
+
   .main-pan {
     height: 50%;
     margin-bottom: 2em;
 
     .left-pan {
-      flex: initial;
+      width: 100%;
       height: 270px;
-      width: 100%;
       margin-bottom: 1em;
-    }
-    .right-pan {
       flex: initial;
-      height: 100%;
+    }
+
+    .right-pan {
       width: 100%;
+      height: 100%;
+      flex: initial;
     }
   }
 }
 
 .card-group {
   height: 50%;
+
   .el-col {
     height: 100%;
   }
 }
+
 $card-margin: 5%;
+
 .card1,
 .card2,
 .card3,
 .card4 {
-  height: 90%;
   width: 90%;
+  height: 90%;
   max-height: 100%;
   background-color: white;
 }
@@ -200,6 +206,7 @@ $card-margin: 5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   .el-icon:hover {
     color: red;
   }
@@ -211,32 +218,33 @@ $card-margin: 5%;
 }
 
 .card2 {
-  margin-left: $card-margin;
   margin-bottom: $card-margin;
+  margin-left: $card-margin;
 }
 
 .card3 {
-  margin-right: $card-margin;
   margin-top: $card-margin;
+  margin-right: $card-margin;
 }
 
 .card4 {
-  margin-left: $card-margin;
   margin-top: $card-margin;
+  margin-left: $card-margin;
 }
 
 .title {
-  font-weight: bold;
   font-size: medium;
+  font-weight: bold;
 }
+
 .text {
-  font-style: italic;
   font-size: small;
+  font-style: italic;
 }
 
 .extend-pan {
   height: 50%;
-  margin-left: 2%;
   margin-right: 2%;
+  margin-left: 2%;
 }
 </style>

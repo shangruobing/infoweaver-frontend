@@ -219,12 +219,12 @@ const clickAvatar = () => {
 }
 
 .avatar-uploader .el-upload {
-  border: 1px dashed var(--el-border-color);
-  cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: var(--el-transition-duration-fast);
+  cursor: pointer;
+  border: 1px dashed var(--el-border-color);
   border-radius: 20px;
+  transition: var(--el-transition-duration-fast);
 }
 
 .avatar-uploader .el-upload:hover {
@@ -232,16 +232,16 @@ const clickAvatar = () => {
 }
 
 .el-icon.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
   width: 180px;
   height: 180px;
+  font-size: 28px;
+  color: #8c939d;
   text-align: center;
 }
 
 .el-dialog__body {
-  padding-top: 1em;
   display: flex;
+  padding-top: 1em;
   flex-direction: column;
 }
 

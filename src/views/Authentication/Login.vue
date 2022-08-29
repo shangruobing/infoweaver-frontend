@@ -3,14 +3,14 @@
     <el-card class="box-card">
       <el-row align="middle" justify="space-between" style="width: 100%" :gutter="20">
         <el-col class="left-pan">
-          <div style="display: flex; align-items: center">
+          <div style="display: flex; align-items: center;">
             <img
               src="@/assets/infoweaver/logo.svg"
               width="60"
               height="60"
               style="margin-right: 20px"
             />
-            <span style="font-size: large; font-weight: bold">欢迎回来 我一直在等你</span>
+            <span style="font-size: large; font-weight: bold;">欢迎回来 我一直在等你</span>
           </div>
           <img src="@/assets/material/检索站点.svg" width="300" height="300" />
         </el-col>
@@ -123,15 +123,15 @@ const rules = reactive<FormRules>({
 
 <style lang="scss" scoped>
 .login {
+  display: flex;
   width: 100%;
   height: 100vh;
-  display: flex;
   min-width: 300px;
 }
 
 .box-card {
-  margin: auto;
   max-height: 100%;
+  margin: auto;
 }
 
 .left-pan {
@@ -168,9 +168,11 @@ img {
   .left-pan {
     display: none;
   }
+
   .box-card {
     width: 100%;
   }
+
   .el-input {
     width: 100%;
   }

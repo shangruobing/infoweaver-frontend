@@ -113,7 +113,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Message } from '@element-plus/icons'
+import { Message } from '@element-plus/icons-vue'
 import ChatRobot from '@/components/ChatRobot.vue'
 import 'element-plus/theme-chalk/display.css'
 import FooterPan from './Footer.vue'
@@ -132,20 +132,20 @@ const thanks = () => {
 
 <style lang="scss" scoped>
 .main-pan {
-  background-color: #f2f4f5;
-  margin: 0;
-  text-align: center;
-  margin-top: 1em;
   padding-bottom: 1em;
+  margin: 0;
+  margin-top: 1em;
+  text-align: center;
+  background-color: #f2f4f5;
 }
 
 .el-carousel__item h3 {
-  color: #475669;
-  font-size: 18px;
-  opacity: 0.75;
-  line-height: 300px;
   margin: 0;
+  font-size: 18px;
+  line-height: 300px;
+  color: #475669;
   text-align: center;
+  opacity: 0.75;
 }
 
 .el-carousel__item:nth-child(2n) {
@@ -158,20 +158,21 @@ const thanks = () => {
 
 #fork {
   position: absolute;
-  right: 0px;
-  top: 0px;
+  top: 0;
+  right: 0;
   z-index: 300;
 }
 
 .box-card {
   width: 90%;
   margin: auto;
+
   // margin-left: 3em;
 
   .card-title {
+    padding: 1em 0;
     font-size: 1.1em;
     font-weight: bold;
-    padding: 1em 0;
   }
 
   .content {
@@ -181,10 +182,11 @@ const thanks = () => {
 
 .timeline-card {
   width: 70%;
-  min-width: 200px;
-  padding: 0;
+
   // margin-left: 4em;
   height: 50%;
+  min-width: 200px;
+  padding: 0;
   text-align: left;
 
   :deep(.el-card__body) {
@@ -209,12 +211,13 @@ const thanks = () => {
   flex-direction: column;
   align-items: center;
 }
+
 .color-ul {
   text-align: left;
 
   li {
-    color: #409eff;
     padding-bottom: 1em;
+    color: #409eff;
 
     span {
       color: #303131;
@@ -263,14 +266,15 @@ img {
 
   .feature-list {
     display: initial;
+
     .color-ul {
-      text-align: left;
       // margin-left: 3em;
       margin-left: 0;
+      text-align: left;
 
       li {
-        color: #409eff;
         padding-bottom: 1em;
+        color: #409eff;
 
         span {
           color: #303131;

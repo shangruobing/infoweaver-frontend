@@ -16,12 +16,12 @@ import MainPan from './Main.vue'
 
 <style lang="scss" scoped>
 .el-container {
-  padding: 0px !important;
-  margin: 0px !important;
-  height: 100vh;
   width: 100vw;
-  background-color: #f2f4f5;
+  height: 100vh;
   min-width: 300px;
+  padding: 0 !important;
+  margin: 0 !important;
+  background-color: #f2f4f5;
 }
 
 .el-header,

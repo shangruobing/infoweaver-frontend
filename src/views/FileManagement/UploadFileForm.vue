@@ -126,8 +126,9 @@ const uploadSuccess = () => {
 .el-form-item__label {
   font-weight: bold;
 }
+
 .upload {
-  color: #606266;
   font-weight: bold;
+  color: #606266;
 }
 </style>

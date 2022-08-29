@@ -4,10 +4,10 @@
 
 <style import>
 #app {
-  font-family: Microsoft YaHei, Helvetica, Arial, sans-serif;
-  text-align: center;
-  color: #2c3e50;
   height: 100%;
+  font-family: "Microsoft YaHei", Helvetica, Arial, sans-serif;
+  color: #2c3e50;
+  text-align: center;
 }
 
 body {
@@ -15,18 +15,16 @@ body {
 }
 
 :root {
-  box-sizing: border-box;
-
   font-size: 16px;
-  line-height: 22px;
-  font-weight: 400;
-  color-scheme: light dark;
-  font-synthesis: none;
-
-  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+  font-weight: 400;
+  line-height: 22px;
+  text-rendering: optimizelegibility;
+  text-size-adjust: 100%;
+  box-sizing: border-box;
+  color-scheme: light dark;
+  font-synthesis: none;
 }
 
 *,

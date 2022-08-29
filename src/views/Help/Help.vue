@@ -16,19 +16,21 @@
 </template>
 
 <script setup>
-import { Message } from '@element-plus/icons'
+import { Message } from '@element-plus/icons-vue'
 </script>
 
 <style lang="scss" scoped>
 a {
   text-decoration: none;
 }
+
 .row {
   display: flex;
   align-items: center;
+
   :last-child {
-    margin-left: 1px;
     height: 100%;
+    margin-left: 1px;
   }
 }
 </style>

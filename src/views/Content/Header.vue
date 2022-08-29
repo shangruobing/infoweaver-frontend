@@ -10,7 +10,7 @@
 
           <el-breadcrumb :separator-icon="ArrowRight">
             <el-breadcrumb-item :to="{ path: '/content/' }">
-              <span style="cursor: pointer; color: #222222">首页</span>
+              <span style="color: #222; cursor: pointer;">首页</span>
             </el-breadcrumb-item>
 
             <el-breadcrumb-item v-if="routeInfo.subMenu">
@@ -137,11 +137,16 @@ const handleFullScreen = () => {
 $header-color: #fff;
 
 .header-nav-bar {
-  padding: 0px !important;
-  margin: 0px !important;
-  background-color: $header-color;
   height: 60px;
   min-width: 250px;
+  padding: 0 !important;
+  margin: 0 !important;
+  background-color: $header-color;
+}
+
+.el-row {
+  height: 100%;
+  padding: 0;
 }
 
 .right-pan {
@@ -152,18 +157,14 @@ $header-color: #fff;
 }
 
 .el-menu {
-  border: none;
   height: 100%;
+  border: none;
 }
 
 .el-menu--horizontal > .el-menu-item.is-active {
   border: none;
 }
 
-.el-row {
-  padding: 0;
-  height: 100%;
-}
 .el-col {
   height: 100%;
 }
@@ -191,17 +192,21 @@ $header-color: #fff;
   .header-button {
     display: none;
   }
+
   .el-breadcrumb {
     margin-left: 1em;
   }
+
   .left-pan {
     flex: initial;
     max-width: initial;
   }
+
   .right-pan {
     flex: initial;
     max-width: 220px;
   }
+
   .personal-center {
     width: 100%;
   }
@@ -211,6 +216,7 @@ $header-color: #fff;
   .header-menu-label {
     display: none;
   }
+
   .header-menu-item:not(:last-child) {
     width: 30px;
     height: 100%;

@@ -21,6 +21,7 @@
 span {
   font-size: 1em;
 }
+
 .el-divider__text {
   padding: 1em;
 }

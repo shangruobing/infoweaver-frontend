@@ -89,19 +89,19 @@ const handleChange = (value: string) => {
 <style lang="scss" scoped>
 .header-bar {
   position: sticky;
-  width: 100vw;
-  padding-left: 0.5em;
   z-index: 1000;
-  background-color: #fff;
-  box-shadow: 0 7px 5px -5px #f2f4f5;
+  width: 100vw;
   height: 60px;
   min-width: 300px;
+  padding-left: 0.5em;
+  background-color: #fff;
+  box-shadow: 0 7px 5px -5px #f2f4f5;
 }
 
 .header-menu-item {
-  min-width: 70px;
   width: 70px;
   height: 60px;
+  min-width: 70px;
   border: none;
 }
 
@@ -115,14 +115,14 @@ const handleChange = (value: string) => {
 }
 
 .el-col {
-  text-align: left;
   height: 60px;
+  text-align: left;
 }
 
 .el-select {
   width: 20%;
-  margin-right: 1em;
   min-width: 120px;
+  margin-right: 1em;
 }
 
 @media (max-width: 660px) {

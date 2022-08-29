@@ -13,7 +13,7 @@
     <el-link href="https://beian.miit.gov.cn/" target="_blank" :underline="false">
       <span class="text"> 滇ICP备2022003697号-1</span>
     </el-link>
-    <span class="text" style="font-size: 14px; color: #606266; margin: 0; display: block">
+    <span class="text" style=" display: block; margin: 0;font-size: 14px; color: #606266;">
       All Rights Reserved Ruobing Shang 版权所有
     </span>
   </div>

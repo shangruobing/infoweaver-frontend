@@ -49,13 +49,15 @@ $column-height: 95%;
 .container {
   width: 95%;
   height: 97vh;
+  max-height: 100%;
+  min-width: 350px;
   margin: auto;
   text-align: center;
-  min-width: 350px;
-  max-height: 100%;
+
   .el-row {
     height: 90%;
   }
+
   .el-col {
     height: $column-height;
   }
@@ -64,31 +66,34 @@ $column-height: 95%;
 :deep(.el-textarea) {
   width: 100%;
   height: 100%;
+
   textarea {
     height: 100%;
   }
 }
 
 .preview-area-border {
-  box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color)) inset;
   border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+  box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color)) inset;
 }
 
 .preview-area {
   width: 100%;
   height: $column-height;
-  text-align: left;
   font-size: 0.9em;
+  text-align: left;
 }
 
 @media (max-width: 600px) {
   .el-row {
     display: initial;
   }
+
   .el-col {
     max-width: 100%;
-    margin: 0 1.5em 1em 1.5em;
+    margin: 0 1.5em 1em;
   }
+
   .preview-area {
     padding-top: 1em;
   }

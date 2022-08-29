@@ -25,11 +25,11 @@ import HeaderBar from './Header.vue'
 $main-color: #f0f2f4;
 
 .el-container {
-  padding: 0px !important;
-  margin: 0px !important;
   height: 100vh;
-  flex-basis: 0;
+  padding: 0 !important;
+  margin: 0 !important;
   background-color: $main-color;
+  flex-basis: 0;
 }
 
 .el-main {
@@ -47,6 +47,7 @@ $main-color: #f0f2f4;
 .fade-enter-active {
   transition: opacity 0.3s ease 0.3s;
 }
+
 .fade-leave-active {
   transition: opacity 0.3s ease 0s;
 }

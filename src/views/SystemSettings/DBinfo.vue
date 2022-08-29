@@ -27,15 +27,18 @@
 * {
   text-align: left;
 }
+
 .color-ul {
   li {
-    color: #409eff;
     padding-bottom: 20px;
+    color: #409eff;
+
     span {
       color: #303131;
     }
   }
 }
+
 .box-card {
   width: 350px;
 }

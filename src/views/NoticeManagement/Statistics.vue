@@ -42,15 +42,17 @@ import NegativeBar from '@/components/charts/NegativeBar.vue'
   width: 100%;
   max-width: 100%;
 }
+
 .el-col {
-  height: 300px;
   width: 100%;
+  height: 300px;
   max-width: 100%;
 }
+
 .el-row {
-  margin: 0;
-  max-width: 100%;
   width: 100%;
+  max-width: 100%;
+  margin: 0;
   flex-wrap: nowrap;
 }
 

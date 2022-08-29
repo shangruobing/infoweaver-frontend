@@ -111,6 +111,7 @@ const cancelEvent = () => {
 .el-row {
   margin-bottom: 15px;
 }
+
 .el-col {
   border-radius: 4px;
 }

@@ -387,11 +387,7 @@ span {
 }
 
 a {
-  text-decoration: none;
-  color: #222222;
-}
-
-.router-link-active {
+  color: #222;
   text-decoration: none;
 }
 
@@ -400,10 +396,10 @@ a {
 }
 
 :deep(.sc-header--title) {
-  font-family: 'Consolas';
+  font-family: Consolas, sans-serif;
 }
 
-@keyframes fadeIn {
+@keyframes fade-in {
   0% {
     opacity: 0;
   }
@@ -418,53 +414,53 @@ a {
 }
 
 :deep(.sc-message--content) {
-  animation-name: fadeIn;
+  animation-delay: 0s;
   animation-duration: 0.6s;
   animation-iteration-count: 1;
-  animation-delay: 0s;
+  animation-name: fade-in;
 }
 
 @keyframes living {
   0% {
-    transform: scale(1);
     opacity: 0.3;
+    transform: scale(1);
   }
 
   25% {
-    transform: scale(1.5);
     opacity: 0.2;
+    transform: scale(1.5);
   }
 
   50% {
-    transform: scale(1.75);
     opacity: 0;
+    transform: scale(1.75);
   }
 
   75% {
-    transform: scale(1.5);
     opacity: 0.2;
+    transform: scale(1.5);
   }
 
   100% {
-    transform: scale(1);
     opacity: 0.3;
+    transform: scale(1);
   }
 }
 
 .wave {
   position: fixed;
-  width: 60px;
-  height: 60px;
   right: 25px;
   bottom: 25px;
   z-index: 1000;
+  width: 60px;
+  height: 60px;
 
   .wave-span {
     position: absolute;
+    right: 0;
+    bottom: 0;
     width: 60px;
     height: 60px;
-    right: 0px;
-    bottom: 0px;
     background: #409eff;
     border-radius: 50%;
     animation: living 3s linear infinite;
@@ -476,11 +472,11 @@ a {
 
   #robot {
     position: absolute;
-    right: 0px;
-    bottom: 0px;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
     width: 60px;
     height: 60px;
-    z-index: 1000;
   }
 }
 </style>

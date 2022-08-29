@@ -29,11 +29,12 @@ onMounted(() => {
 .chart {
   width: 100%;
   height: 100%;
-  text-align: center;
   max-width: 100% !important;
   max-height: 100% !important;
   min-width: 200px;
   min-height: 200px;
+  text-align: center;
+
   div,
   canvas {
     max-width: 100% !important;

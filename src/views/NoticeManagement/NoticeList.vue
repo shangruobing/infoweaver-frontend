@@ -194,18 +194,20 @@ const shortcuts = [
 .el-link .el-icon--right.el-icon {
   vertical-align: text-bottom;
 }
+
 .router-link-active {
   text-decoration: none;
 }
 
 a {
+  color: #000;
   text-decoration: none;
-  color: #000000;
 }
 
 .el-row {
   margin-bottom: 15px;
 }
+
 .el-col {
   border-radius: 4px;
 }

@@ -51,8 +51,8 @@
 <script lang="ts" setup>
 import type { Component } from 'vue'
 import { onMounted, ref, watch } from 'vue'
-import { Menu as MenuIcon, Reading, Search, PieChart, Document } from '@element-plus/icons'
-import { View, UploadFilled, Edit, Setting, Cpu, Coin, Help } from '@element-plus/icons'
+import { Menu as MenuIcon, Reading, Search, PieChart, Document } from '@element-plus/icons-vue'
+import { View, UploadFilled, Edit, Setting, Cpu, Coin, Help } from '@element-plus/icons-vue'
 
 import { useMainStore } from '@/stores/index'
 
@@ -135,18 +135,18 @@ window.addEventListener('resize', () => {
 $aside-color: #40485b;
 
 .aside-bar {
-  padding: 0px !important;
-  margin: 0px !important;
+  width: 200px;
   height: 100vh;
+  min-width: 55px;
+  padding: 0 !important;
+  margin: 0 !important;
   color: var(--el-text-color-primary);
   background-color: $aside-color;
-  width: 200px;
-  min-width: 55px;
   transition: width 0.6s;
 
   .el-menu {
-    border: none;
     width: 100%;
+    border: none;
 
     .el-sub-menu {
       .el-menu-item {
