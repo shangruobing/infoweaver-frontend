@@ -1,30 +1,28 @@
-# NFQA前端开发
+# infoweaver-frontend
 
-#### 介绍
+## Introduction
 
-NFQA前端部分，采用Vue3和Element-Plus组件库编写，实现聊天机器人和通知文件管理系统
+Infoweaver is a notice file chatbot based on the knowledge graph and BERT model. This repository stores the infoweaver frontend code, which is made with Vue.js and Element-Plus UI Library.
 
-#### 主要依赖
+## Dependency
 
-- Vue 3.2.25
+- Vue.js 3.2.25
 - TypeScript 4.6.2
 - Element-Plus 2.0.1
 - vue3-beautiful-chat 3.2.0
 - docx-preview 0.1.8
 
+```bash
+# common commands
+npm install
+npm run dev
+npm run build
+```
 
-#### 安装教程
+## Get Started
 
-1.  安装 npm install
-2.  运行 npm run dev
-3.  构建 npm run build
-
-#### 使用说明
-
-1.  准备好通知文件(docx)格式
-2.  启动Neo4j服务
-3.  使用数据库端的ipynb文件将数据导入数据库(MySQL和Neo4j)
-4.  启动Django服务器
-5.  使用Vite打包启动Vue
-
-#### 参与贡献
+1.  Prepare the documents with docx format.
+2.  Lauch the Neo4j graph database.
+3.  Use the script to import file data into MySQL ane Neo4j.
+4.  Launch the Django web server.
+5.  Launch the Vite server.
